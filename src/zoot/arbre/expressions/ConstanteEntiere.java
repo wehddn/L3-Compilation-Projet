@@ -8,12 +8,8 @@ public class ConstanteEntiere extends Constante {
 
     @Override
     public String toMIPS() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\tli $v0 " +
-                this.cste +
-                " # Constante entiére\n");
 
-        return sb.toString();
+        return "\tli $v0, " + this.cste + " # Constante entiére\n";
     }
 
 }
