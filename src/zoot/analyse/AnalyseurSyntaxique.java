@@ -28,7 +28,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
   public AnalyseurSyntaxique(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
 
   /** Production table. */
-  protected static final short _production_table[][] = 
+  protected static final short _production_table[][] =
     unpackFromStrings(new String[] {
     "\000\006\000\002\002\004\000\002\002\005\000\002\003" +
     "\004\000\002\003\003\000\002\004\005\000\002\005\003" +
@@ -38,7 +38,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
   public short[][] production_table() {return _production_table;}
 
   /** Parse-action table. */
-  protected static final short[][] _action_table = 
+  protected static final short[][] _action_table =
     unpackFromStrings(new String[] {
     "\000\014\000\004\004\004\001\002\000\004\007\011\001" +
     "\002\000\004\002\006\001\002\000\004\002\001\001\002" +
@@ -52,7 +52,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
   public short[][] action_table() {return _action_table;}
 
   /** <code>reduce_goto</code> table. */
-  protected static final short[][] _reduce_table = 
+  protected static final short[][] _reduce_table =
     unpackFromStrings(new String[] {
     "\000\014\000\004\002\004\001\001\000\006\003\007\004" +
     "\006\001\001\000\002\001\001\000\002\001\001\000\002" +
@@ -101,7 +101,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
     public void report_error(String message, Object info) {
 
         HashMap<Integer, String> lesTerminaux = new HashMap<>() ;
-    
+
         lesTerminaux.put(new Integer(CodesLexicaux.DEBUT), "debut") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         lesTerminaux.put(new Integer(CodesLexicaux.POINTVIRGULE), ";") ;
@@ -111,12 +111,12 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
         if (info instanceof java_cup.runtime.Symbol) {
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
 
-            if (s.left >= 0) {                
+            if (s.left >= 0) {
                 m.append("\tligne : " + (s.left + 1)) ;
-                if (s.right >= 0)                    
+                if (s.right >= 0)
                     m.append(" colonne : " + (s.right+1)) ;
             }
-            
+
             if (s.value != null) {
                 lesTerminaux.put(CodesLexicaux.CSTENTIERE, "" + s.value) ;
             }
@@ -142,7 +142,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
 class CUP$AnalyseurSyntaxique$actions {
 
 
-             
+
   private final AnalyseurSyntaxique parser;
 
   /** Constructor */
@@ -165,31 +165,31 @@ class CUP$AnalyseurSyntaxique$actions {
       switch (CUP$AnalyseurSyntaxique$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // EXP ::= CSTENTIERE 
+          case 5: // EXP ::= CSTENTIERE
             {
               Expression RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 RESULT = new ConstanteEntiere(c, cleft + 1) ; 
+		 RESULT = new ConstanteEntiere(c, cleft + 1) ;
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",3, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // INST ::= ECRIRE EXP POINTVIRGULE 
+          case 4: // INST ::= ECRIRE EXP POINTVIRGULE
             {
               Instruction RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 RESULT = new Ecrire(e, eleft + 1) ; 
+		 RESULT = new Ecrire(e, eleft + 1) ;
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("INST",2, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // LINST ::= INST 
+          case 3: // LINST ::= INST
             {
               ArbreAbstrait RESULT =null;
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
@@ -197,13 +197,13 @@ class CUP$AnalyseurSyntaxique$actions {
 		Instruction i = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
 		 BlocDInstructions b = new BlocDInstructions(ileft + 1) ;
                    b.ajouter(i) ;
-                   RESULT = b ; 
+                   RESULT = b ;
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("LINST",1, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // LINST ::= LINST INST 
+          case 2: // LINST ::= LINST INST
             {
               ArbreAbstrait RESULT =null;
 		int lileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
@@ -213,25 +213,25 @@ class CUP$AnalyseurSyntaxique$actions {
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction i = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
 		 ((BlocDInstructions)li).ajouter(i) ;
-                   RESULT = li ; 
+                   RESULT = li ;
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("LINST",1, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // PROG ::= DEBUT LINST FIN 
+          case 1: // PROG ::= DEBUT LINST FIN
             {
               ArbreAbstrait RESULT =null;
 		int lileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		ArbreAbstrait li = (ArbreAbstrait)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 RESULT = li ; 
+		 RESULT = li ;
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("PROG",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // $START ::= PROG EOF 
+          case 0: // $START ::= PROG EOF
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;

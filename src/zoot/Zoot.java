@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Zoot {
-    
+
     public Zoot(String nomFichier) {
         try {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(nomFichier)));
@@ -43,5 +43,5 @@ public class Zoot {
         }
         new Zoot(args[0]) ;
     }
-    
+
 }

@@ -11,14 +11,14 @@ import java.util.ArrayList;
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
-    
+
     protected ArrayList<Instruction> programme ;
 
     public BlocDInstructions(int n) {
         super(n) ;
         programme = new ArrayList<>() ;
     }
-    
+
     public void ajouter(Instruction i) {
         programme.add(i) ;
     }
@@ -27,7 +27,7 @@ public class BlocDInstructions extends ArbreAbstrait {
     public void verifier() {
         throw new UnsupportedOperationException("fonction verifier non définie ") ;
     }
-    
+
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
