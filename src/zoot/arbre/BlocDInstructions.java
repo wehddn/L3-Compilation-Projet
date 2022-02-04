@@ -38,7 +38,7 @@ public class BlocDInstructions extends ArbreAbstrait {
                 
                 """);
         for (Instruction i : programme) {
-            sb.append(i.toMIPS()).append("\n");
+            sb.append(i.toMIPS()).append("\n\n");
         }
         sb.append("""
                 end: #fin

@@ -17,7 +17,7 @@ class BlocDInstructionsTest {
                 "\t# Initialisation de la base des variables\n" +
                 "\tmove $s7, $sp\n\n" +
                 ecrire.toMIPS() +
-                "\nend: #fin\n" +
+                "\n\nend: #fin\n" +
                 "\t# Fin du programme\n" +
                 "\tli $v0, 10 # retour système\n" +
                 "\tsyscall";

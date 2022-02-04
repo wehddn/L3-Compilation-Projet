@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConstanteEntiereTest {
 
     @Test
-    void toMIPS() {
+    void toMIPS1() {
         Expression exp = new ConstanteEntiere("100", 2);
         String attendu = "\t# Constante entiére\n" +
                 "\tli $v0, 100";
