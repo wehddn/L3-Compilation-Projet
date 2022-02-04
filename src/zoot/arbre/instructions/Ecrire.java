@@ -18,18 +18,16 @@ public class Ecrire extends Instruction {
 
     @Override
     public String toMIPS() {
-        StringBuilder sb = new StringBuilder() ;
-        sb.append(exp.toMIPS());
-        sb.append("\t# Ecriture\n" +
+
+        return exp.toMIPS() +
+                "\n\t# Ecriture\n" +
                 "\tmove $a0, $v0\n" +
                 "\tli $v0, 1\n" +
                 "\tsyscall\n" +
                 "\t# Saut de ligne\n" +
                 "\tli $v0, 11\n" +
                 "\tli $a0, 10\n" +
-                "\tsyscall\n");
-
-        return sb.toString();
+                "\tsyscall";
     }
 
 }

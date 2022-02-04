@@ -31,16 +31,20 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
-        sb.append("main: #debut\n" +
-                "\t# Initialisation de la base des variables\n" +
-                "\tmove $s7, $sp\n\n");
+        sb.append("""
+                main: #debut
+                \t# Initialisation de la base des variables
+                \tmove $s7, $sp
+                
+                """);
         for (Instruction i : programme) {
             sb.append(i.toMIPS()).append("\n");
         }
-        sb.append("\nend: #fin\n" +
-                "\t# Fin du programme\n" +
-                "\tli $v0, 10 # retour système\n" +
-                "\tsyscall");
+        sb.append("""
+                end: #fin
+                \t# Fin du programme
+                \tli $v0, 10 # retour système
+                \tsyscall""");
         return sb.toString();
     }
 
