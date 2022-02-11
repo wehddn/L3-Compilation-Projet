@@ -48,7 +48,7 @@ public class Tds {
      * @param nom le nom de l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(String nom, Symbole s, int noLigne, int noColonne) { // TODO throw
+    public void ajouter(String nom, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
         if(dict.get(nom) != null){
             throw new DoubleDeclarationException(noLigne, noColonne, nom);
         } else {
@@ -63,11 +63,11 @@ public class Tds {
      * @param nom le nom de l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(String nomVar, int noLigne, int noColonne) { // TODO throw
-        if (dict.get(nomVar)==null){
-            throw new VariableNonDefinieException(noLigne, noColonne, nomVar);
+    public Symbole identifier(String nom, int noLigne, int noColonne) throws VariableNonDefinieException {
+        if (dict.get(nom)==null){
+            throw new VariableNonDefinieException(noLigne, noColonne, nom);
         }
-        return dict.get(nomVar);
+        return dict.get(nom);
     }
 
     /**
