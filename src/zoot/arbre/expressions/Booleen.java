@@ -4,9 +4,9 @@ package zoot.arbre.expressions;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 0.1.0
+ * @version 1.0.0
  * @since 0.1.0
- * created on 09/02/2022
+ * created on 11/02/2022
  */
 public class Booleen extends Expression{
     private boolean booleen;
@@ -24,5 +24,10 @@ public class Booleen extends Expression{
     @Override
     public String toMIPS() {
         return null;
+    }
+
+    @Override
+    public String getType() {
+        return "booleen";
     }
 }

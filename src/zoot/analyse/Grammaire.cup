@@ -94,14 +94,12 @@ LINST       ::= LINST:li  INST:i
 
 LDEC        ::= LDEC:ld DECL:d
                 {:
-                    System.out.println("type : " + d[1] + ", nom : " + d[0]);
                     Symbole s = new Symbole(d[1]);
                     Tds.getInstance().ajouter(d[0], s);
                 :}
                 |
                 DECL:d
                 {:
-                    System.out.println("type : " + d[1] + ", nom : " + d[0]);
                     Symbole s = new Symbole(d[1]);
                     Tds.getInstance().ajouter(d[0], s);
                 :}
@@ -126,7 +124,6 @@ EXP         ::= CSTENTIERE:c
                 |
                 IDF:i
                 {:
-                    System.out.println(i);
                     RESULT = new Idf(i, ileft + 1) ;
                 :}
                 |

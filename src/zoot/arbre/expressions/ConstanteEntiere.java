@@ -7,10 +7,19 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
+    public void verifier() {
+
+    }
+
+    @Override
     public String toMIPS() {
 
         return "\t# Constante entiére\n" +
                 "\tli $v0, " + this.cste;
     }
 
+    @Override
+    public String getType() {
+        return "constante";
+    }
 }

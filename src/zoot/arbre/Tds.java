@@ -1,5 +1,8 @@
 package zoot.arbre;
 
+import zoot.exceptions.DoubleDeclarationExeption;
+import zoot.exceptions.VariableNonDefinie;
+
 import java.util.HashMap;
 
 /**
@@ -26,11 +29,18 @@ public class Tds {
     }
 
     public void ajouter(String nom, Symbole s) { // TODO throw
-        dict.put(nom, s);
-        deplacementCourant += 4;
+        if(dict.get(nom) != null){
+            throw new DoubleDeclarationExeption(nom);
+        } else {
+            dict.put(nom, s);
+            deplacementCourant += 4;
+        }
     }
 
     public Symbole identifier(String nomVar) { // TODO throw
+        if (dict.get(nomVar)==null){
+            throw new VariableNonDefinie(nomVar);
+        }
         return dict.get(nomVar);
     }
 

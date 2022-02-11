@@ -19,7 +19,7 @@ public class Symbole {
 
     public String getType() {
         return type;
-    }
+    } //TODO throw
 
     public int getDeplacement() {
         return deplacement;

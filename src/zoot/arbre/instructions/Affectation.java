@@ -2,14 +2,15 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
+import zoot.exceptions.NonConcordanceDesTypes;
 
 /**
- * Description
+ * Cette classe implémente une opération d'affectation d'expression à une variable
  *
- * @author Elhadji Moussa FAYE
- * @version 0.1.0
- * @since 0.1.0
- * created on 09/02/2022
+ * @authors Elhadji Moussa FAYE, Nicolas GRAFF
+ * @version 1.1.0
+ * @since 1.0.0
+ * created on 11/02/2022
  */
 public class Affectation extends Instruction{
     private Idf idf;
@@ -23,11 +24,20 @@ public class Affectation extends Instruction{
 
     @Override
     public void verifier() {
-
+        idf.verifier();
+        exp.verifier();
+        String type_idf = "";
+        String type_exp = "";
+            type_idf = idf.getType();
+            type_exp = exp.getType();
+        if (!(type_idf.equals(type_exp) || (type_idf.equals("entier") && type_exp.equals("constante")))){
+            throw new NonConcordanceDesTypes(type_idf, type_exp);
+        }
     }
 
     @Override
     public String toMIPS() {
+        verifier();
         return null;
     }
 }

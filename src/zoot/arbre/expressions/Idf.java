@@ -2,15 +2,14 @@ package zoot.arbre.expressions;
 
 import zoot.arbre.ArbreAbstrait;
 import zoot.arbre.Symbole;
-import zoot.exceptions.ZootException;
-
+import zoot.arbre.Tds;
 /**
  * Description
  *
- * @author Elhadji Moussa FAYE
- * @version 0.1.0
- * @since 0.1.0
- * created on 08/02/2022
+ * @author Elhadji Moussa FAYE, Nicolas GRAFF
+ * @version 1.1.0
+ * @since 1.0.0
+ * created on 11/02/2022
  */
 public class Idf extends Expression {
     private String nom;
@@ -23,7 +22,8 @@ public class Idf extends Expression {
 
     @Override
     public void verifier() {
-
+        this.symbole=Tds.getInstance().identifier(nom);
+        getType();
     }
 
     @Override
@@ -31,9 +31,9 @@ public class Idf extends Expression {
         return null;
     }
 
-    public String getType() throws ZootException {
+    public String getType() {
         if (symbole == null)
-            throw new ZootException("L'Idf n'a pas de symbole associé");
+            return null;
         else
             return symbole.getType();
     }
