@@ -43,7 +43,6 @@ public class Affectation extends Instruction{
      */
     @Override
     public String toMIPS() {
-        verifier();
         return null;
     }
 

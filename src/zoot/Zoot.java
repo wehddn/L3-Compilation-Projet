@@ -3,12 +3,16 @@ package zoot;
 import zoot.analyse.AnalyseurLexical;
 import zoot.analyse.AnalyseurSyntaxique;
 import zoot.arbre.ArbreAbstrait;
+import zoot.arbre.Tds;
 import zoot.exceptions.AnalyseException;
 
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @version 1.0.2
+ */
 public class Zoot {
 
     public Zoot(String nomFichier) {
@@ -18,6 +22,8 @@ public class Zoot {
 
             //arbre.verifier() ;
             System.out.println("COMPILATION OK") ;
+            System.out.println(Tds.getInstance());
+            System.out.println(arbre);
 
             String nomSortie = nomFichier.replaceAll("[.]zoot", ".mips") ;
             PrintWriter flot = new PrintWriter(new BufferedWriter(new FileWriter(nomSortie))) ;

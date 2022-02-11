@@ -28,7 +28,7 @@ public class Symbole {
      */
     public String getType() {
         return type;
-    } //TODO throw
+    }
 
     /**
      * Retourne la position du symbole dans la pile locale
