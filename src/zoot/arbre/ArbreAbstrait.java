@@ -23,6 +23,10 @@ public abstract class ArbreAbstrait {
             return noLigne ;
     }
 
+    public int getNoColonne() {
+        return noColonne;
+    }
+
     /**
      * Permet de faire l'analyse sémantique de l'arbre abstrait
      */
