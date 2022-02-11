@@ -12,61 +12,149 @@ skinparam stereotypeABackgroundColor Yellow
 hide stereotype
 hide empty member
 
-abstract class AnalyseException
 
-AnalyseException -up-|> RuntimeException
+package analyse {
 
-AnalyseLexicaleException -up-|> AnalyseException
-AnalyseSyntaxiqueException -up-|> AnalyseException
-
-abstract class ArbreAbstrait {
-   int noLigne
-   protected ArbreAbstrait(int n)
-   void verifier()
-   String toMIPS()
 }
 
-class BlocDInstructions {
-   BlocDInstructions(int n)
-   void verifier()
-   String toMIPS()
+package arbre {
+
+	package expressions {
+
+		abstract class Constante extends Expression {
+			# String cste
+			# Constante(String texte, int n)
+			+ String toString()
+		}
+
+		class ConstanteEntiere extends Constante {
+			+ ConstanteEntiere(String texte, int n)
+			+ String toMIPS()
+			+ Type getType()
+		}
+
+		class ConstanteBooleene extends Constante {
+			+ ConstanteBooleene(String valeur, int n)
+			+ String toMIPS()
+			+ Type getType()
+		}
+
+		abstract class Expression extends ArbreAbstrait{
+			# Expression(int n)
+			+ abstract Type getType()
+		}
+
+		class Idf extends Expression {
+			- String nom
+			+ Idf(String nom, int noLigne)
+			+ void verifier()
+			+ String toMIPS()
+			+ Type getType()
+			+ String toString()
+		}
+		Idf --"1" Symbole
+
+	}
+	package instructions {
+
+		class Affectation extends Instruction {
+			+ Affectation(Idf idf, Expression exp, int noLigne)
+			+ void verifier()
+			+ String toMIPS()
+			+ String toString()
+		}
+		Affectation --"1" Idf
+		Affectation --"1" Expression
+
+		class Ecrire extends Instruction{
+			+ Ecrire (Expression e, int n)
+			+ void verifier()
+			+ String toMIPS()
+			+ String toString()
+		}
+		Ecrire --"1" Expression
+
+		abstract class Instruction extends ArbreAbstrait{
+  	 	# Instruction(int n)
+		}
+
+
+
+	}
+
+	abstract class ArbreAbstrait {
+   # int noLigne
+   # ArbreAbstrait(int n)
+	 + int getNoLigne()
+   + abstract void verifier()
+   + abstract String toMIPS()
+	}
+
+	class BlocDInstructions extends ArbreAbstrait {
+		BlocDInstructions(int n)
+		+ void ajouter(Instruction i)
+		+ void verifier()
+		+ void verifier()
+		+ String toMIPS()
+		+ String toString()
+	}
+	BlocDInstructions --"*" Instruction
+
+
+	class Symbole {
+		- Type type
+		- int deplacement
+		+ Symbole(Type type)
+		+ Type getType()
+		+ int getDeplacement()
+		+ String toString()
+	}
+
+	class Tds {
+		- int deplacementCourant
+		- static Tds instance
+		- Tds()
+		+ static Tds getInstance()
+		+ void ajouter(String nom, Symbole s)
+		+ Symbole identifier(String nom)
+		+ int getTailleZoneVariables()
+		+ String toString()
+	}
+	Tds --"*" Symbole
+
+	enum Type {
+		ENTIER, BOOLEEN
+	}
 }
 
-BlocDInstructions -up-|> ArbreAbstrait
-BlocDInstructions -up- "*" ArbreAbstrait
+package exceptions {
+	abstract class AnalyseException extends RuntimeException {
+		# AnalyseException(String m)
+	}
 
-abstract class Instruction {
-   protected Instruction(int n)
+	class AnalyseLexicaleException extends AnalyseException {
+		+ AnalyseLexicaleException(int ligne, int colonne, String m)
+	}
+
+	class AnalyseSyntaxiqueException extends AnalyseException {
+		+ AnalyseSyntaxiqueException(String m)
+	}
+
+	class AnalyseSemantiqueException extends AnalyseException{
+		+ AnalyseSemantiqueException(int ligne, int colonne, String m)
+	}
+
+	class DoubleDeclarationException extends AnalyseSyntaxiqueException {
+		+ DoubleDeclarationException(String m)
+	}
+
+	class TypeNonConcordantException extends AnalyseSemantiqueException {
+		+ TypeNonConcordantException(int ligne, String m)
+	}
+
+	class VariableNonDefinie extends AnalyseSemantiqueException {
+		+ VariableNonDefinie(int ligne, int colonne, String m)
+	}
+
 }
-
-Instruction -up-|> ArbreAbstrait
-class Ecrire {
-   Ecrire(int n)
-   void verifier()
-   String toMIPS()
-}
-
-Ecrire  -up-|> Instruction
-
-abstract class Expression {
-   protected Expression(int n)
-}
-
-Expression  -up-|> ArbreAbstrait
-Ecrire - "1" Expression
-
-abstract class Constante {
-   String cste
-   protected Constante(String texte, int n)
-   void verfier()
-}
-
-Constante  -up-|> Expression
-
-class ConstanteEntiere {
-   ConstanteEntiere(String texte, int n)
-   String toMIPS()
-}
-
-ConstanteEntiere  -up-|> Constante
 @enduml
