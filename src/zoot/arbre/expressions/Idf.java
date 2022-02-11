@@ -1,10 +1,9 @@
 package zoot.arbre.expressions;
 
-import zoot.arbre.ArbreAbstrait;
 import zoot.arbre.Symbole;
 import zoot.arbre.Tds;
 /**
- * Description
+ * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
  * @version 1.1.0
@@ -36,5 +35,10 @@ public class Idf extends Expression {
             return null;
         else
             return symbole.getType();
+    }
+
+    @Override
+    public String toString() {
+        return nom;
     }
 }

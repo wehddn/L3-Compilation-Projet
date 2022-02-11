@@ -129,11 +129,7 @@ EXP         ::= CSTENTIERE:c
                 |
                 CBOOL:c
                 {:
-                    boolean valeur = false;
-                    if(c.equals("vrai"))
-                        valeur = true;
-
-                    RESULT = new Booleen(valeur, cleft + 1) ;
+                    RESULT = new ConstanteBooleene(c, cleft + 1) ;
                 :}
                 ;
 
