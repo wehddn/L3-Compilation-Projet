@@ -15,10 +15,6 @@ public abstract class Constante extends Expression {
     /**
      * @see zoot.arbre.ArbreAbstrait
      */
-    @Override
-    public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ") ;
-    }
 
     @Override
     public String toString() {

@@ -14,6 +14,11 @@ public class ConstanteBooleene extends Constante{
         super(valeur, n);
     }
 
+    @Override
+    public void verifier() {
+
+    }
+
     /**
      * @see zoot.arbre.ArbreAbstrait
      */
@@ -25,5 +30,10 @@ public class ConstanteBooleene extends Constante{
     @Override
     public String toString() {
         return cste;
+    }
+
+    @Override
+    public String getType() {
+        return "booleen";
     }
 }

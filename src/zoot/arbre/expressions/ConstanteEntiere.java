@@ -10,6 +10,11 @@ public class ConstanteEntiere extends Constante {
         super(texte, n) ;
     }
 
+    @Override
+    public void verifier() {
+
+    }
+
     /**
      * @see zoot.arbre.ArbreAbstrait
      */
