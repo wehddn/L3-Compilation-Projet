@@ -9,5 +9,5 @@ package zoot.tds;
  * created on 11/02/2022
  */
 public enum Type {
-    ENTIER, BOOLEEN
+    ENTIER, BOOLEEN, NONDEFINI
 }
