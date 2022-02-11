@@ -1,5 +1,6 @@
 package zoot.arbre;
 
+import zoot.exceptions.DoubleDeclarationExeption;
 import zoot.exceptions.VariableNonDefinie;
 
 import java.util.HashMap;
@@ -42,11 +43,12 @@ public class Tds {
     }
 
     /**
-     * Ajoute une entrée avec son type dans la TDS
+     * Ajoute une entrée avec son type dans la TDS lance une exception s'il y' a déjà
+     * le couple (entree, symbole) dans la TDS
      * @param nom le nom de l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(String nom, Symbole s) { // TODO throw
+    public void ajouter(String nom, Symbole s) throws DoubleDeclarationExeption { // TODO throw
         dict.put(nom, s);
         deplacementCourant += 4;
     }
