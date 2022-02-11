@@ -31,6 +31,7 @@ package tds {
 		+ Symbole identifier(String nom, int noLigne, int noColonne)
 		+ int getTailleZoneVariables()
 		+ String toString()
+		+ void reset()
 	}
 	Tds --"*" Symbole
 
