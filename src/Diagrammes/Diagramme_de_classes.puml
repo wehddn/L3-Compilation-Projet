@@ -149,7 +149,7 @@ package exceptions {
 	}
 
 	class TypeNonConcordantException extends AnalyseSemantiqueException {
-		+ TypeNonConcordantException(int ligne, int colonne, String m, String m)
+		+ TypeNonConcordantException(int ligne, int colonne, String m, String n)
 	}
 
 	class VariableNonDefinieException extends AnalyseSemantiqueException {
