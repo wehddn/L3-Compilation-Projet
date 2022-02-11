@@ -3,7 +3,7 @@ package zoot;
 import zoot.analyse.AnalyseurLexical;
 import zoot.analyse.AnalyseurSyntaxique;
 import zoot.arbre.ArbreAbstrait;
-import zoot.arbre.Tds;
+import zoot.tds.Tds;
 import zoot.exceptions.AnalyseException;
 
 import java.io.*;

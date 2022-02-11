@@ -4,7 +4,8 @@ import java.util.*;
 import zoot.arbre.* ;
 import zoot.arbre.expressions.* ;
 import zoot.arbre.instructions.* ;
-import zoot.exceptions.AnalyseSyntaxiqueException;
+import zoot.tds.* ;
+import zoot.exceptions.*;
 
 import java_cup.runtime.*;
 

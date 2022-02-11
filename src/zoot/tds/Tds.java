@@ -1,4 +1,4 @@
-package zoot.arbre;
+package zoot.tds;
 
 import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.VariableNonDefinieException;

@@ -1,7 +1,7 @@
 package zoot.arbre.expressions;
 
-import zoot.arbre.Symbole;
-import zoot.arbre.Tds;
+import zoot.tds.Symbole;
+import zoot.tds.Tds;
 /**
  * Classe représentant un identifant de variable
  *

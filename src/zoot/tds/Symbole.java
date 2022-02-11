@@ -1,4 +1,6 @@
-package zoot.arbre;
+package zoot.tds;
+
+import zoot.tds.Tds;
 
 /**
  * Classe qui représente un Symbole (type d'une entrée)
