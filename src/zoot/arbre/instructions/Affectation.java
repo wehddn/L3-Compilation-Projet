@@ -22,6 +22,9 @@ public class Affectation extends Instruction{
         this.exp = exp;
     }
 
+    /**
+     * @see zoot.arbre.ArbreAbstrait
+     */
     @Override
     public void verifier() {
         idf.verifier();
@@ -35,8 +38,16 @@ public class Affectation extends Instruction{
         }
     }
 
+    /**
+     * @see zoot.arbre.ArbreAbstrait
+     */
     @Override
     public String toMIPS() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return idf + " = " + exp;
     }
 }
