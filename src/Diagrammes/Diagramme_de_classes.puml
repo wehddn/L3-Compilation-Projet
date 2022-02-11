@@ -12,9 +12,31 @@ skinparam stereotypeABackgroundColor Yellow
 hide stereotype
 hide empty member
 
+package tds {
+	class Symbole {
+		- int deplacement
+		+ Symbole(Type type)
+		+ Type getType()
+		+ int getDeplacement()
+		+ String toString()
+	}
+	Symbole --"1" Type
 
-package analyse {
+	class Tds {
+		- int deplacementCourant
+		- static Tds instance
+		- Tds()
+		+ static Tds getInstance()
+		+ void ajouter(String nom, Symbole s)
+		+ Symbole identifier(String nom)
+		+ int getTailleZoneVariables()
+		+ String toString()
+	}
+	Tds --"*" Symbole
 
+	enum Type {
+		ENTIER, BOOLEEN
+	}
 }
 
 package arbre {
@@ -101,30 +123,7 @@ package arbre {
 	BlocDInstructions --"*" Instruction
 
 
-	class Symbole {
-		- Type type
-		- int deplacement
-		+ Symbole(Type type)
-		+ Type getType()
-		+ int getDeplacement()
-		+ String toString()
-	}
 
-	class Tds {
-		- int deplacementCourant
-		- static Tds instance
-		- Tds()
-		+ static Tds getInstance()
-		+ void ajouter(String nom, Symbole s)
-		+ Symbole identifier(String nom)
-		+ int getTailleZoneVariables()
-		+ String toString()
-	}
-	Tds --"*" Symbole
-
-	enum Type {
-		ENTIER, BOOLEEN
-	}
 }
 
 package exceptions {
