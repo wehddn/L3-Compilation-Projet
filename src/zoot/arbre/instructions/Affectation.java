@@ -7,8 +7,8 @@ import zoot.arbre.expressions.Idf;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 0.1.0
- * @since 0.1.0
+ * @version 1.0.2
+ * @since 1.0.0
  * created on 09/02/2022
  */
 public class Affectation extends Instruction{
@@ -21,13 +21,24 @@ public class Affectation extends Instruction{
         this.exp = exp;
     }
 
+    /**
+     * @see zoot.arbre.ArbreAbstrait
+     */
     @Override
     public void verifier() {
 
     }
 
+    /**
+     * @see zoot.arbre.ArbreAbstrait
+     */
     @Override
     public String toMIPS() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return idf + " = " + exp;
     }
 }

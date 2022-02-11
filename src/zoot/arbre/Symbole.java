@@ -4,7 +4,7 @@ package zoot.arbre;
  * Classe qui représente un Symbole (type d'une entrée)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.0.1
+ * @version 1.0.2
  * @since 1.0.1
  * created on 08/02/2022
  */
@@ -36,5 +36,10 @@ public class Symbole {
      */
     public int getDeplacement() {
         return deplacement;
+    }
+
+    @Override
+    public String toString() {
+        return type;
     }
 }

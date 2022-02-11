@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 1.0.0
+ * @version 1.0.2
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -69,5 +69,18 @@ public class Tds {
      */
     public int getTailleZoneVariables() {
         return deplacementCourant;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (String nom : dict.keySet()) {
+            i++;
+            sb.append(dict.get(nom).toString()).append(" ").append(nom);
+            if (i < dict.keySet().size())
+                sb.append("\n");
+        }
+        return "TDS :\n" + sb.toString().indent(2);
     }
 }
