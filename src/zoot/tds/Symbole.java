@@ -6,12 +6,12 @@ import zoot.tds.Tds;
  * Classe qui représente un Symbole (type d'une entrée)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.0.2
+ * @version 1.2.0
  * @since 1.0.1
  * created on 08/02/2022
  */
 public class Symbole {
-    private String type;
+    private Type type;
     private int deplacement;
 
     /**
@@ -20,7 +20,11 @@ public class Symbole {
      * @param type le type du symbole
      */
     public Symbole(String type) {
-        this.type = type;
+        switch (type) {
+            case "entier" -> this.type = Type.ENTIER;
+            case "booleen" -> this.type = Type.BOOLEEN;
+            default -> this.type = Type.NONDEFINI;
+        }
         this.deplacement = Tds.getInstance().getTailleZoneVariables();
     }
 
@@ -28,7 +32,7 @@ public class Symbole {
      * Retourne le type du symbole
      * @return le type du symbole
      */
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -42,6 +46,11 @@ public class Symbole {
 
     @Override
     public String toString() {
-        return type;
+        String resutat = "non-defini";
+        switch (type) {
+            case ENTIER -> resutat = "entier";
+            case BOOLEEN -> resutat = "booleen";
+        }
+        return resutat;
     }
 }

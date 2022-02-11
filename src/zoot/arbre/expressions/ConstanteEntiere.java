@@ -1,18 +1,15 @@
 package zoot.arbre.expressions;
 
+import zoot.tds.Type;
+
 /**
  * Represente une constant entière dans l'arbre abstrait
- * @version 1.0.2
+ * @version 1.2.2
  */
 public class ConstanteEntiere extends Constante {
 
     public ConstanteEntiere(String texte, int n, int m) {
         super(texte, n, m) ;
-    }
-
-    @Override
-    public void verifier() {
-
     }
 
     /**
@@ -30,7 +27,7 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public String getType() {
-        return "constante";
+    public Type getType() {
+        return Type.ENTIER;
     }
 }

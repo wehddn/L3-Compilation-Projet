@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.0.2
+ * @version 1.2.0
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
@@ -34,7 +34,9 @@ public class BlocDInstructions extends ArbreAbstrait {
      */
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verifier non définie ") ;
+        for (Instruction i : programme) {
+            i.verifier();
+        }
     }
 
     /**

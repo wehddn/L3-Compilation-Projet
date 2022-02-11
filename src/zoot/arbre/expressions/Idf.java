@@ -2,11 +2,13 @@ package zoot.arbre.expressions;
 
 import zoot.tds.Symbole;
 import zoot.tds.Tds;
+import zoot.tds.Type;
+
 /**
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 1.1.0
+ * @version 1.2.0
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -29,7 +31,7 @@ public class Idf extends Expression {
         return null;
     }
 
-    public String getType() {
+    public Type getType() {
         if (symbole == null)
             return null;
         else

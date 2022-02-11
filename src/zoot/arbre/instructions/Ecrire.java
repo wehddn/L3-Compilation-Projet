@@ -4,7 +4,7 @@ import zoot.arbre.expressions.Expression;
 
 /**
  * Instruction pour écrire une expression
- * @version 1.0.2
+ * @version 1.2.0
  */
 public class Ecrire extends Instruction {
 
@@ -27,7 +27,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ") ;
+        exp.verifier();
     }
 
     /**
@@ -49,6 +49,6 @@ public class Ecrire extends Instruction {
 
     @Override
     public String toString() {
-        return "écrire : "  + exp;
+        return "ecrire : "  + exp;
     }
 }

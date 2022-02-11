@@ -87,7 +87,7 @@ LINST       ::= LINST:li  INST:i
                 |
                 INST:i
                 {:
-                    BlocDInstructions b = new BlocDInstructions(ileft + 1, iright) ;
+                    BlocDInstructions b = new BlocDInstructions(ileft + 1, iright+1) ;
                     b.ajouter(i) ;
                     RESULT = b ;
                 :}
@@ -96,41 +96,41 @@ LINST       ::= LINST:li  INST:i
 LDEC        ::= LDEC:ld DECL:d
                 {:
                     Symbole s = new Symbole(d[1]);
-                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright);
+                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright+1);
                 :}
                 |
                 DECL:d
                 {:
                     Symbole s = new Symbole(d[1]);
-                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright);
+                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright+1);
                 :}
                 ;
 
 INST        ::= ECRIRE EXP:e POINTVIRGULE
                 {:
-                    RESULT = new Ecrire(e, eleft + 1, eright);
+                    RESULT = new Ecrire(e, eleft + 1, eright+1);
                 :}
                 |
                 IDF:id EGAL EXP:e POINTVIRGULE
                 {:
-                    Idf idf = new Idf(id, idleft+1, idright);
-                    RESULT = new Affectation(idf, e, eleft+1, eright);
+                    Idf idf = new Idf(id, idleft+1, idright+1);
+                    RESULT = new Affectation(idf, e, idleft+1, idright+1);
                 :}
                 ;
     
 EXP         ::= CSTENTIERE:c
                 {:
-                    RESULT = new ConstanteEntiere(c, cleft + 1, cright) ;
+                    RESULT = new ConstanteEntiere(c, cleft + 1, cright+1) ;
                 :}
                 |
                 IDF:i
                 {:
-                    RESULT = new Idf(i, ileft + 1, iright) ;
+                    RESULT = new Idf(i, ileft + 1, iright+1) ;
                 :}
                 |
                 CBOOL:c
                 {:
-                    RESULT = new ConstanteBooleene(c, cleft + 1, cright) ;
+                    RESULT = new ConstanteBooleene(c, cleft + 1, cright+1) ;
                 :}
                 ;
 
