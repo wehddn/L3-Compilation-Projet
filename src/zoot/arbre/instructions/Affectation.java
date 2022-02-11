@@ -2,7 +2,7 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
-import zoot.exceptions.NonConcordanceDesTypes;
+import zoot.exceptions.TypeNonConcordantException;
 
 /**
  * Cette classe implémente une opération d'affectation d'expression à une variable
@@ -16,15 +16,12 @@ public class Affectation extends Instruction{
     private Idf idf;
     private Expression exp;
 
-    public Affectation(Idf idf, Expression exp, int noLigne) {
-        super(noLigne);
+    public Affectation(Idf idf, Expression exp, int noLigne, int noColonne) {
+        super(noLigne, noColonne);
         this.idf = idf;
         this.exp = exp;
     }
 
-    /**
-     * @see zoot.arbre.ArbreAbstrait
-     */
     @Override
     public void verifier() {
         idf.verifier();
@@ -34,20 +31,12 @@ public class Affectation extends Instruction{
             type_idf = idf.getType();
             type_exp = exp.getType();
         if (!(type_idf.equals(type_exp) || (type_idf.equals("entier") && type_exp.equals("constante")))){
-            throw new NonConcordanceDesTypes(type_idf, type_exp);
+            throw new TypeNonConcordantException(noLigne, noColonne, type_idf, type_exp);
         }
     }
 
-    /**
-     * @see zoot.arbre.ArbreAbstrait
-     */
     @Override
     public String toMIPS() {
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return idf + " = " + exp;
     }
 }

@@ -16,8 +16,8 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     protected ArrayList<Instruction> programme ;
 
-    public BlocDInstructions(int n) {
-        super(n) ;
+    public BlocDInstructions(int n, int m) {
+        super(n, m) ;
         programme = new ArrayList<>() ;
     }
 

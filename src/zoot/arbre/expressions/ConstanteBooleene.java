@@ -10,8 +10,8 @@ package zoot.arbre.expressions;
  */
 public class ConstanteBooleene extends Constante{
 
-    public ConstanteBooleene(String valeur, int n) {
-        super(valeur, n);
+    public ConstanteBooleene(String valeur, int n, int m) {
+        super(valeur, n, m);
     }
 
     @Override

@@ -17,8 +17,8 @@ public class Ecrire extends Instruction {
      * @param e l'expression à écrire
      * @param n le numéro de ligne dans le code zoot de l'instruction écrire
      */
-    public Ecrire (Expression e, int n) {
-        super(n) ;
+    public Ecrire (Expression e, int n, int m) {
+        super(n, m) ;
         exp = e ;
     }
 

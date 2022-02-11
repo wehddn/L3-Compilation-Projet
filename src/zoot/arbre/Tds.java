@@ -1,7 +1,7 @@
 package zoot.arbre;
 
-import zoot.exceptions.DoubleDeclarationExeption;
-import zoot.exceptions.VariableNonDefinie;
+import zoot.exceptions.DoubleDeclarationException;
+import zoot.exceptions.VariableNonDefinieException;
 
 import java.util.HashMap;
 
@@ -48,9 +48,9 @@ public class Tds {
      * @param nom le nom de l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(String nom, Symbole s) { // TODO throw
+    public void ajouter(String nom, Symbole s, int noLigne, int noColonne) { // TODO throw
         if(dict.get(nom) != null){
-            throw new DoubleDeclarationExeption(nom);
+            throw new DoubleDeclarationException(noLigne, noColonne, nom);
         } else {
             dict.put(nom, s);
             deplacementCourant += 4;
@@ -63,9 +63,9 @@ public class Tds {
      * @param nom le nom de l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(String nomVar) { // TODO throw
+    public Symbole identifier(String nomVar, int noLigne, int noColonne) { // TODO throw
         if (dict.get(nomVar)==null){
-            throw new VariableNonDefinie(nomVar);
+            throw new VariableNonDefinieException(noLigne, noColonne, nomVar);
         }
         return dict.get(nomVar);
     }

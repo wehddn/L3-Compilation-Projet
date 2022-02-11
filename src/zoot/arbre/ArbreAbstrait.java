@@ -8,9 +8,11 @@ public abstract class ArbreAbstrait {
     
     // numéro de ligne du début de l'instruction
     protected int noLigne ;
+    protected int noColonne ;
     
-    protected ArbreAbstrait(int n) {
+    protected ArbreAbstrait(int n, int m) {
         noLigne = n ;
+        noColonne = m;
     }
 
     /**

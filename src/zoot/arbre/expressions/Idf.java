@@ -14,15 +14,14 @@ public class Idf extends Expression {
     private String nom;
     private Symbole symbole = null;
 
-    public Idf(String nom, int noLigne) {
-        super(noLigne);
+    public Idf(String nom, int noLigne, int noColonne) {
+        super(noLigne, noColonne);
         this.nom = nom;
     }
 
     @Override
     public void verifier() {
-        this.symbole=Tds.getInstance().identifier(nom);
-        getType();
+        this.symbole=Tds.getInstance().identifier(nom, noLigne, noColonne);
     }
 
     @Override

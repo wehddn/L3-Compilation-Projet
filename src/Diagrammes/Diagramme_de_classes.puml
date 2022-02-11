@@ -27,8 +27,8 @@ package tds {
 		- static Tds instance
 		- Tds()
 		+ static Tds getInstance()
-		+ void ajouter(String nom, Symbole s)
-		+ Symbole identifier(String nom)
+		+ void ajouter(String nom, Symbole s, int noLigne, int noColonne)
+		+ Symbole identifier(String nom, int noLigne, int noColonne)
 		+ int getTailleZoneVariables()
 		+ String toString()
 	}
@@ -45,30 +45,30 @@ package arbre {
 
 		abstract class Constante extends Expression {
 			# String cste
-			# Constante(String texte, int n)
+			# Constante(String texte, int n, int m)
 			+ String toString()
 		}
 
 		class ConstanteEntiere extends Constante {
-			+ ConstanteEntiere(String texte, int n)
+			+ ConstanteEntiere(String texte, int n, int m)
 			+ String toMIPS()
 			+ Type getType()
 		}
 
 		class ConstanteBooleene extends Constante {
-			+ ConstanteBooleene(String valeur, int n)
+			+ ConstanteBooleene(String valeur, int n, int m)
 			+ String toMIPS()
 			+ Type getType()
 		}
 
 		abstract class Expression extends ArbreAbstrait{
-			# Expression(int n)
+			# Expression(int n, int m)
 			+ abstract Type getType()
 		}
 
 		class Idf extends Expression {
 			- String nom
-			+ Idf(String nom, int noLigne)
+			+ Idf(String nom, int noLigne, int noColonne)
 			+ void verifier()
 			+ String toMIPS()
 			+ Type getType()
@@ -80,7 +80,7 @@ package arbre {
 	package instructions {
 
 		class Affectation extends Instruction {
-			+ Affectation(Idf idf, Expression exp, int noLigne)
+			+ Affectation(Idf idf, Expression exp, int noLigne, int noColonne)
 			+ void verifier()
 			+ String toMIPS()
 			+ String toString()
@@ -89,7 +89,7 @@ package arbre {
 		Affectation --"1" Expression
 
 		class Ecrire extends Instruction{
-			+ Ecrire (Expression e, int n)
+			+ Ecrire (Expression e, int , int m)
 			+ void verifier()
 			+ String toMIPS()
 			+ String toString()
@@ -97,7 +97,7 @@ package arbre {
 		Ecrire --"1" Expression
 
 		abstract class Instruction extends ArbreAbstrait{
-  	 	# Instruction(int n)
+  	 	# Instruction(int n, int m)
 		}
 
 
@@ -106,7 +106,8 @@ package arbre {
 
 	abstract class ArbreAbstrait {
    # int noLigne
-   # ArbreAbstrait(int n)
+   # int noColonne
+   # ArbreAbstrait(int n, int m)
 	 + int getNoLigne()
    + abstract void verifier()
    + abstract String toMIPS()
@@ -140,19 +141,19 @@ package exceptions {
 	}
 
 	class AnalyseSemantiqueException extends AnalyseException{
-		+ AnalyseSemantiqueException(int ligne, int colonne, String m)
+		+ AnalyseSemantiqueException(String m)
 	}
 
 	class DoubleDeclarationException extends AnalyseSyntaxiqueException {
-		+ DoubleDeclarationException(String m)
+		+ DoubleDeclarationException(int ligne, int colonne, String m)
 	}
 
 	class TypeNonConcordantException extends AnalyseSemantiqueException {
-		+ TypeNonConcordantException(int ligne, String m)
+		+ TypeNonConcordantException(int ligne, int colonne, String m, String m)
 	}
 
-	class VariableNonDefinie extends AnalyseSemantiqueException {
-		+ VariableNonDefinie(int ligne, int colonne, String m)
+	class VariableNonDefinieException extends AnalyseSemantiqueException {
+		+ VariableNonDefinieException(int ligne, int colonne, String m)
 	}
 
 }

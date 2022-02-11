@@ -21,7 +21,9 @@ public class Zoot {
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
 
             //arbre.verifier() ;
-            System.out.println("COMPILATION OK") ;
+            System.out.println("COMPILATION OK" + "\n") ;
+            System.out.print(Tds.getInstance());
+            System.out.println(arbre);
             System.out.println(Tds.getInstance());
             System.out.println(arbre);
 

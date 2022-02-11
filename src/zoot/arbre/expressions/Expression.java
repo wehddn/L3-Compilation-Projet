@@ -7,8 +7,8 @@ import zoot.arbre.ArbreAbstrait;
  */
 public abstract class Expression extends ArbreAbstrait {
     
-    protected Expression(int n) {
-        super(n) ;
+    protected Expression(int n, int m) {
+        super(n, m) ;
     }
 
     public abstract String getType();

@@ -6,8 +6,8 @@ package zoot.arbre.expressions;
  */
 public class ConstanteEntiere extends Constante {
 
-    public ConstanteEntiere(String texte, int n) {
-        super(texte, n) ;
+    public ConstanteEntiere(String texte, int n, int m) {
+        super(texte, n, m) ;
     }
 
     @Override
