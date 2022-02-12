@@ -15,7 +15,7 @@ hide empty member
 package tds {
 	class Symbole {
 		- int deplacement
-		+ Symbole(Type type)
+		+ Symbole(String type)
 		+ Type getType()
 		+ int getDeplacement()
 		+ String toString()
@@ -36,7 +36,7 @@ package tds {
 	Tds --"*" Symbole
 
 	enum Type {
-		ENTIER, BOOLEEN
+		ENTIER, BOOLEEN, NONDEFINI
 	}
 }
 
@@ -54,6 +54,7 @@ package arbre {
 			+ ConstanteEntiere(String texte, int n, int m)
 			+ String toMIPS()
 			+ Type getType()
+			+ String toString()
 		}
 
 		class ConstanteBooleene extends Constante {
@@ -90,7 +91,7 @@ package arbre {
 		Affectation --"1" Expression
 
 		class Ecrire extends Instruction{
-			+ Ecrire (Expression e, int , int m)
+			+ Ecrire (Expression e, int n, int m)
 			+ void verifier()
 			+ String toMIPS()
 			+ String toString()
@@ -110,14 +111,14 @@ package arbre {
    # int noColonne
    # ArbreAbstrait(int n, int m)
 	 + int getNoLigne()
+	 + int getNoColonne()
    + abstract void verifier()
    + abstract String toMIPS()
 	}
 
 	class BlocDInstructions extends ArbreAbstrait {
-		BlocDInstructions(int n)
+		+ BlocDInstructions(int n, int m)
 		+ void ajouter(Instruction i)
-		+ void verifier()
 		+ void verifier()
 		+ String toMIPS()
 		+ String toString()
@@ -150,7 +151,7 @@ package exceptions {
 	}
 
 	class TypeNonConcordantException extends AnalyseSemantiqueException {
-		+ TypeNonConcordantException(int ligne, int colonne, String m, String n)
+		+ TypeNonConcordantException(int ligne, int colonne, String m)
 	}
 
 	class VariableNonDefinieException extends AnalyseSemantiqueException {
