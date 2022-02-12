@@ -22,11 +22,6 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public String toString() {
-        return cste;
-    }
-
-    @Override
     public Type getType() {
         return Type.ENTIER;
     }

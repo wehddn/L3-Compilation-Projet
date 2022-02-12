@@ -25,11 +25,6 @@ public class ConstanteBooleene extends Constante{
     }
 
     @Override
-    public String toString() {
-        return cste;
-    }
-
-    @Override
     public Type getType() {
         return Type.BOOLEEN;
     }
