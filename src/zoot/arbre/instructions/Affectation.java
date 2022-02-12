@@ -46,8 +46,8 @@ public class Affectation extends Instruction{
     public String toMIPS() {
         int idfDeplacement = -idf.getSymbole().getDeplacement();
 
-        return exp.toMIPS() +
-                "# "+ idf.getNom() +" = "+ exp.getValeur() +"\n" +
+        return "# "+ idf.getNom() +" = "+ exp.getValeur() +"\n" +
+                exp.toMIPS() + "\n" +
                 "\tsw $v0, " + idfDeplacement + "($s7)\n";
     }
 

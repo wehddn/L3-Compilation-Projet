@@ -27,8 +27,7 @@ public class ConstanteBooleene extends Constante{
             case "faux" -> valeur = "0";
             default -> valeur = "";
         }
-        return "# Constante booleene\n" +
-                "\tli $v0, " + valeur;
+        return "\tli $v0, " + valeur;
     }
 
     @Override
