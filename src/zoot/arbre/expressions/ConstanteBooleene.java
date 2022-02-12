@@ -21,7 +21,7 @@ public class ConstanteBooleene extends Constante{
      */
     @Override
     public String toMIPS() {
-        return null;
+        return "null";
     }
 
     @Override

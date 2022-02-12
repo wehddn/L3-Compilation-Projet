@@ -1,6 +1,7 @@
 package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
+import zoot.tds.Tds;
 
 import java.util.ArrayList;
 
@@ -46,20 +47,29 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
-        sb.append("""
-                main: #debut
-                \t# Initialisation de la base des variables
-                \tmove $s7, $sp
-                
-                """);
+        int taillePile = Tds.getInstance().getTailleZoneVariables();
+        // Ecrit le début du programme mips
+        sb.append(".text\n" +
+                  "main :\n" +
+                  "# initialiser $s7 avec $sp\n" +
+                  "\tmove $s7, $sp\n" +
+                  "# réserver la place pour ");
+        sb.append(taillePile / 4).append(" variable");
+
+        if (taillePile > 4) // Ajoute un s à variable s'il y'a plusieurs variables
+            sb.append('s');
+
+        // L'instruction qui réserve la place dans la pile pour les variables
+        sb.append("\n\tadd $sp, $sp, ").append(-taillePile).append("\n");
+
+        // Le code mips des differentes instructions
         for (Instruction i : programme) {
-            sb.append(i.toMIPS()).append("\n\n");
+            sb.append(i.toMIPS()).append("\n");
         }
-        sb.append("""
-                end: #fin
-                \t# Fin du programme
-                \tli $v0, 10 # retour système
-                \tsyscall""");
+        // Ecrit la fin du programme mips (retour)
+        sb.append("end :\n" +
+                  "\tli $v0, 0\n" +
+                  "\tsyscall");
         return sb.toString();
     }
 

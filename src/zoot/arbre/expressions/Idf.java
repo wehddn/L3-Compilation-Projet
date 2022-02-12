@@ -28,7 +28,7 @@ public class Idf extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "null";
     }
 
     public Type getType() {
