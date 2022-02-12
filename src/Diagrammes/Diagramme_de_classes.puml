@@ -22,22 +22,31 @@ package tds {
 	}
 	Symbole --"1" Type
 
+	class Entree {
+		- String nom
+		+ Entree(String nom)
+		+ String getNom()
+		+ boolean equals(Entree e)
+	}
+
 	class Tds {
 		- int deplacementCourant
-		- static Tds instance
 		- Tds()
 		+ static Tds getInstance()
-		+ void ajouter(String nom, Symbole s, int noLigne, int noColonne)
-		+ Symbole identifier(String nom, int noLigne, int noColonne)
+		+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
+		+ Symbole identifier(Entree e, int noLigne, int noColonne)
 		+ int getTailleZoneVariables()
 		+ String toString()
 		+ void reset()
 	}
+	Tds --"1" Tds : static
 	Tds --"*" Symbole
+	Tds --"*" Entree
 
 	enum Type {
 		ENTIER, BOOLEEN, NONDEFINI
 	}
+
 }
 
 package arbre {
@@ -69,14 +78,14 @@ package arbre {
 		}
 
 		class Idf extends Expression {
-			- String nom
-			+ Idf(String nom, int noLigne, int noColonne)
+			+ Idf(Entree e, int noLigne, int noColonne)
 			+ void verifier()
 			+ String toMIPS()
 			+ Type getType()
 			+ String toString()
 		}
 		Idf --"1" Symbole
+		Idf --"1" Entree
 
 	}
 	package instructions {
@@ -117,6 +126,7 @@ package arbre {
 	}
 
 	class BlocDInstructions extends ArbreAbstrait {
+		# int taillePile
 		+ BlocDInstructions(int n, int m)
 		+ void ajouter(Instruction i)
 		+ void verifier()
@@ -125,7 +135,12 @@ package arbre {
 	}
 	BlocDInstructions --"*" Instruction
 
-
+	class Programme extends BlocDInstructions {
+		+ Programme(int n, int m)
+		+ void verifier()
+		+ String toMIPS()
+		+ String toString()
+	}
 
 }
 
