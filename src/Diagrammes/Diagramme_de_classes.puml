@@ -63,18 +63,20 @@ package arbre {
 			+ ConstanteEntiere(String texte, int n, int m)
 			+ String toMIPS()
 			+ Type getType()
-			+ String toString()
+			+ String getValeur()
 		}
 
 		class ConstanteBooleene extends Constante {
 			+ ConstanteBooleene(String valeur, int n, int m)
 			+ String toMIPS()
 			+ Type getType()
+			+ String getValeur()
 		}
 
 		abstract class Expression extends ArbreAbstrait{
 			# Expression(int n, int m)
 			+ abstract Type getType()
+			+ String getValeur()
 		}
 
 		class Idf extends Expression {
@@ -82,7 +84,10 @@ package arbre {
 			+ void verifier()
 			+ String toMIPS()
 			+ Type getType()
+			+ String getNom()
 			+ String toString()
+			+ String getValeur()
+			+ Symbole getSymbole()
 		}
 		Idf --"1" Symbole
 		Idf --"1" Entree

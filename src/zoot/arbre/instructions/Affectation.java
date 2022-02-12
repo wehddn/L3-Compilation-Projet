@@ -3,6 +3,7 @@ package zoot.arbre.instructions;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
 import zoot.exceptions.TypeNonConcordantException;
+import zoot.tds.Tds;
 import zoot.tds.Type;
 
 /**
@@ -10,7 +11,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 1.2.0
+ * @version 1.3.0
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -43,7 +44,11 @@ public class Affectation extends Instruction{
      */
     @Override
     public String toMIPS() {
-        return "null";
+        int idfDeplacement = -idf.getSymbole().getDeplacement();
+
+        return exp.toMIPS() +
+                "# "+ idf.getNom() +" = "+ exp.getValeur() +"\n" +
+                "\tsw $v0, " + idfDeplacement + "($s7)\n";
     }
 
     @Override

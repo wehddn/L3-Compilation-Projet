@@ -4,7 +4,7 @@ import zoot.tds.Type;
 
 /**
  * Represente une constant entière dans l'arbre abstrait
- * @version 1.2.2
+ * @version 1.3.0
  */
 public class ConstanteEntiere extends Constante {
 
@@ -17,7 +17,7 @@ public class ConstanteEntiere extends Constante {
      */
     @Override
     public String toMIPS() {
-        return "\t# Constante entiére\n" +
+        return "# Constante entiére\n" +
                 "\tli $v0, " + this.cste;
     }
 
@@ -25,4 +25,6 @@ public class ConstanteEntiere extends Constante {
     public Type getType() {
         return Type.ENTIER;
     }
+
+    public String getValeur() { return this.cste; }
 }
