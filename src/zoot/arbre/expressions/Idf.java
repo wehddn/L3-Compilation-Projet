@@ -8,7 +8,7 @@ import zoot.tds.Type;
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 1.3.0
+ * @version 1.3.1
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -28,7 +28,7 @@ public class Idf extends Expression {
 
     @Override
     public String toMIPS() {
-        return "\tlw $v0, " + -symbole.getDeplacement() + "($s7)\n";
+        return "lw $v0, " + (-symbole.getDeplacement()) + "($s7)";
     }
 
     public Type getType() {
@@ -49,7 +49,7 @@ public class Idf extends Expression {
 
     public String getNom(){
         return this.nom;
-    };
+    }
 
     @Override
     public String toString() {

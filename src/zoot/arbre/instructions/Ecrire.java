@@ -4,7 +4,7 @@ import zoot.arbre.expressions.Expression;
 
 /**
  * Instruction pour écrire une expression
- * @version 1.2.0
+ * @version 1.3.1
  */
 public class Ecrire extends Instruction {
 
@@ -35,13 +35,12 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        // TODO utiliser indent à la place des \t
-        return exp.toMIPS() +
-                "\n\t# Ecriture\n" +
+        return exp.toMIPS().indent(4) +
+                "# Ecriture\n" +
                 "\tmove $a0, $v0\n" +
                 "\tli $v0, 1\n" +
                 "\tsyscall\n" +
-                "\t# Saut de ligne\n" +
+                "# Saut de ligne\n" +
                 "\tli $v0, 11\n" +
                 "\tli $a0, 10\n" +
                 "\tsyscall";

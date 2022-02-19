@@ -4,7 +4,7 @@ import zoot.tds.Type;
 
 /**
  * Represente une constant entière dans l'arbre abstrait
- * @version 1.3.0
+ * @version 1.3.1
  */
 public class ConstanteEntiere extends Constante {
 
@@ -17,7 +17,7 @@ public class ConstanteEntiere extends Constante {
      */
     @Override
     public String toMIPS() {
-        return "\tli $v0, " + this.cste;
+        return "li $v0, " + this.cste;
     }
 
     @Override

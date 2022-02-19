@@ -1,8 +1,10 @@
 package zoot.arbre;
 
+import zoot.exceptions.AnalyseSemantiqueException;
+
 /**
  * Represente un arbre abstrait (ou un sous arbre)
- * @version 1.0.2
+ * @version 1.3.1
  */
 public abstract class ArbreAbstrait {
     
@@ -30,7 +32,7 @@ public abstract class ArbreAbstrait {
     /**
      * Permet de faire l'analyse sémantique de l'arbre abstrait
      */
-    public abstract void verifier() ;
+    public abstract void verifier() throws AnalyseSemantiqueException;
 
     /**
      * Retourne le code mips de l'arbre abstrait
