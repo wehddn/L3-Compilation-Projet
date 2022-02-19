@@ -10,12 +10,13 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.4.1
+ * @version 1.4.3
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
 
     protected ArrayList<Instruction> programme ;
+    protected int taillePile = 0;
 
     public BlocDInstructions(int n, int m) {
         super(n, m) ;
@@ -38,6 +39,7 @@ public class BlocDInstructions extends ArbreAbstrait {
         for (Instruction i : programme) {
             i.verifier();
         }
+        taillePile = Tds.getInstance().getTailleZoneVariables();
     }
 
     /**
@@ -47,29 +49,15 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
-        int taillePile = Tds.getInstance().getTailleZoneVariables();
-        // Ecrit le début du programme mips
-        sb.append(".text\n" +
-                  "main :\n" +
-                  "# initialiser $s7 avec $sp\n" +
-                  "\tmove $s7, $sp\n" +
-                  "# réserver la place pour ");
-        sb.append(taillePile / 4).append(" variable");
-
-        if (taillePile > 4) // Ajoute un s à variable s'il y'a plusieurs variables
-            sb.append('s');
-
-        // L'instruction qui réserve la place dans la pile pour les variables
-        sb.append("\n\tadd $sp, $sp, ").append(-taillePile).append("\n");
-
         // Le code mips des differentes instructions
+        int ind = 0;
         for (Instruction i : programme) {
-            sb.append(i.toMIPS()).append("\n");
+            ind++;
+            sb.append(i.toMIPS());
+            if (ind < programme.size())
+                sb.append("\n");
         }
-        // Ecrit la fin du programme mips (retour)
-        sb.append("end :\n" +
-                  "\tli $v0, 10\n" +
-                  "\tsyscall");
+
         return sb.toString();
     }
 

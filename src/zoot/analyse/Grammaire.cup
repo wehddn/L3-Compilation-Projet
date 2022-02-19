@@ -81,13 +81,13 @@ PROG        ::= VARIABLES LDEC DEBUT  LINST:li  FIN
 
 LINST       ::= LINST:li  INST:i
                 {:
-                    ((BlocDInstructions)li).ajouter(i) ;
+                    ((Programme)li).ajouter(i) ;
                     RESULT = li ;
                 :}
                 |
                 INST:i
                 {:
-                    BlocDInstructions b = new BlocDInstructions(ileft + 1, iright+1) ;
+                    Programme b = new Programme(ileft + 1, iright+1) ;
                     b.ajouter(i) ;
                     RESULT = b ;
                 :}
