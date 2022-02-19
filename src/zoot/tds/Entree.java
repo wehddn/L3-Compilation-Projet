@@ -6,7 +6,7 @@ import java.util.Objects;
  * Représente une entrée dans la TDS (juste l'identification)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.4.0
+ * @version 1.4.1
  * @since 1.4.0
  * created on 19/02/2022
  */
@@ -35,5 +35,19 @@ public class Entree {
         if (this == o) return true;
         if (!(o instanceof Entree entree)) return false;
         return nom.equals(entree.nom);
+    }
+
+    /**
+     * Retourne le code de hashage pour les hashmap
+     * @return le code de hashage pour les hashmap
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom);
+    }
+
+    @Override
+    public String toString() {
+        return nom;
     }
 }

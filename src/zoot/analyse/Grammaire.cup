@@ -95,14 +95,16 @@ LINST       ::= LINST:li  INST:i
 
 LDEC        ::= LDEC:ld DECL:d
                 {:
+                    Entree e = new Entree(d[0]);
                     Symbole s = new Symbole(d[1]);
-                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright);
+                    Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
                 |
                 DECL:d
                 {:
+                    Entree e = new Entree(d[0]);
                     Symbole s = new Symbole(d[1]);
-                    Tds.getInstance().ajouter(d[0], s, dleft + 1, dright);
+                    Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
                 ;
 
@@ -111,10 +113,11 @@ INST        ::= ECRIRE EXP:e POINTVIRGULE
                     RESULT = new Ecrire(e, eleft + 1, eright);
                 :}
                 |
-                IDF:id EGAL EXP:e POINTVIRGULE
+                IDF:id EGAL EXP:exp POINTVIRGULE
                 {:
-                    Idf idf = new Idf(id, idleft+1, idright+1);
-                    RESULT = new Affectation(idf, e, eleft+1, eright+1);
+                    Entree e = new Entree(id);
+                    Idf idf = new Idf(e, idleft+1, idright+1);
+                    RESULT = new Affectation(idf, exp, expleft+1, expright+1);
                 :}
                 ;
     
@@ -125,7 +128,8 @@ EXP         ::= CSTENTIERE:c
                 |
                 IDF:i
                 {:
-                    RESULT = new Idf(i, ileft + 1, iright+1) ;
+                    Entree e = new Entree(i);
+                    RESULT = new Idf(e, ileft + 1, iright+1) ;
                 :}
                 |
                 CBOOL:c

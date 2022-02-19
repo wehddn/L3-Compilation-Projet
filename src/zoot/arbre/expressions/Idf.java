@@ -1,5 +1,6 @@
 package zoot.arbre.expressions;
 
+import zoot.tds.Entree;
 import zoot.tds.Symbole;
 import zoot.tds.Tds;
 import zoot.tds.Type;
@@ -8,22 +9,22 @@ import zoot.tds.Type;
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 1.3.1
+ * @version 1.4.1
  * @since 1.0.0
  * created on 11/02/2022
  */
 public class Idf extends Expression {
-    private String nom;
+    private Entree entree;
     private Symbole symbole = null;
 
-    public Idf(String nom, int noLigne, int noColonne) {
+    public Idf(Entree e, int noLigne, int noColonne) {
         super(noLigne, noColonne);
-        this.nom = nom;
+        this.entree = e;
     }
 
     @Override
     public void verifier() {
-        this.symbole=Tds.getInstance().identifier(nom, noLigne, noColonne);
+        this.symbole=Tds.getInstance().identifier(entree, noLigne, noColonne);
     }
 
     @Override
@@ -33,14 +34,14 @@ public class Idf extends Expression {
 
     public Type getType() {
         if (symbole == null)
-            return null;
+            return Type.NONDEFINI;
         else
             return symbole.getType();
     }
 
     @Override
     public String getValeur() {
-        return nom;
+        return entree.getNom();
     }
 
     public Symbole getSymbole() {
@@ -48,11 +49,11 @@ public class Idf extends Expression {
     }
 
     public String getNom(){
-        return this.nom;
+        return this.entree.getNom();
     }
 
     @Override
     public String toString() {
-        return nom;
+        return entree.getNom();
     }
 }

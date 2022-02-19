@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.2.0
+ * @version 1.4.1
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
@@ -68,7 +68,7 @@ public class BlocDInstructions extends ArbreAbstrait {
         }
         // Ecrit la fin du programme mips (retour)
         sb.append("end :\n" +
-                  "\tli $v0, 0\n" +
+                  "\tli $v0, 10\n" +
                   "\tsyscall");
         return sb.toString();
     }
