@@ -2,6 +2,7 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
+import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.Tds;
 import zoot.tds.Type;
@@ -11,7 +12,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 1.5.0
+ * @version 1.5.1
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -29,7 +30,7 @@ public class Affectation extends Instruction{
      * @see zoot.arbre.ArbreAbstrait
      */
     @Override
-    public void verifier() {
+    public void verifier() throws AnalyseSemantiqueException {
         idf.verifier();
         exp.verifier();
         Type idfType = idf.getType();

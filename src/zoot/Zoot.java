@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @version 1.0.2
+ * @version 1.5.1
  */
 public class Zoot {
 
@@ -22,8 +22,6 @@ public class Zoot {
 
             arbre.verifier() ;
             System.out.println("COMPILATION OK") ;
-            System.out.println(Tds.getInstance());
-            System.out.println(arbre);
 
             String nomSortie = nomFichier.replaceAll("[.]zoot", ".mips") ;
             PrintWriter flot = new PrintWriter(new BufferedWriter(new FileWriter(nomSortie))) ;

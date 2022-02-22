@@ -6,4 +6,8 @@ public class AnalyseSyntaxiqueException extends AnalyseException {
         super("ERREUR SYNTAXIQUE :\n\t" + m) ;
     }
 
+    public AnalyseSyntaxiqueException(int ligne, int col, String m) {
+        super("ERREUR SYNTAXIQUE : ligne " + ligne + " : " + m);
+    }
+
 }
