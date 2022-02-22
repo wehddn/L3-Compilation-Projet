@@ -6,7 +6,7 @@ import zoot.arbre.instructions.Instruction;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.4.2
+ * @version 1.5.0
  * @since 1.4.2
  * created on 19/02/2022
  */
@@ -20,7 +20,10 @@ public class Programme extends BlocDInstructions{
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
         // Ecrit le début du programme mips
-        sb.append(".text\n" +
+        sb.append(".data\n" +
+                "\tvrai: .asciiz \"vrai\"\n" +
+                "\tfaux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# initialiser $s7 avec $sp\n" +
                 "\tmove $s7, $sp\n" +

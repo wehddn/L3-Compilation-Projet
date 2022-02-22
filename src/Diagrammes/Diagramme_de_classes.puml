@@ -27,6 +27,8 @@ package tds {
 		+ Entree(String nom)
 		+ String getNom()
 		+ boolean equals(Entree e)
+		+ int hashCode()
+		+ String toString()
 	}
 
 	class Tds {
@@ -142,7 +144,6 @@ package arbre {
 
 	class Programme extends BlocDInstructions {
 		+ Programme(int n, int m)
-		+ void verifier()
 		+ String toMIPS()
 		+ String toString()
 	}
