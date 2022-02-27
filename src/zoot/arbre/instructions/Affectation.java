@@ -12,13 +12,13 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 1.5.1
+ * @version 1.5.2
  * @since 1.0.0
  * created on 11/02/2022
  */
 public class Affectation extends Instruction{
-    private Idf idf;
-    private Expression exp;
+    private final Idf idf;
+    private final Expression exp;
 
     public Affectation(Idf idf, Expression exp, int noLigne, int noColonne) {
         super(noLigne, noColonne);

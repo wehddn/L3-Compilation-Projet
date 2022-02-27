@@ -6,12 +6,12 @@ import java.util.Objects;
  * Représente une entrée dans la TDS (juste l'identification)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.4.1
+ * @version 1.5.2
  * @since 1.4.0
  * created on 19/02/2022
  */
 public class Entree {
-    private String nom;
+    private final String nom;
 
     public Entree(String nom) {
         this.nom = nom;

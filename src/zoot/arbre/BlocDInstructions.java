@@ -1,6 +1,7 @@
 package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
+import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.tds.Tds;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.4.3
+ * @version 1.5.2
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
@@ -36,10 +37,19 @@ public class BlocDInstructions extends ArbreAbstrait {
      */
     @Override
     public void verifier() {
+        StringBuilder sb = new StringBuilder();
+        boolean exception = false;
         for (Instruction i : programme) {
-            i.verifier();
+            try {
+                i.verifier();
+            } catch (AnalyseSemantiqueException as) {
+                sb.append(as.getMessage()).append("\n");
+                exception = true;
+            }
         }
         taillePile = Tds.getInstance().getTailleZoneVariables();
+        if (exception)
+            throw new AnalyseSemantiqueException(sb.toString());
     }
 
     /**
@@ -75,7 +85,7 @@ public class BlocDInstructions extends ArbreAbstrait {
             if (ind < programme.size())
                 sb.append("\n");
         }
-        return "BI\n" + sb.toString().indent(2) + "BI"  ;
+        return "BI\n" + sb + "BI"  ;
     }
 
 }

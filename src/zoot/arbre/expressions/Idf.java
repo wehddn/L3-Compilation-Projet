@@ -9,12 +9,12 @@ import zoot.tds.Type;
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 1.4.1
+ * @version 1.5.2
  * @since 1.0.0
  * created on 11/02/2022
  */
 public class Idf extends Expression {
-    private Entree entree;
+    private final Entree entree;
     private Symbole symbole = null;
 
     public Idf(Entree e, int noLigne, int noColonne) {
