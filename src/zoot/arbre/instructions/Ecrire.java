@@ -36,10 +36,17 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         String codeEcriture;
+        // quitte le programme en théorie ce cas ne devrait pas arriver
         switch (exp.getType()) {
-            case ENTIER -> codeEcriture = "1";
-            case BOOLEEN -> codeEcriture = "4";
-            default -> codeEcriture = "10"; // quitte le programme en théorie ce cas ne devrait pas arriver
+            case ENTIER:
+                codeEcriture = "1";
+                break;
+            case BOOLEEN:
+                codeEcriture = "4";
+                break;
+            default:
+                codeEcriture = "10";
+                break;
         }
         return "\t" + exp.toMIPS().replaceAll("[\\n]", "\\n\\t") +
                 "\n# Ecriture\n" +

@@ -33,7 +33,10 @@ public class Entree {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Entree entree)) return false;
+        if (!(o instanceof Entree)) {
+            return false;
+        }
+        Entree entree = (Entree) o;
         return nom.equals(entree.nom);
     }
 
