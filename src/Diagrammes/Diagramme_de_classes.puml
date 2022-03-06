@@ -14,22 +14,43 @@ hide empty member
 
 package tds {
 	class Symbole {
-		- int deplacement
 		+ Symbole(String type)
 		+ Type getType()
-		+ int getDeplacement()
 		+ String toString()
 	}
 	Symbole --"1" Type
 
-	class Entree {
-		- String nom
+	class SymboleVar extends Symbole {
+		# int deplacement
+		+ SymboleVar(String type)
+		+ int getDeplacement()
+	}
+
+	class SymboleFct extends Symbole {
+		# String etiquette
+		+ SymboleFct(String type, String etiquette)
+		+ String getEtiquette()
+	}
+
+	abstract class Entree {
+		# String nom
 		+ Entree(String nom)
 		+ String getNom()
-		+ boolean equals(Entree e)
+		+ boolean equals(Object o)
 		+ int hashCode()
 		+ String toString()
 	}
+
+	class EntreeVar extends Entree {
+		+ EntreeVar(String nom)
+	}
+
+	class EntreeFct extends Entree {
+		+ EntreeFct(String nom, String ...typeParametre)
+		+ boolean equals(Object o)
+		+ int hashCode()
+	}
+	EntreeFct --"*" String : typesParametres
 
 	class Tds {
 		- int deplacementCourant
@@ -94,6 +115,15 @@ package arbre {
 		Idf --"1" Symbole
 		Idf --"1" Entree
 
+		class Fonction extends Expression {
+			+ Fonction(Entree e, int noLigne, int noColonne)
+			+ void verifier()
+			+ String toMIPS()
+			+ Type getType()
+			+ String getNom()
+		}
+
+		Fonction --"1" Idf : identifiant
 	}
 	package instructions {
 
@@ -145,9 +175,18 @@ package arbre {
 	class Programme extends BlocDInstructions {
 		+ Programme(int n, int m)
 		+ String toMIPS()
+		+ void verifier()
 		+ String toString()
+		+ void addBlocDeFonction(BlocDeFonction b)
 	}
 
+	Programme --"*" BlocDeFonction : fonctions
+
+	class BlocDeFonction  extends BlocDInstructions {
+		+ BlocDeFonction(int n, int m)
+		+ String toMIPS()
+		+ String toString()
+	}
 }
 
 package exceptions {
@@ -161,13 +200,15 @@ package exceptions {
 
 	class AnalyseSyntaxiqueException extends AnalyseException {
 		+ AnalyseSyntaxiqueException(String m)
+		+ AnalyseSyntaxiqueException(int ligne, int col, String m)
 	}
 
 	class AnalyseSemantiqueException extends AnalyseException{
 		+ AnalyseSemantiqueException(String m)
+		+ AnalyseSemantiqueException(int ligne, int col, String m)
 	}
 
-	class DoubleDeclarationException extends AnalyseSyntaxiqueException {
+	class DoubleDeclarationException extends AnalyseSemantiqueException {
 		+ DoubleDeclarationException(int ligne, int colonne, String m)
 	}
 
