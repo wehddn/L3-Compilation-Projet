@@ -57,7 +57,7 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL;
+terminal Symbol    VARIABLES, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, FONCTIONS, RETOURNE, PRNT_G, PRNT_D;
 terminal String    CSTENTIERE, CBOOL, IDF, ENTIER, BOOLEEN;
 
 /* Non terminals used in the grammar section.  */
@@ -69,15 +69,25 @@ non terminal Expression EXP;
 non terminal String TYPE;
 non terminal String[] DECL;
 
+non terminal Void LFONC, FONC, RET;
+
 /* ----------------------------Grammar Section-------------------- */
  
 start with PROG ;
 
-PROG        ::= VARIABLES LDEC DEBUT  LINST:li  FIN
+PROG        ::= VARIABLES  LDEC  FONCTIONS  LFONC  DEBUT  LINST:li  FIN
                 {:
                     RESULT = li ;
                 :}
                 ;
+
+LFONC       ::= LFONC:lf  FONC:f
+                |
+                FONC:f ;
+
+FONC        ::= TYPE  IDF  PRNT_G PRNT_D  DEBUT  LINST  RET  FIN ;
+
+RET         ::=  RETOURNE  EXP  POINTVIRGULE ;
 
 LINST       ::= LINST:li  INST:i
                 {:

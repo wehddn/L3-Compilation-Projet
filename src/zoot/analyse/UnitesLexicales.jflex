@@ -40,6 +40,10 @@ espace = {finDeLigne}  | [ \t\f]
 "//".*                                    { /* Commentaires */ }
 
 "variables"            { return symbol(CodesLexicaux.VARIABLES); }
+"fonctions"            { return symbol(CodesLexicaux.FONCTIONS); }
+"retourne"             { return symbol(CodesLexicaux.RETOURNE);  }
+"("                    { return symbol(CodesLexicaux.PRNT_G); }
+")"                    { return symbol(CodesLexicaux.PRNT_D); }
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
