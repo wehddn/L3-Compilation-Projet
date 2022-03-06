@@ -6,12 +6,12 @@ import java.util.Objects;
  * Représente une entrée dans la TDS (juste l'identification)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.5.2
+ * @version 1.5.4
  * @since 1.4.0
  * created on 19/02/2022
  */
 public class Entree {
-    private final String nom;
+    protected final String nom;
 
     public Entree(String nom) {
         this.nom = nom;
@@ -33,10 +33,9 @@ public class Entree {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Entree)) {
+        if (!(o instanceof Entree entree)) {
             return false;
         }
-        Entree entree = (Entree) o;
         return nom.equals(entree.nom);
     }
 
