@@ -17,7 +17,7 @@ public class Tds {
     /**
      * Associe les noms des variables à leur type
      */
-    private final HashMap<Entree, Symbole> dict;
+    private final HashMap<Entree, SymboleVar> dict;
     /**
      * Le deplacement courant dans la pile locale
      */
@@ -48,7 +48,7 @@ public class Tds {
      * @param e l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
+    public void ajouter(Entree e, SymboleVar s, int noLigne, int noColonne) throws DoubleDeclarationException {
         if(dict.get(e) != null){
             throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
         } else {
@@ -63,7 +63,7 @@ public class Tds {
      * @param e l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(Entree e, int noLigne, int noColonne) throws VariableNonDefinieException {
+    public SymboleVar identifier(Entree e, int noLigne, int noColonne) throws VariableNonDefinieException {
         if (dict.get(e)==null){
             throw new VariableNonDefinieException(noLigne, noColonne, e.getNom());
         }

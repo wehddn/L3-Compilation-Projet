@@ -1,9 +1,6 @@
 package zoot.arbre.expressions;
 
-import zoot.tds.Entree;
-import zoot.tds.Symbole;
-import zoot.tds.Tds;
-import zoot.tds.Type;
+import zoot.tds.*;
 
 /**
  * Classe représentant un identifant de variable
@@ -15,7 +12,7 @@ import zoot.tds.Type;
  */
 public class Idf extends Expression {
     private final Entree entree;
-    private Symbole symbole = null;
+    private SymboleVar symbole = null;
 
     public Idf(Entree e, int noLigne, int noColonne) {
         super(noLigne, noColonne);
@@ -44,7 +41,7 @@ public class Idf extends Expression {
         return entree.getNom();
     }
 
-    public Symbole getSymbole() {
+    public SymboleVar getSymbole() {
         return this.symbole;
     }
 

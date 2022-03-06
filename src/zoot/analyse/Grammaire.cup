@@ -106,14 +106,14 @@ LINST       ::= LINST:li  INST:i
 LDEC        ::= LDEC:ld DECL:d
                 {:
                     Entree e = new Entree(d[0]);
-                    Symbole s = new Symbole(d[1]);
+                    SymboleVar s = new SymboleVar(d[1]);
                     Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
                 |
                 DECL:d
                 {:
                     Entree e = new Entree(d[0]);
-                    Symbole s = new Symbole(d[1]);
+                    SymboleVar s = new SymboleVar(d[1]);
                     Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
                 ;

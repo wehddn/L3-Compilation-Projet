@@ -9,6 +9,7 @@ import zoot.arbre.expressions.Idf;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.tds.Entree;
 import zoot.tds.Symbole;
+import zoot.tds.SymboleVar;
 import zoot.tds.Tds;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,10 +22,10 @@ class AffectationTest {
         Entree b = new Entree("b");
         Entree c = new Entree("c");
         Entree d = new Entree("d");
-        Tds.getInstance().ajouter(a, new Symbole("entier"), 0,0);
-        Tds.getInstance().ajouter(b, new Symbole("entier"), 0,0);
-        Tds.getInstance().ajouter(c, new Symbole("booleen"), 0,0);
-        Tds.getInstance().ajouter(d, new Symbole("booleen"), 0,0);
+        Tds.getInstance().ajouter(a, new SymboleVar("entier"), 0,0);
+        Tds.getInstance().ajouter(b, new SymboleVar("entier"), 0,0);
+        Tds.getInstance().ajouter(c, new SymboleVar("booleen"), 0,0);
+        Tds.getInstance().ajouter(d, new SymboleVar("booleen"), 0,0);
     }
 
     /**
