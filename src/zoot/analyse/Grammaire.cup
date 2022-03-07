@@ -62,14 +62,15 @@ terminal String    CSTENTIERE, CBOOL, IDF, ENTIER, BOOLEEN;
 
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST;
+non terminal ArbreAbstrait PROG, LINST, LFONC;
 non terminal Void LDEC;
 non terminal Instruction INST;
 non terminal Expression EXP;
 non terminal String TYPE;
 non terminal String[] DECL;
+non terminal BlocDeFonction FONC;
 
-non terminal Void LFONC, FONC, RET;
+non terminal Void RET;
 
 /* ----------------------------Grammar Section-------------------- */
  
@@ -82,10 +83,29 @@ PROG        ::= VARIABLES  LDEC  FONCTIONS  LFONC  DEBUT  LINST:li  FIN
                 ;
 
 LFONC       ::= LFONC:lf  FONC:f
+                {:
+                    ((Programme)lf).addBlocDeFonction(f) ;
+                    RESULT = lf ;
+                :}
                 |
-                FONC:f ;
+                FONC:f
+                {:
+                    Programme b = new Programme(fleft + 1, fright+1) ;
+                    b.addBlocDeFonction(f) ;
+                    RESULT = b ;
+                :}
+                ;
 
-FONC        ::= TYPE  IDF  PRNT_G PRNT_D  DEBUT  LINST  RET  FIN ;
+FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINST:li  RET  FIN
+                {:
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t);
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    BlocDeFonction bl = new BlocDeFonction(tleft + 1, tright);
+                    bl.programme = li.getProgramme() ;
+                    RESULT = bl ;
+                :}
+                ;
 
 RET         ::=  RETOURNE  EXP  POINTVIRGULE ;
 
@@ -105,14 +125,14 @@ LINST       ::= LINST:li  INST:i
 
 LDEC        ::= LDEC:ld DECL:d
                 {:
-                    Entree e = new Entree(d[0]);
+                    EntreeVar e = new EntreeVar(d[0]);
                     SymboleVar s = new SymboleVar(d[1]);
                     Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
                 |
                 DECL:d
                 {:
-                    Entree e = new Entree(d[0]);
+                    EntreeVar e = new EntreeVar(d[0]);
                     SymboleVar s = new SymboleVar(d[1]);
                     Tds.getInstance().ajouter(e, s, dleft + 1, dright);
                 :}
@@ -125,7 +145,7 @@ INST        ::= ECRIRE EXP:e POINTVIRGULE
                 |
                 IDF:id EGAL EXP:exp POINTVIRGULE
                 {:
-                    Entree e = new Entree(id);
+                    EntreeVar e = new EntreeVar(id);
                     Idf idf = new Idf(e, idleft+1, idright+1);
                     RESULT = new Affectation(idf, exp, expleft+1, expright+1);
                 :}
@@ -138,7 +158,7 @@ EXP         ::= CSTENTIERE:c
                 |
                 IDF:i
                 {:
-                    Entree e = new Entree(i);
+                    EntreeVar e = new EntreeVar(i);
                     RESULT = new Idf(e, ileft + 1, iright+1) ;
                 :}
                 |

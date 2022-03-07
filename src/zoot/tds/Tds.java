@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 1.5.2
+ * @version 1.6.0
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -17,7 +17,7 @@ public class Tds {
     /**
      * Associe les noms des variables à leur type
      */
-    private final HashMap<Entree, SymboleVar> dict;
+    private final HashMap<Entree, Symbole> dict;
     /**
      * Le deplacement courant dans la pile locale
      */
@@ -28,7 +28,7 @@ public class Tds {
     private static Tds instance = null;
 
     private Tds() {
-        dict = new HashMap<>();
+        dict = new HashMap<Entree, Symbole>();
     }
 
     /**
@@ -48,7 +48,7 @@ public class Tds {
      * @param e l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(Entree e, SymboleVar s, int noLigne, int noColonne) throws DoubleDeclarationException {
+    public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
         if(dict.get(e) != null){
             throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
         } else {
@@ -67,7 +67,7 @@ public class Tds {
         if (dict.get(e)==null){
             throw new VariableNonDefinieException(noLigne, noColonne, e.getNom());
         }
-        return dict.get(e);
+        return (SymboleVar) dict.get(e);
     }
 
     /**

@@ -11,12 +11,12 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.5.2
+ * @version 1.6.0
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
 
-    protected ArrayList<Instruction> programme ;
+    public ArrayList<Instruction> programme ;
     protected int taillePile = 0;
 
     public BlocDInstructions(int n, int m) {
@@ -88,4 +88,7 @@ public class BlocDInstructions extends ArbreAbstrait {
         return "BI\n" + sb + "BI"  ;
     }
 
+    public ArrayList<Instruction> getProgramme() {
+        return programme;
+    }
 }
