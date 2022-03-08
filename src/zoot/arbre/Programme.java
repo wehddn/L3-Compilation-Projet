@@ -4,7 +4,7 @@ package zoot.arbre;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.6.0
+ * @version 1.7.0
  * @since 1.4.2
  * created on 19/02/2022
  */
@@ -39,16 +39,15 @@ public class Programme extends BlocDInstructions{
         // Ecrit la fin du programme mips (retour)
         sb.append("end :\n" +
                 "\tli $v0, 10\n" +
-                "\tsyscall");
+                "\tsyscall\n\n");
+
+        sb.append(super.fonctionsToMips());
+
         return sb.toString();
     }
 
     @Override
     public String toString() {
         return "Programme :\nTaille pile : " + taillePile + "\n" + super.toString();
-    }
-
-    public void addBlocDeFonction(BlocDeFonction b){
-        BlocDeFonction.bl.add(b);
     }
 }

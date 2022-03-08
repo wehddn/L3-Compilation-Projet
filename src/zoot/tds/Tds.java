@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 1.6.0
+ * @version 1.7.0
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -63,11 +63,11 @@ public class Tds {
      * @param e l'entrée
      * @return le symbole associé à l'entrée
      */
-    public SymboleVar identifier(Entree e, int noLigne, int noColonne) throws VariableNonDefinieException {
+    public Symbole identifier(Entree e, int noLigne, int noColonne) throws VariableNonDefinieException {
         if (dict.get(e)==null){
             throw new VariableNonDefinieException(noLigne, noColonne, e.getNom());
         }
-        return (SymboleVar) dict.get(e);
+        return dict.get(e);
     }
 
     /**

@@ -62,52 +62,64 @@ terminal String    CSTENTIERE, CBOOL, IDF, ENTIER, BOOLEEN;
 
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, LFONC;
+non terminal ArbreAbstrait PROG, LINST, LINSTF;
 non terminal Void LDEC;
 non terminal Instruction INST;
 non terminal Expression EXP;
 non terminal String TYPE;
 non terminal String[] DECL;
 non terminal BlocDeFonction FONC;
-
-non terminal Void RET;
+non terminal Retourne RET;
+non terminal ArrayList<BlocDeFonction> LFONC;
 
 /* ----------------------------Grammar Section-------------------- */
  
 start with PROG ;
 
-PROG        ::= VARIABLES  LDEC  FONCTIONS  LFONC  DEBUT  LINST:li  FIN
+PROG        ::= VARIABLES  LDEC  FONCTIONS  LFONC:lf  DEBUT  LINST:li  FIN
                 {:
+                    ((Programme)li).addFonc(lf) ;
                     RESULT = li ;
                 :}
                 ;
 
 LFONC       ::= LFONC:lf  FONC:f
                 {:
-                    ((Programme)lf).addBlocDeFonction(f) ;
+                    lf.add(f);
                     RESULT = lf ;
                 :}
                 |
                 FONC:f
                 {:
-                    Programme b = new Programme(fleft + 1, fright+1) ;
-                    b.addBlocDeFonction(f) ;
-                    RESULT = b ;
+                    ArrayList<BlocDeFonction> bl = new ArrayList<>();
+                    bl.add(f);
+                    RESULT = bl ;
                 :}
                 ;
 
-FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINST:li  RET  FIN
+FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINSTF:li  FIN
                 {:
                     EntreeFct e = new EntreeFct(id);
                     SymboleFct s = new SymboleFct(t);
                     Tds.getInstance().ajouter(e, s, tleft + 1, tright);
-                    BlocDeFonction bl = new BlocDeFonction(tleft + 1, tright);
+                    BlocDeFonction bl = new BlocDeFonction(e, tleft + 1, tright);
                     bl.programme = li.getProgramme() ;
                     RESULT = bl ;
                 :}
                 ;
 
-RET         ::=  RETOURNE  EXP  POINTVIRGULE ;
+LINSTF      ::= LINST:li RET:r
+                {:
+                    li.getProgramme().add(r) ;
+                    RESULT = li ;
+                :}
+                ;
+
+RET         ::=  RETOURNE  EXP:e  POINTVIRGULE
+                {:
+                    RESULT = new Retourne(e, eleft + 1, eright);
+                :}
+                ;
 
 LINST       ::= LINST:li  INST:i
                 {:
@@ -165,6 +177,12 @@ EXP         ::= CSTENTIERE:c
                 CBOOL:c
                 {:
                     RESULT = new ConstanteBooleene(c, cleft + 1, cright+1) ;
+                :}
+                |
+                IDF:i PRNT_G PRNT_D
+                {:
+                    EntreeFct e = new EntreeFct(i);
+                    RESULT = new Appel(e, ileft + 1, iright+1) ;
                 :}
                 ;
 

@@ -11,17 +11,19 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.6.0
+ * @version 1.7.0
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
 
     public ArrayList<Instruction> programme ;
+    public ArrayList<BlocDeFonction> fonctions ;
     protected int taillePile = 0;
 
     public BlocDInstructions(int n, int m) {
         super(n, m) ;
         programme = new ArrayList<>() ;
+        fonctions = new ArrayList<>() ;
     }
 
     /**
@@ -32,11 +34,19 @@ public class BlocDInstructions extends ArbreAbstrait {
         programme.add(i) ;
     }
 
+    public void addFonc(ArrayList<BlocDeFonction> b) {
+        fonctions = b ;
+    }
+
     /**
      * @see ArbreAbstrait
      */
     @Override
     public void verifier() {
+        for (BlocDeFonction b : fonctions){
+            b.verifier();
+        }
+
         StringBuilder sb = new StringBuilder();
         boolean exception = false;
         for (Instruction i : programme) {
@@ -68,6 +78,16 @@ public class BlocDInstructions extends ArbreAbstrait {
                 sb.append("\n");
         }
 
+        return sb.toString();
+    }
+
+    public String fonctionsToMips() {
+        StringBuilder sb = new StringBuilder() ;
+        for (BlocDeFonction b : fonctions){
+            sb.append(b.entree + " :\n");
+            sb.append(b.toMIPS());
+            sb.append("\n\n");
+        }
         return sb.toString();
     }
 
