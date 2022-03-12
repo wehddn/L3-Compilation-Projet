@@ -4,7 +4,7 @@ import zoot.arbre.expressions.Expression;
 
 /**
  * Instruction pour écrire une expression
- * @version 1.5.0
+ * @version 1.7.1
  */
 public class Ecrire extends Instruction {
 
@@ -35,6 +35,9 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('\t').append(exp.toMIPS().replaceAll("[\\n]", "\\n\\t"));
+
         String codeEcriture;
         // quitte le programme en théorie ce cas ne devrait pas arriver
         switch (exp.getType()) {
@@ -42,14 +45,21 @@ public class Ecrire extends Instruction {
                 codeEcriture = "1";
                 break;
             case BOOLEEN:
+                sb.append("\n#sauvegarde return adress\n" +
+                        "\tsw $ra, -4($sp)\n" +
+                        "\tsub $sp, $sp, 4\n" +
+                        "\tjal traductionbool\n" +
+                        "#restauration return adress\n" +
+                        "\tlw $ra, 0($sp)\n" +
+                        "\taddi $sp, $sp, 4");
                 codeEcriture = "4";
                 break;
             default:
                 codeEcriture = "10";
                 break;
         }
-        return "\t" + exp.toMIPS().replaceAll("[\\n]", "\\n\\t") +
-                "\n# Ecriture\n" +
+
+        return sb + "\n# Ecriture\n" +
                 "\tmove $a0, $v0\n" +
                 "\tli $v0, "+ codeEcriture +
                 "\n\tsyscall\n" +

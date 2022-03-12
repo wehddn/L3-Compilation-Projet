@@ -6,7 +6,7 @@ import zoot.tds.Type;
  * Représente une constante booléene
  *
  * @author Elhadji Moussa FAYE
- * @version 1.5.0
+ * @version 1.7.1
  * @since 1.0.0
  * created on 09/02/2022
  */
@@ -21,7 +21,10 @@ public class ConstanteBooleene extends Constante{
      */
     @Override
     public String toMIPS() {
-        return "la $v0, " + this.cste;
+        String valeur = "0";
+        if (cste.equals("vrai"))
+            valeur = "1";
+        return "li $v0, " + valeur;
     }
 
     @Override
