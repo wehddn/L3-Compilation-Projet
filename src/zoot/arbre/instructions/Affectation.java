@@ -12,7 +12,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 1.5.2
+ * @version 1.8.0
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -35,8 +35,8 @@ public class Affectation extends Instruction{
         exp.verifier();
         Type idfType = idf.getType();
         Type expType = exp.getType();
-        if (idf.getType() != exp.getType()){
-            throw new TypeNonConcordantException(noLigne, noColonne,  idfType.toString() + " <- " + expType.toString());
+        if (!idfType.equals(expType)){
+            throw new TypeNonConcordantException(noLigne, noColonne,  idfType + " <- " + expType);
         }
     }
 

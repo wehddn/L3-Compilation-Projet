@@ -1,17 +1,32 @@
 package zoot.arbre;
 
+import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.tds.Tds;
+
+import java.util.ArrayList;
+
 /**
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.7.1
+ * @version 1.8.0
  * @since 1.4.2
  * created on 19/02/2022
  */
-public class Programme extends BlocDInstructions{
+public class Programme extends ArbreAbstrait{
+    private BlocDeFonctions fonctions = null ;
+    private BlocDInstructions instructions = null;
+    protected int taillePile = 0;
 
     public Programme(int n, int m) {
         super(n, m);
+    }
+
+    @Override
+    public void verifier() throws AnalyseSemantiqueException {
+        fonctions.verifier();
+        instructions.verifier();
+        taillePile = Tds.getInstance().getTaillePile();
     }
 
     @Override
@@ -34,7 +49,7 @@ public class Programme extends BlocDInstructions{
         // L'instruction qui réserve la place dans la pile pour les variables
         sb.append("\n\tadd $sp, $sp, ").append(-taillePile).append("\n");
 
-        sb.append(super.toMIPS()).append("\n");
+        sb.append(instructions.toMIPS()).append("\n");
 
         // Ecrit la fin du programme mips (retour et la fonction de traduction bool)
         sb.append("end :\n" +
@@ -49,7 +64,7 @@ public class Programme extends BlocDInstructions{
                 "\tla $v0, faux\n" +
                 "fintraductionbool :\n" +
                 "\tjr $ra\n");
-        sb.append(super.fonctionsToMips());
+        sb.append(fonctions.toMIPS());
 
         return sb.toString();
     }
@@ -57,5 +72,13 @@ public class Programme extends BlocDInstructions{
     @Override
     public String toString() {
         return "Programme :\nTaille pile : " + taillePile + "\n" + super.toString();
+    }
+
+    public void setBlocDeFonctions(BlocDeFonctions b) {
+        fonctions = b;
+    }
+
+    public void setBlocDInstructions(BlocDInstructions b) {
+        instructions = b;
     }
 }

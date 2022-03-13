@@ -1,16 +1,14 @@
 package zoot.arbre.instructions;
 
-import zoot.arbre.BlocDeFonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
-
-import java.util.ArrayList;
+import zoot.tds.Type;
 
 /**
  * Instruction pour retourner une expression
  *
  * @author Nicolas GRAFF
- * @version 1.7.0
+ * @version 1.8.0
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -33,6 +31,9 @@ public class Retourne extends Instruction{
         return "\t" + exp.toMIPS() + "\n" + "\tjr $ra";
     }
 
+    public Type getType() {
+        return exp.getType();
+    }
 
     public String toString() {
         return "retourne : "  + exp;

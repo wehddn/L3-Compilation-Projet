@@ -17,7 +17,7 @@ parser code {:
     public void report_error(String message, Object info) {
 
         HashMap<Integer, String> lesTerminaux = new HashMap<>() ;
-    
+
         lesTerminaux.put(new Integer(CodesLexicaux.DEBUT), "debut") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         lesTerminaux.put(new Integer(CodesLexicaux.POINTVIRGULE), ";") ;
@@ -27,12 +27,12 @@ parser code {:
         if (info instanceof java_cup.runtime.Symbol) {
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
 
-            if (s.left >= 0) {                
+            if (s.left >= 0) {
                 m.append("\tligne : " + (s.left + 1)) ;
-                if (s.right >= 0)                    
+                if (s.right >= 0)
                     m.append(" colonne : " + (s.right+1)) ;
             }
-            
+
             if (s.value != null) {
                 lesTerminaux.put(CodesLexicaux.CSTENTIERE, "" + s.value) ;
             }
@@ -52,9 +52,9 @@ parser code {:
         report_error(message, info);
     }
 :};
-   
+
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
-   
+
 /* Terminals (tokens returned by the scanner).  */
 
 terminal Symbol    VARIABLES, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, FONCTIONS, RETOURNE, PRNT_G, PRNT_D;
@@ -62,91 +62,77 @@ terminal String    CSTENTIERE, CBOOL, IDF, ENTIER, BOOLEEN;
 
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, LINSTF;
-non terminal Void LDEC;
+non terminal Programme PROG;
 non terminal Instruction INST;
 non terminal Expression EXP;
 non terminal String TYPE;
-non terminal String[] DECL;
-non terminal BlocDeFonction FONC;
+non terminal Fonction FONC;
 non terminal Retourne RET;
-non terminal ArrayList<BlocDeFonction> LFONC;
+non terminal BlocDeFonctions LFONC;
+non terminal BlocDInstructions LINST;
+non terminal LDEC, DECL;
 
 /* ----------------------------Grammar Section-------------------- */
- 
+
 start with PROG ;
 
-PROG        ::= VARIABLES  LDEC  FONCTIONS  LFONC:lf  DEBUT  LINST:li  FIN
+PROG        ::= VARIABLES:v  LDEC:ld  FONCTIONS  LFONC:lf DEBUT  LINST:li  FIN
                 {:
-                    ((Programme)li).addFonc(lf) ;
-                    RESULT = li ;
+                    Programme prog = new Programme(vleft + 1, vright + 1);
+                    prog.setBlocDeFonctions(lf);
+                    prog.setBlocDInstructions(li);
+                    RESULT = prog ;
                 :}
+                ;
+
+LDEC        ::= | LDEC DECL
                 ;
 
 LFONC       ::= LFONC:lf  FONC:f
                 {:
-                    lf.add(f);
-                    RESULT = lf ;
+                    lf.ajouter(f);
+                    RESULT = lf;
                 :}
                 |
                 FONC:f
                 {:
-                    ArrayList<BlocDeFonction> bl = new ArrayList<>();
-                    bl.add(f);
-                    RESULT = bl ;
+                    BlocDeFonctions lf = new BlocDeFonctions(fleft + 1, fright + 1);
+                    lf.ajouter(f);
+                    RESULT = lf;
                 :}
                 ;
 
-FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINSTF:li  FIN
+LINST       ::= LINST:li INST:i
                 {:
-                    EntreeFct e = new EntreeFct(id);
-                    SymboleFct s = new SymboleFct(t);
-                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
-                    BlocDeFonction bl = new BlocDeFonction(e, tleft + 1, tright);
-                    bl.programme = li.getProgramme() ;
-                    RESULT = bl ;
-                :}
-                ;
-
-LINSTF      ::= LINST:li RET:r
-                {:
-                    li.getProgramme().add(r) ;
-                    RESULT = li ;
-                :}
-                ;
-
-RET         ::=  RETOURNE  EXP:e  POINTVIRGULE
-                {:
-                    RESULT = new Retourne(e, eleft + 1, eright);
-                :}
-                ;
-
-LINST       ::= LINST:li  INST:i
-                {:
-                    ((Programme)li).ajouter(i) ;
-                    RESULT = li ;
+                    li.ajouter(i);
+                    RESULT = li;
                 :}
                 |
                 INST:i
                 {:
-                    Programme b = new Programme(ileft + 1, iright+1) ;
-                    b.ajouter(i) ;
-                    RESULT = b ;
+                    BlocDInstructions li = new BlocDInstructions(ileft + 1, iright + 1);
+                    li.ajouter(i);
+                    RESULT = li;
                 :}
                 ;
 
-LDEC        ::= LDEC:ld DECL:d
+DECL        ::= TYPE:t IDF:idf POINTVIRGULE
                 {:
-                    EntreeVar e = new EntreeVar(d[0]);
-                    SymboleVar s = new SymboleVar(d[1]);
-                    Tds.getInstance().ajouter(e, s, dleft + 1, dright);
+                    EntreeVar e = new EntreeVar(idf);
+                    SymboleVar s = new SymboleVar(t);
+                    Tds.getInstance().augmenterTaillePile();
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
                 :}
-                |
-                DECL:d
+                ;
+
+FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINST:li  RET:r  FIN
                 {:
-                    EntreeVar e = new EntreeVar(d[0]);
-                    SymboleVar s = new SymboleVar(d[1]);
-                    Tds.getInstance().ajouter(e, s, dleft + 1, dright);
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t);
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    Fonction f = new Fonction(e, r, tleft + 1, tright);
+                    f.setBlocDInstructions(li);
+                    RESULT = f;
                 :}
                 ;
 
@@ -161,8 +147,19 @@ INST        ::= ECRIRE EXP:e POINTVIRGULE
                     Idf idf = new Idf(e, idleft+1, idright+1);
                     RESULT = new Affectation(idf, exp, expleft+1, expright+1);
                 :}
+                |
+                RET:r
+                {:
+                    RESULT = r;
+                :}
                 ;
-    
+
+RET         ::=  RETOURNE  EXP:e  POINTVIRGULE
+                {:
+                    RESULT = new Retourne(e, eleft + 1, eright);
+                :}
+                ;
+
 EXP         ::= CSTENTIERE:c
                 {:
                     RESULT = new ConstanteEntiere(c, cleft + 1, cright+1) ;
@@ -194,12 +191,5 @@ TYPE        ::= ENTIER:e
                 BOOLEEN:b
                 {:
                     RESULT = b;
-                :}
-                ;
-
-DECL        ::= TYPE:t IDF:idf POINTVIRGULE
-                {:
-                    String[] array = new String[] {idf, t};
-                    RESULT = array;
                 :}
                 ;

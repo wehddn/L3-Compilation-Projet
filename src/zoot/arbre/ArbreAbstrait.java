@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Represente un arbre abstrait (ou un sous arbre)
- * @version 1.7.0
+ * @version 1.8.0
  */
 public abstract class ArbreAbstrait {
     
@@ -42,11 +42,4 @@ public abstract class ArbreAbstrait {
      * @return le code mips  de l'arbre abstrait
      */
     public abstract String toMIPS();
-
-    public ArrayList<Instruction> getProgramme() {
-        return null;
-    }
-
-    public void setBlock(BlocDeFonction block) {
-    }
 }

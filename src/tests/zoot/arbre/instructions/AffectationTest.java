@@ -7,10 +7,7 @@ import zoot.arbre.expressions.ConstanteBooleene;
 import zoot.arbre.expressions.ConstanteEntiere;
 import zoot.arbre.expressions.Idf;
 import zoot.exceptions.AnalyseSemantiqueException;
-import zoot.tds.Entree;
-import zoot.tds.Symbole;
-import zoot.tds.SymboleVar;
-import zoot.tds.Tds;
+import zoot.tds.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,10 +15,10 @@ class AffectationTest {
 
     @BeforeEach
     void setUp() {
-        Entree a = new Entree("a");
-        Entree b = new Entree("b");
-        Entree c = new Entree("c");
-        Entree d = new Entree("d");
+        EntreeVar a = new EntreeVar("a");
+        EntreeVar b = new EntreeVar("b");
+        EntreeVar c = new EntreeVar("c");
+        EntreeVar d = new EntreeVar("d");
         Tds.getInstance().ajouter(a, new SymboleVar("entier"), 0,0);
         Tds.getInstance().ajouter(b, new SymboleVar("entier"), 0,0);
         Tds.getInstance().ajouter(c, new SymboleVar("booleen"), 0,0);
@@ -33,7 +30,7 @@ class AffectationTest {
      */
     @Test
     void toMIPS1() {
-        Entree a = new Entree("a");
+        EntreeVar a = new EntreeVar("a");
         Idf idfA = new Idf(a, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("15", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);
@@ -53,7 +50,7 @@ class AffectationTest {
      */
     @Test
     void toMIPS2() {
-        Entree b = new Entree("b");
+        EntreeVar b = new EntreeVar("b");
         Idf idfA = new Idf(b, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("45", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);
@@ -72,7 +69,7 @@ class AffectationTest {
      */
     @Test
     void toMIPS3() {
-        Entree b = new Entree("b");
+        EntreeVar b = new EntreeVar("b");
         Idf idfB = new Idf(b, 0, 0);
         Idf idfA  = new Idf(b, 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -91,7 +88,7 @@ class AffectationTest {
      */
     @Test
     void verifier1() {
-        Entree a = new Entree("a");
+        EntreeVar a = new EntreeVar("a");
         Idf idfA = new Idf(a, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("15", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);
@@ -107,7 +104,7 @@ class AffectationTest {
      */
     @Test
     void verifier2() {
-        Entree b = new Entree("b");
+        EntreeVar b = new EntreeVar("b");
         Idf idfA = new Idf(b, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("45", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);
@@ -123,7 +120,7 @@ class AffectationTest {
      */
     @Test
     void verifier3() {
-        Entree z = new Entree("z");
+        EntreeVar z = new EntreeVar("z");
         Idf idfA = new Idf(z, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("45", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);
@@ -140,8 +137,8 @@ class AffectationTest {
      */
     @Test
     void verifier4() {
-        Entree a = new Entree("a");
-        Entree b = new Entree("b");
+        EntreeVar a = new EntreeVar("a");
+        EntreeVar b = new EntreeVar("b");
         Idf idfB = new Idf(b, 0, 0);
         Idf idfA  = new Idf(a, 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -157,7 +154,7 @@ class AffectationTest {
      */
     @Test
     void verifier5() {
-        Entree b = new Entree("b");
+        EntreeVar b = new EntreeVar("b");
         Idf idfB = new Idf(b, 0, 0);
         Idf idfA  = new Idf(b, 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -173,7 +170,7 @@ class AffectationTest {
      */
     @Test
     void verifier6() {
-        Entree b = new Entree("b");
+        EntreeVar b = new EntreeVar("b");
         Idf idfB = new Idf(b, 0, 0);
         ConstanteBooleene idfA  = new ConstanteBooleene("vrai", 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -189,7 +186,7 @@ class AffectationTest {
      */
     @Test
     void verifier7() {
-        Entree c = new Entree("c");
+        EntreeVar c = new EntreeVar("c");
         Idf idfB = new Idf(c, 0, 0);
         ConstanteBooleene idfA  = new ConstanteBooleene("faux", 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -205,8 +202,8 @@ class AffectationTest {
      */
     @Test
     void verifier8() {
-        Entree c = new Entree("c");
-        Entree d = new Entree("d");
+        EntreeVar c = new EntreeVar("c");
+        EntreeVar d = new EntreeVar("d");
         Idf idfB = new Idf(c, 0, 0);
         Idf idfA  = new Idf(d, 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -222,7 +219,7 @@ class AffectationTest {
      */
     @Test
     void verifier9() {
-        Entree c = new Entree("c");
+        EntreeVar c = new EntreeVar("c");
         Idf idfB = new Idf(c, 0, 0);
         Idf idfA  = new Idf(c, 0, 0);
         Affectation aff = new Affectation(idfB, idfA, 0, 0);
@@ -238,7 +235,7 @@ class AffectationTest {
      */
     @Test
     void verifier10() {
-        Entree c = new Entree("c");
+        EntreeVar c = new EntreeVar("c");
         Idf idfA = new Idf(c, 0, 0);
         ConstanteEntiere ce = new ConstanteEntiere("15", 0, 0);
         Affectation aff = new Affectation(idfA, ce, 0, 0);

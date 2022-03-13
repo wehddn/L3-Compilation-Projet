@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 1.7.0
+ * @version 1.8.0
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -21,14 +21,14 @@ public class Tds {
     /**
      * Le deplacement courant dans la pile locale
      */
-    private int deplacementCourant = 0;
+    private int taillePile = 0;
     /**
      * L'instance (Singleton)
      */
     private static Tds instance = null;
 
     private Tds() {
-        dict = new HashMap<Entree, Symbole>();
+        dict = new HashMap<>();
     }
 
     /**
@@ -53,7 +53,6 @@ public class Tds {
             throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
         } else {
             dict.put(e, s);
-            deplacementCourant += 4;
         }
     }
 
@@ -74,8 +73,12 @@ public class Tds {
      * Retourne la taille de la zone des variables (pile locale à l'application)
      * @return la taille de la zone des variables
      */
-    public int getTailleZoneVariables() {
-        return deplacementCourant;
+    public int getTaillePile() {
+        return taillePile;
+    }
+
+    public void augmenterTaillePile() {
+        taillePile += 4;
     }
 
     @Override
@@ -95,7 +98,7 @@ public class Tds {
      * Réinitialise la TDS pour une nouvelle utilisation
      */
     public void reset() {
-        deplacementCourant = 0;
+        taillePile = 0;
         dict.clear();
     }
 }

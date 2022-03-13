@@ -11,19 +11,16 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 1.7.0
+ * @version 1.8.0
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
 
-    public ArrayList<Instruction> programme ;
-    public ArrayList<BlocDeFonction> fonctions ;
-    protected int taillePile = 0;
+    private ArrayList<Instruction> instructions;
 
     public BlocDInstructions(int n, int m) {
         super(n, m) ;
-        programme = new ArrayList<>() ;
-        fonctions = new ArrayList<>() ;
+        instructions = new ArrayList<>() ;
     }
 
     /**
@@ -31,11 +28,7 @@ public class BlocDInstructions extends ArbreAbstrait {
      * @param i L'instruction à ajouter
      */
     public void ajouter(Instruction i) {
-        programme.add(i) ;
-    }
-
-    public void addFonc(ArrayList<BlocDeFonction> b) {
-        fonctions = b ;
+        instructions.add(i) ;
     }
 
     /**
@@ -43,13 +36,9 @@ public class BlocDInstructions extends ArbreAbstrait {
      */
     @Override
     public void verifier() {
-        for (BlocDeFonction b : fonctions){
-            b.verifier();
-        }
-
         StringBuilder sb = new StringBuilder();
         boolean exception = false;
-        for (Instruction i : programme) {
+        for (Instruction i : instructions) {
             try {
                 i.verifier();
             } catch (AnalyseSemantiqueException as) {
@@ -57,7 +46,6 @@ public class BlocDInstructions extends ArbreAbstrait {
                 exception = true;
             }
         }
-        taillePile = Tds.getInstance().getTailleZoneVariables();
         if (exception)
             throw new AnalyseSemantiqueException(sb.toString());
     }
@@ -71,23 +59,13 @@ public class BlocDInstructions extends ArbreAbstrait {
         StringBuilder sb = new StringBuilder() ;
         // Le code mips des differentes instructions
         int ind = 0;
-        for (Instruction i : programme) {
+        for (Instruction i : instructions) {
             ind++;
             sb.append(i.toMIPS());
-            if (ind < programme.size())
+            if (ind < instructions.size())
                 sb.append("\n");
         }
 
-        return sb.toString();
-    }
-
-    public String fonctionsToMips() {
-        StringBuilder sb = new StringBuilder() ;
-        for (BlocDeFonction b : fonctions){
-            sb.append(b.entree + " :\n");
-            sb.append(b.toMIPS());
-            sb.append("\n\n");
-        }
         return sb.toString();
     }
 
@@ -99,16 +77,12 @@ public class BlocDInstructions extends ArbreAbstrait {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int ind = 0;
-        for (Instruction i : programme) {
+        for (Instruction i : instructions) {
             ind++;
             sb.append(i);
-            if (ind < programme.size())
+            if (ind < instructions.size())
                 sb.append("\n");
         }
         return "BI\n" + sb + "BI"  ;
-    }
-
-    public ArrayList<Instruction> getProgramme() {
-        return programme;
     }
 }
