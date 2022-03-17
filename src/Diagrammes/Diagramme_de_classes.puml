@@ -79,6 +79,7 @@ package arbre {
 		abstract class Constante extends Expression {
 			# String cste
 			# Constante(String texte, int n, int m)
+			+ void verifier()
 			+ String toString()
 		}
 
@@ -116,11 +117,17 @@ package arbre {
 		Idf --"1" Entree
 
 		class Fonction extends Expression {
-			+ Fonction(Entree e, int noLigne, int noColonne)
+			+ Fonction(Entree e, Retourne r, int n, int n)
 			+ void verifier()
 			+ String toMIPS()
+			+ void setBlocDInstructions(BlocDInstructions b)
+		}
+
+		class AppelFonction extends Expression {
+			+ Appel(Entree i, int int n, int m)
+			+ void verifier()
 			+ Type getType()
-			+ String getNom()
+			+ String getValeur()
 		}
 
 		Fonction --"1" Idf : identifiant
@@ -145,7 +152,7 @@ package arbre {
 		Ecrire --"1" Expression
 
 		abstract class Instruction extends ArbreAbstrait{
-  	 	# Instruction(int n, int m)
+  	 		# Instruction(int n, int m)
 		}
 
 
@@ -153,17 +160,16 @@ package arbre {
 	}
 
 	abstract class ArbreAbstrait {
-   # int noLigne
-   # int noColonne
-   # ArbreAbstrait(int n, int m)
-	 + int getNoLigne()
-	 + int getNoColonne()
-   + abstract void verifier()
-   + abstract String toMIPS()
+   		# int noLigne
+   		# int noColonne
+   		# ArbreAbstrait(int n, int m)
+	 	+ int getNoLigne()
+	 	+ int getNoColonne()
+   		+ abstract void verifier()
+   		+ abstract String toMIPS()
 	}
 
 	class BlocDInstructions extends ArbreAbstrait {
-		# int taillePile
 		+ BlocDInstructions(int n, int m)
 		+ void ajouter(Instruction i)
 		+ void verifier()
@@ -174,8 +180,8 @@ package arbre {
 
 	class Programme extends BlocDInstructions {
 		+ Programme(int n, int m)
-		+ String toMIPS()
 		+ void verifier()
+		+ String toMIPS()
 		+ String toString()
 		+ void addBlocDeFonction(BlocDeFonction b)
 	}
@@ -184,8 +190,9 @@ package arbre {
 
 	class BlocDeFonction  extends BlocDInstructions {
 		+ BlocDeFonction(int n, int m)
+		+ void verifier()		
 		+ String toMIPS()
-		+ String toString()
+		+ void ajouter(Fonction F)
 	}
 }
 

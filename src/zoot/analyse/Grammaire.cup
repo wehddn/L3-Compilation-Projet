@@ -180,7 +180,7 @@ EXP         ::= CSTENTIERE:c
                 IDF:i PRNT_G PARAM PRNT_D
                 {:
                     EntreeFct e = new EntreeFct("__" + i + "__");
-                    RESULT = new Appel(e, ileft + 1, iright+1) ;
+                    RESULT = new AppelFonction(e, ileft + 1, iright+1) ;
                 :}
                 ;
 

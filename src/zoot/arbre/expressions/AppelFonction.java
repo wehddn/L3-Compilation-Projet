@@ -12,12 +12,12 @@ import zoot.tds.*;
  * created on 08/03/2022
  */
 
-public class Appel extends Expression{
+public class AppelFonction extends Expression{
 
     private final Entree entree;
     private SymboleFct symbole = null;
 
-    public Appel(Entree i, int n, int m) {
+    public AppelFonction(Entree i, int n, int m) {
         super(n, m);
         this.entree = i;
     }
