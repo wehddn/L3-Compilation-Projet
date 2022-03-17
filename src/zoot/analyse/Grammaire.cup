@@ -69,8 +69,8 @@ non terminal String TYPE;
 non terminal Fonction FONC;
 non terminal Retourne RET;
 non terminal BlocDeFonctions LFONC;
-non terminal BlocDInstructions LINST;
-non terminal LDEC, DECL;
+non terminal BlocDInstructions LINST, LINSTF;
+non terminal LDEC, DECL, PARAM;
 
 /* ----------------------------Grammar Section-------------------- */
 
@@ -116,6 +116,10 @@ LINST       ::= LINST:li INST:i
                 :}
                 ;
 
+LINSTF      ::= LINST
+                |
+                ;
+
 DECL        ::= TYPE:t IDF:idf POINTVIRGULE
                 {:
                     EntreeVar e = new EntreeVar(idf);
@@ -125,9 +129,9 @@ DECL        ::= TYPE:t IDF:idf POINTVIRGULE
                 :}
                 ;
 
-FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINST:li  RET:r  FIN
+FONC        ::= TYPE:t  IDF:id  PRNT_G PARAM PRNT_D  DEBUT  LINSTF:li  RET:r  FIN
                 {:
-                    EntreeFct e = new EntreeFct(id);
+                    EntreeFct e = new EntreeFct("__" + id + "__");
                     SymboleFct s = new SymboleFct(t);
                     Tds.getInstance().ajouter(e, s, tleft + 1, tright);
                     Fonction f = new Fonction(e, r, tleft + 1, tright);
@@ -135,6 +139,8 @@ FONC        ::= TYPE:t  IDF:id  PRNT_G PRNT_D  DEBUT  LINST:li  RET:r  FIN
                     RESULT = f;
                 :}
                 ;
+
+PARAM       ::=;
 
 INST        ::= ECRIRE EXP:e POINTVIRGULE
                 {:
@@ -146,11 +152,6 @@ INST        ::= ECRIRE EXP:e POINTVIRGULE
                     EntreeVar e = new EntreeVar(id);
                     Idf idf = new Idf(e, idleft+1, idright+1);
                     RESULT = new Affectation(idf, exp, expleft+1, expright+1);
-                :}
-                |
-                RET:r
-                {:
-                    RESULT = r;
                 :}
                 ;
 
@@ -176,9 +177,9 @@ EXP         ::= CSTENTIERE:c
                     RESULT = new ConstanteBooleene(c, cleft + 1, cright+1) ;
                 :}
                 |
-                IDF:i PRNT_G PRNT_D
+                IDF:i PRNT_G PARAM PRNT_D
                 {:
-                    EntreeFct e = new EntreeFct(i);
+                    EntreeFct e = new EntreeFct("__" + i + "__");
                     RESULT = new Appel(e, ileft + 1, iright+1) ;
                 :}
                 ;
