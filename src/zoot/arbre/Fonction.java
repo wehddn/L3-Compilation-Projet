@@ -32,7 +32,7 @@ public class Fonction extends ArbreAbstrait{
         Type retourType = retour.getType();
         Type symboleType = symbole.getType();
         if (!retourType.equals(symboleType)){
-            throw new TypeNonConcordantException(retour.getNoLigne(), retour.getNoColonne(),  symboleType + " <- " + retourType);
+            throw new TypeNonConcordantException(retour.getNoLigne(), retour.getNoColonne(),  "fonction: " + symboleType + ", retourne: " + retourType);
         }
     }
 
