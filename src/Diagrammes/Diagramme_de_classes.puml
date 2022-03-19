@@ -46,19 +46,20 @@ package tds {
 	}
 
 	class EntreeFct extends Entree {
-		+ EntreeFct(String nom, String ...typeParametre)
+		+ EntreeFct(String nom, String... typeParametre)
 		+ boolean equals(Object o)
 		+ int hashCode()
 	}
 	EntreeFct --"*" String : typesParametres
 
 	class Tds {
-		- int deplacementCourant
+		- int TaillePille
 		- Tds()
 		+ static Tds getInstance()
 		+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
 		+ Symbole identifier(Entree e, int noLigne, int noColonne)
-		+ int getTailleZoneVariables()
+		+ int getTaillePille()
+		+ int augmenterTaillePille()
 		+ String toString()
 		+ void reset()
 	}
@@ -100,7 +101,7 @@ package arbre {
 		abstract class Expression extends ArbreAbstrait{
 			# Expression(int n, int m)
 			+ abstract Type getType()
-			+ String getValeur()
+			+ abstract String getValeur()
 		}
 
 		class Idf extends Expression {
@@ -108,27 +109,36 @@ package arbre {
 			+ void verifier()
 			+ String toMIPS()
 			+ Type getType()
-			+ String getNom()
-			+ String toString()
 			+ String getValeur()
 			+ Symbole getSymbole()
+			+ String getNom()
+			+ String toString()
 		}
 		Idf --"1" Symbole
 		Idf --"1" Entree
 
-		class Fonction extends Expression {
-			+ Fonction(Entree e, Retourne r, int n, int n)
+		class Fonction extends ArbreAbstrait {
+			+ Fonction(EntreeFct e, Retourne r, int n, int n)
 			+ void verifier()
 			+ String toMIPS()
 			+ void setBlocDInstructions(BlocDInstructions b)
 		}
 
+		Fonction --"1" EntreeFct
+		Fonction --"1" SymboleFct
+		Fonction --"1" Retourne
+		Fonction --"1" BlocDeFonctions
+
 		class AppelFonction extends Expression {
-			+ Appel(Entree i, int int n, int m)
+			+ Appel(Entree i, int n, int m)
 			+ void verifier()
+			+ String toMIPS()
 			+ Type getType()
 			+ String getValeur()
 		}
+
+		AppelFonction --"1" Entree
+		AppelFonction --"1" SymboleFct
 
 		Fonction --"1" Idf : identifiant
 	}
@@ -140,6 +150,7 @@ package arbre {
 			+ String toMIPS()
 			+ String toString()
 		}
+
 		Affectation --"1" Idf
 		Affectation --"1" Expression
 
@@ -155,8 +166,15 @@ package arbre {
   	 		# Instruction(int n, int m)
 		}
 
+		class Retourne extends Instruction{
+			+ Retourne (Expression e, int n, int m)
+			+ void verifier()
+			+ String toMIPS()
+			+ Type getType()
+			+ String toString()
+		}
 
-
+		Retourne --"1" Expression
 	}
 
 	abstract class ArbreAbstrait {
@@ -178,22 +196,28 @@ package arbre {
 	}
 	BlocDInstructions --"*" Instruction
 
-	class Programme extends BlocDInstructions {
+	class Programme extends ArbreAbstrait {
 		+ Programme(int n, int m)
 		+ void verifier()
 		+ String toMIPS()
 		+ String toString()
-		+ void addBlocDeFonction(BlocDeFonction b)
+		+ void setBlocDeFonctions(BlocDeFonctions b)
+		+ void setBlocDInstructions(BlocDInstructions b)
 	}
 
-	Programme --"*" BlocDeFonction : fonctions
+	Programme --"1" BlocDeFonctions : fonctions
+	Programme --"1" BlocDInstructions
 
-	class BlocDeFonction  extends BlocDInstructions {
-		+ BlocDeFonction(int n, int m)
+	class BlocDeFonctions extends ArbreAbstrait {
+		# int TaillePille
+		+ BlocDeFonctions(int n, int m)
 		+ void verifier()		
 		+ String toMIPS()
 		+ void ajouter(Fonction F)
 	}
+
+	BlocDeFonctions --"*" Fonction
+
 }
 
 package exceptions {
