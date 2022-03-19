@@ -65,8 +65,12 @@ package tds {
 		+ int augmenterTaillePille()
 		+ String toString()
 		+ void reset()
+		+ void entreeBloc()
+		+ void sortieBloc()
 	}
-	Tds --"1" Tds : static
+	Tds --"*" Tds : sousTds
+	Tds --"1" Tds : parent
+	Tds --"1" Tds : courant
 	Tds --"*" Symbole
 	Tds --"*" Entree
 
@@ -270,5 +274,11 @@ package exceptions {
 		entreeVar(EntreeVar e, String message)
 	}
 
+}
+
+package outils {
+	class CreateurEtiquette {
+		+ static String creer(String nomFonction)
+	}
 }
 @enduml
