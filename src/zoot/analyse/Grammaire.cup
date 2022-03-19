@@ -78,9 +78,11 @@ start with PROG ;
 
 PROG        ::= VARIABLES:v  LDEC:ld  FONCTIONS  LFONC:lf DEBUT  LINST:li  FIN
                 {:
+                    Tds.getInstance().entreeBloc();
                     Programme prog = new Programme(vleft + 1, vright + 1);
                     prog.setBlocDeFonctions(lf);
                     prog.setBlocDInstructions(li);
+                    Tds.getInstance().sortieBloc();
                     RESULT = prog ;
                 :}
                 ;
@@ -131,11 +133,13 @@ DECL        ::= TYPE:t IDF:idf POINTVIRGULE
 
 FONC        ::= TYPE:t  IDF:id  PRNT_G PARAM PRNT_D  DEBUT  LINSTF:li  RET:r  FIN
                 {:
+                    Tds.getInstance().entreeBloc();
                     EntreeFct e = new EntreeFct(id);
                     SymboleFct s = new SymboleFct(t, "__" + id + "__");
                     Tds.getInstance().ajouter(e, s, tleft + 1, tright);
                     Fonction f = new Fonction(e, r, tleft + 1, tright);
                     f.setBlocDInstructions(li);
+                    Tds.getInstance().sortieBloc();
                     RESULT = f;
                 :}
                 ;

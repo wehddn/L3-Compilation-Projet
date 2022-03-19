@@ -2,6 +2,7 @@ package zoot.tds;
 
 import zoot.exceptions.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,10 +25,21 @@ public class Tds {
     /**
      * L'instance (Singleton)
      */
-    private static Tds instance = null;
+    private static Tds courant = null;
 
-    private Tds() {
+    public ArrayList<Tds> sousTds;
+
+    public Tds parent;
+
+    private Tds(Tds tds) {
+
+        courant = this;
+        sousTds = new ArrayList<>();
+        parent = tds;
+        if (tds != null)
+            parent.sousTds.add(courant);
         dict = new HashMap<>();
+        System.out.println(parent + " " + this);
     }
 
     /**
@@ -36,9 +48,9 @@ public class Tds {
      * @return l'unique instance de la TDS (singleton)
      */
     public static Tds getInstance() {
-        if (instance == null)
-            instance = new Tds();
-        return instance;
+        if (courant == null)
+            courant = new Tds(null);
+        return courant;
     }
 
     /**
@@ -62,11 +74,18 @@ public class Tds {
      * @return le symbole associé à l'entrée
      */
     public Symbole identifier(Entree e, int noLigne, int noColonne) throws AnalyseSemantiqueException {
-        if (dict.get(e)==null){
-            DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
-            e.declencherException(d, e.getNom());
+        Symbole s = dict.get(e);
+        if (s==null){
+            if (parent != null) {
+                s = parent.identifier(e, noLigne, noColonne);
+            }
+            else
+            {
+                DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
+                e.declencherException(d, e.getNom());
+            }
         }
-        return dict.get(e);
+        return s;
     }
 
     /**
@@ -100,5 +119,13 @@ public class Tds {
     public void reset() {
         taillePile = 0;
         dict.clear();
+    }
+
+    public void entreeBloc(){
+        new Tds(courant);
+    }
+
+    public void sortieBloc(){
+        courant = parent;
     }
 }
