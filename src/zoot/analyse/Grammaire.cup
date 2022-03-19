@@ -131,8 +131,8 @@ DECL        ::= TYPE:t IDF:idf POINTVIRGULE
 
 FONC        ::= TYPE:t  IDF:id  PRNT_G PARAM PRNT_D  DEBUT  LINSTF:li  RET:r  FIN
                 {:
-                    EntreeFct e = new EntreeFct("__" + id + "__");
-                    SymboleFct s = new SymboleFct(t);
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t, "__" + id + "__");
                     Tds.getInstance().ajouter(e, s, tleft + 1, tright);
                     Fonction f = new Fonction(e, r, tleft + 1, tright);
                     f.setBlocDInstructions(li);
@@ -179,7 +179,7 @@ EXP         ::= CSTENTIERE:c
                 |
                 IDF:i PRNT_G PARAM PRNT_D
                 {:
-                    EntreeFct e = new EntreeFct("__" + i + "__");
+                    EntreeFct e = new EntreeFct(i);
                     RESULT = new AppelFonction(e, ileft + 1, iright+1) ;
                 :}
                 ;

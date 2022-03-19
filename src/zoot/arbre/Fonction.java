@@ -8,7 +8,7 @@ import zoot.tds.*;
  * Classe qui représente les différentes instructions d'une fonctions du programme
  *
  * @author Nicolas GRAFF
- * @version 1.9.0
+ * @version 2.0.0
  * @since 1.8.0
  * created on 07/03/2022
  */
@@ -40,7 +40,7 @@ public class Fonction extends ArbreAbstrait{
 
     public String toMIPS(){
         //        sb.append(symbole.getEtiquette()).append(" :\n");
-        return entree.getNom() + " :\n" +
+        return symbole.getEtiquette() + " :\n" +
                 instructions.toMIPS() + '\n' +
                 retour.toMIPS() + '\n';
     }

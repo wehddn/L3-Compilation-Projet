@@ -1,16 +1,18 @@
 package zoot.tds;
 
+import zoot.exceptions.DeclencheurDException;
+
 import java.util.Objects;
 
 /**
  * Représente une entrée dans la TDS (juste l'identification)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.5.4
+ * @version 2.0.0
  * @since 1.4.0
  * created on 19/02/2022
  */
-public class Entree {
+public abstract class Entree {
     protected final String nom;
 
     public Entree(String nom) {
@@ -52,4 +54,6 @@ public class Entree {
     public String toString() {
         return nom;
     }
+
+    public abstract void declencherException(DeclencheurDException d, String message);
 }

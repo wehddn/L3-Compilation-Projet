@@ -1,7 +1,6 @@
 package zoot.tds;
 
-import zoot.exceptions.DoubleDeclarationException;
-import zoot.exceptions.VariableNonDefinieException;
+import zoot.exceptions.*;
 
 import java.util.HashMap;
 
@@ -9,7 +8,7 @@ import java.util.HashMap;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 1.8.0
+ * @version 2.0.0
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -62,9 +61,10 @@ public class Tds {
      * @param e l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(Entree e, int noLigne, int noColonne) throws VariableNonDefinieException {
+    public Symbole identifier(Entree e, int noLigne, int noColonne) throws AnalyseSemantiqueException {
         if (dict.get(e)==null){
-            throw new VariableNonDefinieException(noLigne, noColonne, e.getNom());
+            DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
+            e.declencherException(d, e.getNom());
         }
         return dict.get(e);
     }
