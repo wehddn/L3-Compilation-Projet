@@ -39,16 +39,19 @@ package tds {
 		+ boolean equals(Object o)
 		+ int hashCode()
 		+ String toString()
+		+ abstract void declencherException(DeclencheurDException d, String message)
 	}
 
 	class EntreeVar extends Entree {
 		+ EntreeVar(String nom)
+		+ void declencherException(DeclencheurDException d, String message)
 	}
 
 	class EntreeFct extends Entree {
 		+ EntreeFct(String nom, String... typeParametre)
 		+ boolean equals(Object o)
 		+ int hashCode()
+		+ void declencherException(DeclencheurDException d, String message)
 	}
 	EntreeFct --"*" String : typesParametres
 
@@ -211,7 +214,7 @@ package arbre {
 	class BlocDeFonctions extends ArbreAbstrait {
 		# int TaillePille
 		+ BlocDeFonctions(int n, int m)
-		+ void verifier()		
+		+ void verifier()
 		+ String toMIPS()
 		+ void ajouter(Fonction F)
 	}
@@ -249,6 +252,22 @@ package exceptions {
 
 	class VariableNonDefinieException extends AnalyseSemantiqueException {
 		+ VariableNonDefinieException(int ligne, int colonne, String m)
+	}
+
+	class FonctionNonDefinieException extends AnalyseSemantiqueException {
+		+ FonctionNonDefinieException(int ligne, int colonne, String m)
+	}
+
+	abstract DeclencheurDException {
+		DeclencheurDException(int ligne, int colonne)
+		abstract entreeFct(EntreeFct e, String message)
+		abstract entreeVar(EntreeVar e, String message)
+	}
+
+	class DeclencheurEntreeNonDefinie extends DeclencheurDException {
+		DeclencheurEntreeNonDefinie(int ligne, int colonne)
+		entreeFct(EntreeFct e, String message)
+		entreeVar(EntreeVar e, String message)
 	}
 
 }
