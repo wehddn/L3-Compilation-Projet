@@ -22,6 +22,7 @@ public class Zoot {
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
             arbre.verifier() ;
             System.out.println(Tds.getInstance());
+            System.out.println("--------------------------");
             System.out.println(arbre);
             System.out.println("COMPILATION OK") ;
             String nomSortie = nomFichier.replaceAll("[.]zoot", ".mips") ;

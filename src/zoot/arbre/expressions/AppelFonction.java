@@ -1,7 +1,11 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Classe représentant un appel de fonction
@@ -15,16 +19,27 @@ import zoot.tds.*;
 public class AppelFonction extends Expression{
 
     private final EntreeFct entree;
+    private ArrayList<Expression> parametres;
     private SymboleFct symbole = null;
 
-    public AppelFonction(EntreeFct i, int n, int m) {
+    public AppelFonction(EntreeFct i, int n, int m, Expression... parametres) {
         super(n, m);
         this.entree = i;
+        this.parametres = new ArrayList<>();
+        Collections.addAll(this.parametres, parametres);
     }
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
         this.symbole= (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
+        ArrayList<Type> typeParams = entree.getTypeParametres();
+        if (parametres.size() != typeParams.size())
+            throw new TypeNonConcordantException(noLigne, noColonne, "La signature ne correspond pas");
+        for (int i = 0; i < typeParams.size(); i++) {
+            if (typeParams.get(i).equals(parametres.get(i).getType()))
+                throw new TypeNonConcordantException(noLigne, noColonne, "La signature ne correspond pas");
+        }
+
     }
 
     @Override
@@ -42,7 +57,7 @@ public class AppelFonction extends Expression{
 
     @Override
     public String getValeur() {
-        return "0";
+        return "appel";
     }
 
     @Override

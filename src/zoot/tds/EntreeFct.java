@@ -4,7 +4,7 @@ import zoot.exceptions.DeclencheurDException;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Description
@@ -15,12 +15,35 @@ import java.util.Objects;
  * created on 06/03/2022
  */
 public class EntreeFct extends Entree{
-    private final ArrayList<String> typeParametres;
+    private ArrayList<Type> typeParametres;
 
     public EntreeFct(String nom, String... typeParametres) {
         super(nom);
         this.typeParametres = new ArrayList<>();
+        for (String s : typeParametres) {
+            switch (s) {
+                case "entier":
+                    this.typeParametres.add(Type.ENTIER);
+                    break;
+                case "booleen":
+                    this.typeParametres.add(Type.BOOLEEN);
+                    break;
+                default:
+                    this.typeParametres.add(Type.NONDEFINI);
+                    break;
+            }
+        }
+    }
+
+    public EntreeFct(String nom, Type... typeParametres) {
+        super(nom);
+        this.typeParametres = new ArrayList<>();
         Collections.addAll(this.typeParametres, typeParametres);
+    }
+
+    public EntreeFct(String nom) {
+        super(nom);
+        this.typeParametres = new ArrayList<>();
     }
 
     @Override
@@ -35,6 +58,10 @@ public class EntreeFct extends Entree{
         return false;
     }
 
+    public ArrayList<Type> getTypeParametres() {
+        return typeParametres;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -47,6 +74,12 @@ public class EntreeFct extends Entree{
 
     @Override
     public String toString() {
-        return nom+"()";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < typeParametres.size(); i++) {
+            sb.append(typeParametres.get(i));
+            if (i < (typeParametres.size()-1))
+                sb.append(", ");
+        }
+        return nom+ "(" + sb + ")";
     }
 }
