@@ -11,7 +11,7 @@ import java.util.Collections;
  * Classe représentant un appel de fonction
  *
  * @author Nicolas GRAFF
- * @version 2.5.0
+ * @version 2.5.2
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -31,20 +31,19 @@ public class AppelFonction extends Expression{
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
-        this.symbole= (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
-        ArrayList<Type> typeParams = entree.getTypeParametres();
-        if (parametres.size() != typeParams.size())
-            throw new TypeNonConcordantException(noLigne, noColonne, "La signature ne correspond pas");
-        for (int i = 0; i < typeParams.size(); i++) {
-            if (typeParams.get(i).equals(parametres.get(i).getType()))
-                throw new TypeNonConcordantException(noLigne, noColonne, "La signature ne correspond pas");
+        ArrayList<Type> types = new ArrayList<>(parametres.size());
+        for (Expression e : parametres) {
+            e.verifier();
+            types.add(e.getType());
         }
 
+        entree.setTypeParametres(types.toArray(new Type[0]));
+        this.symbole= (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
     }
 
     @Override
     public String toMIPS() {
-        return "jal " + entree;
+        return "jal " + symbole.getEtiquette();
     }
 
     @Override
@@ -62,6 +61,12 @@ public class AppelFonction extends Expression{
 
     @Override
     public String toString() {
-        return entree.getNom() + "()";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < parametres.size(); i++) {
+            sb.append(parametres.get(i));
+            if (i < (parametres.size()-1))
+                sb.append(", ");
+        }
+        return entree.getNom()+ "( " + sb + " )";
     }
 }

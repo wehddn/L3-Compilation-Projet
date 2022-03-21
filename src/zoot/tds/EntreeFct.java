@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.0
+ * @version 2.5.2
  * @since 1.5.4
  * created on 06/03/2022
  */
@@ -44,6 +44,10 @@ public class EntreeFct extends Entree{
     public EntreeFct(String nom) {
         super(nom);
         this.typeParametres = new ArrayList<>();
+    }
+
+    public void setTypeParametres(Type... typeParametres) {
+        Collections.addAll(this.typeParametres, typeParametres);
     }
 
     @Override
@@ -80,6 +84,11 @@ public class EntreeFct extends Entree{
             if (i < (typeParametres.size()-1))
                 sb.append(", ");
         }
-        return nom+ "(" + sb + ")";
+        return nom+ "( " + sb + " )";
+    }
+
+    @Override
+    public String getNom() {
+        return this.nom;
     }
 }

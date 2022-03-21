@@ -88,8 +88,7 @@ non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS
 /* ----------------------------Grammar Section-------------------- */
 start with PROGRAMME;
 
-PROGRAMME ::= VARIABLES_PROG:v FONCTIONS_PROG:f
-INSTRUCTIONS_PROG:i
+PROGRAMME ::= VARIABLES_PROG:v FONCTIONS_PROG:f INSTRUCTIONS_PROG:i
 {:
     Programme prog = new Programme(vleft + 1, vright + 1);
     for (Declaration d : v) {
@@ -176,7 +175,7 @@ FONCTION_PLUS ::= FONCTION_PLUS:fp FONCTION:f
 
 FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf INSTRUCTIONS_FONC:ifonc RETOURNE:r FIN
 {:
-    EntreeFct e = new EntreeFct(id);
+    EntreeFct e = new EntreeFct(id, pf.stream().map(Declaration::getType).toArray(String[]::new));
     SymboleFct s = new SymboleFct(type, Tds.getInstance().getEtiquette(id));
     Tds.getInstance().ajouter(e, s, typeleft + 1, typeright + 1);
     Fonction f = new Fonction(e, r, typeleft + 1, typeright + 1);
@@ -269,11 +268,7 @@ RETOURNE ::= RETOURNE_T EXP:e POINTVIRGULE
 
 EXP ::= IDF_T:i PAR_EFF:p
 {:
-    List<Type> collect = new ArrayList<>(p.size());
-    for (Expression e : p) {
-        collect.add(e.getType());
-    }
-    EntreeFct e = new EntreeFct(i, collect.toArray(new Type[0]));
+    EntreeFct e = new EntreeFct(i);
     RESULT = new AppelFonction(e, ileft + 1, iright+1, p.toArray(new Expression[0])) ;
 :}|
 CSTENTIERE:c
@@ -325,7 +320,7 @@ PAR_EFF ::= PARENTOUVERT_T PARENTFERME_T
      RESULT = exp;
  :}| PARENTOUVERT_T EXP:e EXP_ETOILE:exp PARENTFERME_T
 {:
-    exp.add(e);
+    exp.add(0,e);
     RESULT = exp;
 :};
 

@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.0
+ * @version 2.5.2
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -76,7 +76,7 @@ public class NoeudTDS {
             else
             {
                 DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
-                e.declencherException(d, e.getNom());
+                e.declencherException(d, e.toString());
             }
         }
         return s;

@@ -10,6 +10,6 @@ package zoot.exceptions;
  */
 public class FonctionNonDefinieException extends AnalyseSemantiqueException{
     public FonctionNonDefinieException(int ligne, int col, String m) {
-        super(ligne, col, "fonction non définie (" + m + ")");
+        super(ligne, col, "fonction non définie ( " + m + " )");
     }
 }
