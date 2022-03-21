@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.2
+ * @version 2.5.3
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -52,9 +52,7 @@ public class NoeudTDS {
     }
 
     public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
-        Symbole symbole = dict.get(e);
-        EntreeVar var = new EntreeVar(e.getNom());
-        if (symbole != null || dict.get(var) != null) {
+        if (dict.containsKey(e)) {
             throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
         } else {
             dict.put(e, s);
