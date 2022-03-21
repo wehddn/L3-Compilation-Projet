@@ -2,44 +2,25 @@ package zoot.tds;
 
 import zoot.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 2.0.0
+ * @version 2.5.0
  * @since 1.0.0
  * created on 08/02/2022
  */
 public class Tds {
-    /**
-     * Associe les noms des variables à leur type
-     */
-    private final HashMap<Entree, Symbole> dict;
-    /**
-     * Le deplacement courant dans la pile locale
-     */
-    private int taillePile = 0;
+
     /**
      * L'instance (Singleton)
      */
-    private static Tds courant = null;
+    private static Tds instance = null;
 
-    public ArrayList<Tds> sousTds;
+    private NoeudTDS noeudCourant;
 
-    public Tds parent;
-
-    private Tds(Tds tds) {
-
-        courant = this;
-        sousTds = new ArrayList<>();
-        parent = tds;
-        if (tds != null)
-            parent.sousTds.add(courant);
-        dict = new HashMap<>();
-        System.out.println(parent + " " + this);
+    private Tds() {
+        noeudCourant = new NoeudTDS();
     }
 
     /**
@@ -48,9 +29,9 @@ public class Tds {
      * @return l'unique instance de la TDS (singleton)
      */
     public static Tds getInstance() {
-        if (courant == null)
-            courant = new Tds(null);
-        return courant;
+        if (instance == null)
+            instance = new Tds();
+        return instance;
     }
 
     /**
@@ -60,11 +41,7 @@ public class Tds {
      * @param s Le Symbole de l'entrée (type)
      */
     public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
-        if(dict.get(e) != null){
-            throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
-        } else {
-            dict.put(e, s);
-        }
+        noeudCourant.ajouter(e, s, noLigne, noColonne);
     }
 
     /**
@@ -74,18 +51,7 @@ public class Tds {
      * @return le symbole associé à l'entrée
      */
     public Symbole identifier(Entree e, int noLigne, int noColonne) throws AnalyseSemantiqueException {
-        Symbole s = dict.get(e);
-        if (s==null){
-            if (parent != null) {
-                s = parent.identifier(e, noLigne, noColonne);
-            }
-            else
-            {
-                DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
-                e.declencherException(d, e.getNom());
-            }
-        }
-        return s;
+        return noeudCourant.identifier(e, noLigne, noColonne);
     }
 
     /**
@@ -93,39 +59,45 @@ public class Tds {
      * @return la taille de la zone des variables
      */
     public int getTaillePile() {
-        return taillePile;
+        return noeudCourant.getTaillePile();
     }
 
     public void augmenterTaillePile() {
-        taillePile += 4;
+        noeudCourant.augmenterTaillePile();
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Entree e : dict.keySet()) {
-            i++;
-            sb.append(dict.get(e).toString()).append(" ").append(e.toString());
-            if (i < dict.keySet().size())
-                sb.append("\n");
-        }
-        return "TDS :\n" + sb;
+        return noeudCourant.toString();
     }
 
     /**
      * Réinitialise la TDS pour une nouvelle utilisation
      */
     public void reset() {
-        taillePile = 0;
-        dict.clear();
+        noeudCourant = new NoeudTDS();
     }
 
-    public void entreeBloc(){
-        new Tds(courant);
+    public void entreeBlocContruction(){
+        NoeudTDS next = new NoeudTDS();
+        noeudCourant.addEnfant(next);
+        next.setParent(noeudCourant);
+        noeudCourant = next;
     }
 
-    public void sortieBloc(){
-        courant = parent;
+    public void sortieBlocConstruction(){
+        noeudCourant = noeudCourant.getParent();
+    }
+
+    public void entreeBlocUtilisation() {
+        noeudCourant = noeudCourant.enfantSuivant();
+    }
+
+    public void sortieBlocUtilisation() {
+        noeudCourant = noeudCourant.getParent();
+    }
+
+    public String getEtiquette(String nom) {
+        return noeudCourant.getEtiquette(nom);
     }
 }

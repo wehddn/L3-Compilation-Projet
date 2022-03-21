@@ -6,6 +6,8 @@ import zoot.arbre.expressions.* ;
 import zoot.arbre.instructions.* ;
 import zoot.tds.* ;
 import zoot.exceptions.*;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 
 import java_cup.runtime.*;
 
@@ -69,8 +71,11 @@ non terminal String TYPE;
 non terminal Fonction FONC;
 non terminal Retourne RET;
 non terminal BlocDeFonctions LFONC;
-non terminal BlocDInstructions LINST, LINSTF;
-non terminal LDEC, DECL, PARAM;
+non terminal BlocDInstructions LINST;
+non terminal ArrayList<Fonction> ALFONC;
+non terminal ArrayList<Instruction> ALINST;
+non terminal ArrayList<Entry<EntreeVar,SymboleVar>> ALDEC;
+non terminal LDEC, LDECF, DECL, PARAM;
 
 /* ----------------------------Grammar Section-------------------- */
 
@@ -78,18 +83,58 @@ start with PROG ;
 
 PROG        ::= VARIABLES:v  LDEC:ld  FONCTIONS  LFONC:lf DEBUT  LINST:li  FIN
                 {:
-                    Tds.getInstance().entreeBloc();
                     Programme prog = new Programme(vleft + 1, vright + 1);
                     prog.setBlocDeFonctions(lf);
                     prog.setBlocDInstructions(li);
-                    Tds.getInstance().sortieBloc();
                     RESULT = prog ;
                 :}
                 ;
 
-LDEC        ::= | LDEC DECL
+ALINST       ::= ALINST:li INST:i
+                {:
+                    li.add(i);
+                    RESULT = li;
+                :}
+                |
+                INST:i
+                {:
+                    ArrayList<Instruction> li = new ArrayList<>();
+                    li.add(i);
+                    RESULT = li;
+                :}
+                ;
+ALDEC       ::= ALDEC:ld TYPE:t IDF:idf POINTVIRGULE
+                {:
+                    EntreeVar e = new EntreeVar(idf);
+                    SymboleVar s = new SymboleVar(t);
+                    Entry<EntreeVar, SymboleVar> entry = new SimpleEntry(e,s);
+                    ld.add(entry);
+                    RESULT = ld;
+                :}
+                |
+                TYPE:t IDF:idf POINTVIRGULE
+                {:
+                    EntreeVar e = new EntreeVar(idf);
+                    SymboleVar s = new SymboleVar(t);
+                    Entry<EntreeVar, SymboleVar> entry = new SimpleEntry(e,s);
+                    ArrayList<Entry<EntreeVar,SymboleVar>> ld = new ArrayList();
+                    ld.add(entry);
+                    RESULT = ld;
+                :}
                 ;
 
+LDEC        ::= LDEC DECL
+                |
+                DECL
+                ;
+DECL        ::= TYPE:t IDF:idf POINTVIRGULE
+                {:
+                    EntreeVar e = new EntreeVar(idf);
+                    SymboleVar s = new SymboleVar(t);
+                    Tds.getInstance().augmenterTaillePile();
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                :}
+                ;
 LFONC       ::= LFONC:lf  FONC:f
                 {:
                     lf.ajouter(f);
@@ -104,6 +149,92 @@ LFONC       ::= LFONC:lf  FONC:f
                 :}
                 ;
 
+FONC        ::= TYPE:t IDF:id PARAM VARIABLES ALDEC:ld DEBUT ALINST:li RET:r FIN
+                {:
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t, Tds.getInstance().getEtiquette(id));
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    Fonction f = new Fonction(e, r, tleft + 1, tright);
+                    BlocDInstructions bi = new BlocDInstructions(lileft,liright);
+                    f.setBlocDInstructions(bi);
+
+                    Tds.getInstance().entreeBlocContruction();
+
+                    for (Entry<EntreeVar, SymboleVar> entry : ld) {
+                        entry.getValue().setDeplacement(Tds.getInstance().getTaillePile());
+                        Tds.getInstance().augmenterTaillePile();
+                        Tds.getInstance().ajouter(entry.getKey(), entry.getValue(), tleft + 1, tright);
+                    }
+
+                    for (Instruction i : li) {
+                        bi.ajouter(i);
+                    }
+
+                    Tds.getInstance().sortieBlocConstruction();
+
+                    RESULT = f;
+                :}
+                |
+                TYPE:t IDF:id PARAM VARIABLES ALDEC:ld DEBUT          RET:r FIN
+                {:
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t, Tds.getInstance().getEtiquette(id));
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    Fonction f = new Fonction(e, r, tleft + 1, tright);
+                    BlocDInstructions bi = new BlocDInstructions(rleft,rright);
+                    f.setBlocDInstructions(bi);
+
+                    Tds.getInstance().entreeBlocContruction();
+
+                    for (Entry<EntreeVar, SymboleVar> entry : ld) {
+                        entry.getValue().setDeplacement(Tds.getInstance().getTaillePile());
+                        Tds.getInstance().augmenterTaillePile();
+                        Tds.getInstance().ajouter(entry.getKey(), entry.getValue(), tleft + 1, tright);
+                    }
+
+                    Tds.getInstance().sortieBlocConstruction();
+
+                    RESULT = f;
+                :}
+                |
+                TYPE:t IDF:id PARAM VARIABLES          DEBUT ALINST:li RET:r FIN
+                {:
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t, Tds.getInstance().getEtiquette(id));
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    Fonction f = new Fonction(e, r, tleft + 1, tright);
+                    BlocDInstructions bi = new BlocDInstructions(lileft,liright);
+                    f.setBlocDInstructions(bi);
+
+                    Tds.getInstance().entreeBlocContruction();
+
+                    for (Instruction i : li) {
+                        bi.ajouter(i);
+                    }
+
+                    Tds.getInstance().sortieBlocConstruction();
+
+                    RESULT = f;
+                :}
+                |
+                TYPE:t IDF:id PARAM VARIABLES          DEBUT          RET:r FIN
+                {:
+                    EntreeFct e = new EntreeFct(id);
+                    SymboleFct s = new SymboleFct(t, Tds.getInstance().getEtiquette(id));
+                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
+                    Fonction f = new Fonction(e, r, tleft + 1, tright);
+                    BlocDInstructions bi = new BlocDInstructions(rleft,rright);
+                    f.setBlocDInstructions(bi);
+
+                    Tds.getInstance().entreeBlocContruction();
+
+                    Tds.getInstance().sortieBlocConstruction();
+
+                    RESULT = f;
+                :};
+
+PARAM       ::= PRNT_G PRNT_D;
+
 LINST       ::= LINST:li INST:i
                 {:
                     li.ajouter(i);
@@ -117,35 +248,6 @@ LINST       ::= LINST:li INST:i
                     RESULT = li;
                 :}
                 ;
-
-LINSTF      ::= LINST
-                |
-                ;
-
-DECL        ::= TYPE:t IDF:idf POINTVIRGULE
-                {:
-                    EntreeVar e = new EntreeVar(idf);
-                    SymboleVar s = new SymboleVar(t);
-                    Tds.getInstance().augmenterTaillePile();
-                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
-                :}
-                ;
-
-FONC        ::= TYPE:t  IDF:id  PRNT_G PARAM PRNT_D  DEBUT  LINSTF:li  RET:r  FIN
-                {:
-                    Tds.getInstance().entreeBloc();
-                    EntreeFct e = new EntreeFct(id);
-                    SymboleFct s = new SymboleFct(t, "__" + id + "__");
-                    Tds.getInstance().ajouter(e, s, tleft + 1, tright);
-                    Fonction f = new Fonction(e, r, tleft + 1, tright);
-                    f.setBlocDInstructions(li);
-                    Tds.getInstance().sortieBloc();
-                    RESULT = f;
-                :}
-                ;
-
-PARAM       ::=;
-
 INST        ::= ECRIRE EXP:e POINTVIRGULE
                 {:
                     RESULT = new Ecrire(e, eleft + 1, eright);
@@ -181,7 +283,7 @@ EXP         ::= CSTENTIERE:c
                     RESULT = new ConstanteBooleene(c, cleft + 1, cright+1) ;
                 :}
                 |
-                IDF:i PRNT_G PARAM PRNT_D
+                IDF:i PARAM
                 {:
                     EntreeFct e = new EntreeFct(i);
                     RESULT = new AppelFonction(e, ileft + 1, iright+1) ;

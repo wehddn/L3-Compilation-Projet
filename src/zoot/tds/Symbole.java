@@ -2,11 +2,13 @@ package zoot.tds;
 
 import zoot.tds.Tds;
 
+import java.util.Objects;
+
 /**
  * Classe qui représente un Symbole (type d'une entrée)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.5.3
+ * @version 2.5.0
  * @since 1.0.1
  * created on 08/02/2022
  */
@@ -58,5 +60,18 @@ public class Symbole {
                 break;
         }
         return resutat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Symbole)) return false;
+        Symbole symbole = (Symbole) o;
+        return type == symbole.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type);
     }
 }

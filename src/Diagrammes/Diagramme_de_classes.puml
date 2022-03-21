@@ -65,8 +65,8 @@ package tds {
 		+ int augmenterTaillePille()
 		+ String toString()
 		+ void reset()
-		+ void entreeBloc()
-		+ void sortieBloc()
+		+ void entreeBlocContruction()
+		+ void sortieBlocConstruction()
 	}
 	Tds --"*" Tds : sousTds
 	Tds --"1" Tds : parent

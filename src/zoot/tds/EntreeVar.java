@@ -6,7 +6,7 @@ import zoot.exceptions.DeclencheurDException;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.0.0
+ * @version 2.5.0
  * @since 1.5.4
  * created on 06/03/2022
  */
@@ -19,4 +19,10 @@ public class EntreeVar extends Entree{
     public void declencherException(DeclencheurDException d, String message) {
         d.entreeVar(this, message);
     }
+
+    @Override
+    public String toString() {
+        return nom;
+    }
+
 }

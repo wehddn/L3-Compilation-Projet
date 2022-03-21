@@ -7,17 +7,17 @@ import zoot.tds.*;
  * Classe représentant un appel de fonction
  *
  * @author Nicolas GRAFF
- * @version 1.7.0
+ * @version 2.5.0
  * @since 1.7.0
  * created on 08/03/2022
  */
 
 public class AppelFonction extends Expression{
 
-    private final Entree entree;
+    private final EntreeFct entree;
     private SymboleFct symbole = null;
 
-    public AppelFonction(Entree i, int n, int m) {
+    public AppelFonction(EntreeFct i, int n, int m) {
         super(n, m);
         this.entree = i;
     }
@@ -42,6 +42,11 @@ public class AppelFonction extends Expression{
 
     @Override
     public String getValeur() {
-        return entree + "()";
+        return "0";
+    }
+
+    @Override
+    public String toString() {
+        return entree.getNom() + "()";
     }
 }

@@ -4,12 +4,12 @@ package zoot.tds;
  * Classe qui représente un Symbole de variable (type d'une entrée)
  *
  * @author Nicolas GRAFF
- * @version 1.8.0
+ * @version 2.5.0
  * @since 1.5.3
  * created on 06/03/2022
  */
 public class SymboleVar extends Symbole{
-    private final int deplacement;
+    private int deplacement = 0;
 
     /**
      * Crée un symbole avec le type type et utilise le déplacement courant
@@ -19,7 +19,10 @@ public class SymboleVar extends Symbole{
      */
     public SymboleVar(String type) {
         super(type);
-        this.deplacement = Tds.getInstance().getTaillePile();
+    }
+
+    public void setDeplacement(int deplacement) {
+        this.deplacement = deplacement;
     }
 
     public int getDeplacement() {

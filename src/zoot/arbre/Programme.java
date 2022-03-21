@@ -9,13 +9,13 @@ import java.util.ArrayList;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 1.8.0
+ * @version 2.5.0
  * @since 1.4.2
  * created on 19/02/2022
  */
 public class Programme extends ArbreAbstrait{
-    private BlocDeFonctions fonctions = null ;
-    private BlocDInstructions instructions = null;
+    private BlocDeFonctions fonctions = new BlocDeFonctions(0,0) ;
+    private BlocDInstructions instructions = new BlocDInstructions(0,0);
     protected int taillePile = 0;
 
     public Programme(int n, int m) {
@@ -71,7 +71,8 @@ public class Programme extends ArbreAbstrait{
 
     @Override
     public String toString() {
-        return "Programme :\nTaille pile : " + taillePile + "\n" + super.toString();
+        return "Programme :\nTaille pile : " + taillePile +"\nFonctions :\n" + fonctions +
+                "Instructions : \n" + instructions;
     }
 
     public void setBlocDeFonctions(BlocDeFonctions b) {

@@ -56,6 +56,6 @@ espace = {finDeLigne}  | [ \t\f]
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 {idf}                  { return symbol(CodesLexicaux.IDF, yytext()); }
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
-{espace}               { }
+{espace}               {}
 .                      { throw new AnalyseLexicaleException(yyline, yycolumn, yytext()) ; }
 
