@@ -4,6 +4,7 @@ import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
+import zoot.tds.Tds;
 import zoot.tds.Type;
 
 /**
@@ -18,6 +19,7 @@ public class Retourne extends Instruction{
 
     protected Expression exp ;
     private Fonction fonction;
+    private int taillePileFonction = 0;
 
     public Retourne(Expression e, int n, int m) {
         super(n, m);
@@ -31,6 +33,8 @@ public class Retourne extends Instruction{
         if (!fonction.getType().equals(exp.getType())) {
             throw new TypeNonConcordantException(getNoLigne(), getNoColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
         }
+
+        taillePileFonction = Tds.getInstance().getTaillePile();
     }
 
     public void setFonction(Fonction f) {
@@ -39,7 +43,18 @@ public class Retourne extends Instruction{
 
     @Override
     public String toMIPS() {
-        return "\t" + exp.toMIPS() + "\n" + "\tjr $ra";
+        StringBuilder sb = new StringBuilder();
+        // On execute le code de l'expression qui mets le résultat dans $v0
+        sb.append(exp.toMIPS()).append('\n');
+        // On met dans $s7 l'ancien $s7 (la fonction appelante)
+        sb.append("# Préparation retour\n\tlw $s7, +8($s7)");
+        // Récupération de l'adresse de retour
+        sb.append("\tlw $ra, +12($s7)\n");
+        // On enlève l'environnement de la pile
+        sb.append("\taddi $sp, $sp, ").append(taillePileFonction).append('\n');
+        // Retour à la fonction appelante
+        sb.append("# Retour\n\tjr $ra");
+        return sb.toString();
     }
 
     public Type getType() {

@@ -26,7 +26,7 @@ public class Idf extends Expression {
 
     @Override
     public String toMIPS() {
-        return "lw $v0, " + (-symbole.getDeplacement()) + "($s7)";
+        return "\tlw $v0, " + (-symbole.getDeplacement()) + "($s7)";
     }
 
     public Type getType() {

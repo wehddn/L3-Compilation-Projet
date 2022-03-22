@@ -24,7 +24,7 @@ public class ConstanteBooleene extends Constante{
         String valeur = "0";
         if (cste.equals("vrai"))
             valeur = "1";
-        return "li $v0, " + valeur;
+        return "\tli $v0, " + valeur;
     }
 
     @Override

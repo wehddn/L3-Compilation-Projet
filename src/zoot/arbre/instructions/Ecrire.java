@@ -36,7 +36,7 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append('\t').append(exp.toMIPS().replaceAll("[\\n]", "\\n\\t"));
+        sb.append(exp.toMIPS());
 
         String codeEcriture;
         // quitte le programme en théorie ce cas ne devrait pas arriver

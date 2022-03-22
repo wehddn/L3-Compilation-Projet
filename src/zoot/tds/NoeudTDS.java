@@ -28,13 +28,20 @@ public class NoeudTDS {
      * Le deplacement courant dans la pile locale
      */
     private int taillePile = 0;
-
     private int enfantCourant = 0;
+    private int noRegion;
 
 
     public NoeudTDS() {
         dict = new HashMap<>();
         enfants = new ArrayList<>();
+        noRegion = 0;
+    }
+
+    public NoeudTDS(int noRegion) {
+        dict = new HashMap<>();
+        enfants = new ArrayList<>();
+        this.noRegion = noRegion;
     }
 
     public void setParent(NoeudTDS parent)

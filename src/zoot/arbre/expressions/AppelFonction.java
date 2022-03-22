@@ -43,7 +43,20 @@ public class AppelFonction extends Expression{
 
     @Override
     public String toMIPS() {
-        return "jal " + symbole.getEtiquette();
+        StringBuilder sb = new StringBuilder();
+        sb.append("# Appel fonction : ").append(this).append("\n");
+        sb.append("# Sauvegarde des paramètres dans la pile\n");
+        int i;
+        for (i = 0; i < parametres.size(); i++) {
+            sb.append(parametres.get(i).toMIPS()).append("\n");
+            sb.append("\tsw $v0, -").append((i+1)*4).append("($sp)\n");
+        }
+        sb.append("# Sauvegarde des infos du bloc\n\tmove $ra, -").append((i+1)*4).append("($sp)\n");
+        i++;
+        sb.append("\tlw $ra, -").append((i+1)*4).append("($sp)\n");
+        sb.append("\tadd $sp, $sp, -").append((parametres.size()*4) + 12).append('\n');
+        sb.append("\tjal ").append(symbole.getEtiquette());
+        return sb.toString();
     }
 
     @Override

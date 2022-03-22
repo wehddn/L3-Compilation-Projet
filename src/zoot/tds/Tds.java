@@ -19,6 +19,8 @@ public class Tds {
 
     private NoeudTDS noeudCourant;
 
+    private int noRegion = 0;
+
     private Tds() {
         noeudCourant = new NoeudTDS();
     }
@@ -79,7 +81,8 @@ public class Tds {
     }
 
     public void entreeBlocContruction(){
-        NoeudTDS next = new NoeudTDS();
+        NoeudTDS next = new NoeudTDS(noRegion);
+        noRegion++;
         noeudCourant.addEnfant(next);
         next.setParent(noeudCourant);
         noeudCourant = next;
