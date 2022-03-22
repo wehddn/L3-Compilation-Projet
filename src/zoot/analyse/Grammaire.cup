@@ -66,7 +66,7 @@ PARENTFERME_T;
 terminal String IDF_T, CSTENTIERE;
 /* Non terminals used in the grammar section.  */
 non terminal ArrayList<Expression> PAR_EFF, EXP_ETOILE;
-non terminal Instruction INSTRUCTION;
+non terminal Instruction INSTRUCTION, INSTRUCTION_FONC;
 non terminal Fonction FONCTION;
 non terminal Expression EXP;
 non terminal Retourne RETOURNE;
@@ -80,10 +80,9 @@ non terminal Declaration VARIABLE;
 non terminal ArrayList<Declaration> VARIABLE_PLUS, VARIABLES_FONC, PARAMETRES_FONC, VARIABLES_PROG;
 non terminal Programme PROGRAMME;
 non terminal BlocDeFonctions FONCTION_PLUS, FONCTIONS_PROG;
-non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_FONC, INSTRUCTIONS_COND;
+non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, DEBUT_FONC, FIN_FONC, INSTRUCTIONS_FONC;
 
 /* Precedence section */
-
 
 /* ----------------------------Grammar Section-------------------- */
 start with PROGRAMME;
@@ -131,6 +130,18 @@ INSTRUCTION:i
     RESULT = bi;
 :};
 
+INSTRUCTIONS_FONC ::= INSTRUCTIONS_FONC:ip INSTRUCTION_FONC:i
+{:
+  ip.ajouter(i);
+  RESULT = ip;
+:}|
+INSTRUCTION_FONC:i
+{:
+  BlocDInstructions bi = new BlocDInstructions(ileft + 1, iright + 1);
+  bi.ajouter(i);
+  RESULT = bi;
+:};
+
 INSTRUCTION ::= AFFECT:a
 {:
     RESULT = a;
@@ -144,6 +155,16 @@ INSTRUCTION ::= AFFECT:a
 {:
     RESULT = e;
 :};
+
+INSTRUCTION_FONC ::= INSTRUCTION:i
+{:
+    RESULT = i;
+:}| RETOURNE:r
+{:
+    RESULT = r;
+:};
+
+
 
 VARIABLE_PLUS ::= VARIABLE_PLUS:vp VARIABLE:v
 {:
@@ -173,13 +194,15 @@ FONCTION_PLUS ::= FONCTION_PLUS:fp FONCTION:f
     RESULT = fp;
 :};
 
-FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf INSTRUCTIONS_FONC:ifonc RETOURNE:r FIN
+FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:df RETOURNE:r FIN_FONC:ff
 {:
     EntreeFct e = new EntreeFct(id, pf.stream().map(Declaration::getType).toArray(String[]::new));
     SymboleFct s = new SymboleFct(type, Tds.getInstance().getEtiquette(id));
     Tds.getInstance().ajouter(e, s, typeleft + 1, typeright + 1);
-    Fonction f = new Fonction(e, r, typeleft + 1, typeright + 1);
-    f.setBlocDInstructions(ifonc);
+    Fonction f = new Fonction(e, typeleft + 1, typeright + 1);
+    f.ajouter(df);
+    f.ajouter(r);
+    f.ajouter(ff);
 
     Tds.getInstance().entreeBlocContruction();
 
@@ -204,6 +227,8 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf INSTRUCTION
     RESULT = f;
 :};
 
+
+
 PARAMETRES_FONC ::= PARENTOUVERT_T PARENTFERME_T
 {:
     ArrayList<Declaration> pf = new ArrayList();
@@ -222,11 +247,20 @@ VARIABLES_FONC ::= VARIABLES_T
     RESULT = vp;
 :};
 
-INSTRUCTIONS_FONC ::= DEBUT:d
+DEBUT_FONC ::= DEBUT:d
 {:
     BlocDInstructions bi = new BlocDInstructions(dleft + 1, dright + 1);
     RESULT = bi;
 :}| DEBUT INSTRUCTION_PLUS:ip
+{:
+    RESULT = ip;
+:};
+
+FIN_FONC ::= FIN:f
+{:
+    BlocDInstructions bi = new BlocDInstructions(fleft + 1, fright + 1);
+    RESULT = bi;
+:}| INSTRUCTIONS_FONC:ip FIN
 {:
     RESULT = ip;
 :};

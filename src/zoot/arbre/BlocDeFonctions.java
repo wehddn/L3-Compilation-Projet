@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.0
+ * @version 2.6.0
  * @since 1.8.0
  * created on 13/03/2022
  */
@@ -38,6 +38,10 @@ public class BlocDeFonctions extends ArbreAbstrait {
 
     public void ajouter(Fonction f) {
         fonctions.add(f);
+    }
+
+    public void ajouter(BlocDeFonctions b) {
+        fonctions.addAll(b.fonctions);
     }
 
     @Override
