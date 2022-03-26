@@ -1,0 +1,53 @@
+@startuml
+package exceptions {
+	abstract class AnalyseException extends RuntimeException {
+		# AnalyseException(String message)
+	}
+
+	class AnalyseLexicaleException extends AnalyseException {
+		+ AnalyseLexicaleException(int ligne, int colonne, String message)
+	}
+
+	class AnalyseSyntaxiqueException extends AnalyseException {
+		+ AnalyseSyntaxiqueException(String m)
+		+ AnalyseSyntaxiqueException(int ligne, int col, String message)
+	}
+
+	together {
+		class AnalyseSemantiqueException extends AnalyseException{
+			+ AnalyseSemantiqueException(String message)
+			+ AnalyseSemantiqueException(int ligne, int col, String message)
+			+ addException(AnalyseSemantiqueException exception)
+		}
+
+		class DoubleDeclarationException extends AnalyseSemantiqueException {
+			+ DoubleDeclarationException(int ligne, int colonne, String nom)
+		}
+
+		class TypeNonConcordantException extends AnalyseSemantiqueException {
+			+ TypeNonConcordantException(int ligne, int colonne, String typeDestination, String typeSource)
+		}
+
+		class VariableNonDefinieException extends AnalyseSemantiqueException {
+			+ VariableNonDefinieException(int ligne, int colonne, String nomVariable)
+		}
+
+		class FonctionNonDefinieException extends AnalyseSemantiqueException {
+			+ FonctionNonDefinieException(int ligne, int colonne, String nomFonction)
+		}
+	}
+	together {
+		abstract DeclencheurDException {
+			DeclencheurDException(int ligne, int colonne)
+			abstract entreeFct(EntreeFct e, String message)
+			abstract entreeVar(EntreeVar e, String message)
+		}
+
+		class DeclencheurEntreeNonDefinie extends DeclencheurDException {
+			DeclencheurEntreeNonDefinie(int ligne, int colonne)
+			entreeFct(EntreeFct e, String message)
+			entreeVar(EntreeVar e, String message)
+		}
+	}
+}
+@enduml

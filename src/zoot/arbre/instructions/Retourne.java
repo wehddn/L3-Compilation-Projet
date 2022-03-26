@@ -49,7 +49,7 @@ public class Retourne extends Instruction{
         // On met dans $s7 l'ancien $s7 (la fonction appelante)
         sb.append("# Préparation retour\n\tlw $s7, +8($s7)");
         // Récupération de l'adresse de retour
-        sb.append("\tlw $ra, +12($s7)\n");
+        sb.append("\n\tlw $ra, +12($s7)\n");
         // On enlève l'environnement de la pile
         sb.append("\taddi $sp, $sp, ").append(taillePileFonction).append('\n');
         // Retour à la fonction appelante

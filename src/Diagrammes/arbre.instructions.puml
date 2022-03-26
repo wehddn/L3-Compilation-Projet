@@ -1,0 +1,36 @@
+@startuml
+package instructions {
+
+	class Affectation extends Instruction {
+		+ Affectation(Idf idf, Expression exp, int noLigne, int noColonne)
+		+ void verifier()
+		+ String toMIPS()
+		+ String toString()
+	}
+
+	Affectation --"1" Idf
+	Affectation --"1" Expression
+
+	class Ecrire extends Instruction{
+		+ Ecrire (Expression e, int n, int m)
+		+ void verifier()
+		+ String toMIPS()
+		+ String toString()
+	}
+	Ecrire --"1" Expression
+
+	abstract class Instruction extends ArbreAbstrait{
+		# Instruction(int ligne, int colonne)
+	}
+
+	class Retourne extends Instruction{
+		+ Retourne (Expression e, int n, int m)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String toString()
+	}
+
+	Retourne --"1" Expression
+}
+@enduml

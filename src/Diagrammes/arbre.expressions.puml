@@ -1,0 +1,55 @@
+@startuml
+package expressions {
+
+	abstract class Constante extends Expression {
+		# String cste
+		# Constante(String valeur, int ligne, int colonne)
+		+ void verifier()
+		+ String toString()
+	}
+
+	class ConstanteEntiere extends Constante {
+		+ ConstanteEntiere(String valeur, int ligne, int colonne)
+		+ String toMIPS()
+		+ Type getType()
+		+ String getValeur()
+	}
+
+	class ConstanteBooleene extends Constante {
+		+ ConstanteBooleene(String valeur, int ligne, int colonne)
+		+ String toMIPS()
+		+ Type getType()
+		+ String getValeur()
+	}
+
+	abstract class Expression extends ArbreAbstrait{
+		# Expression(int ligne, int colonne)
+		+ abstract Type getType()
+		+ abstract String getValeur()
+	}
+
+	class Idf extends Expression {
+		+ Idf(Entree e, int noLigne, int noColonne)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getValeur()
+		+ Symbole getSymbole()
+		+ String getNom()
+		+ String toString()
+	}
+	Idf --"1" Symbole
+	Idf --"1" Entree
+
+	class AppelFonction extends Expression {
+		+ Appel(Entree i, int n, int m)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getValeur()
+	}
+
+	AppelFonction --"1" Entree
+	AppelFonction --"1" SymboleFct
+}
+@enduml

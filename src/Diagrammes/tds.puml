@@ -1,0 +1,109 @@
+@startuml
+together {
+	package tds {
+		together {
+
+			class Symbole implements Typed {
+				+ Symbole(String type, int noRegion)
+				+ Type getType()
+				+ int getNoRegion()
+				+ String toString()
+				+ void setDeplacement(int deplacement)
+				+ int getDeplacement()
+				+ void setEtiquette(String etiquette)
+				+ String getEtiquette()
+			}
+
+			class SymboleVar extends Symbole {
+				# int deplacement
+				+ SymboleVar(String type, int noRegion)
+				+ int getDeplacement()
+			}
+
+			class SymboleFct extends Symbole {
+				# String etiquette
+				+ SymboleFct(String type, int noRegion)
+				+ String getEtiquette()
+				+ void setEtiquette(String etiquette)
+			}
+		}
+
+		together {
+			abstract class Entree {
+				# String nom
+				+ Entree(String nom)
+				+ String getNom()
+				+ void setTypeParametres(String... typeParametre)
+				+ boolean equals(Object o)
+				+ String toString()
+				+ abstract void declencherException(DeclencheurDException d, String message)
+			}
+
+			class EntreeVar extends Entree {
+				+ EntreeVar(String nom)
+				+ void declencherException(DeclencheurDException d, String message)
+			}
+
+			class EntreeFct extends Entree {
+				+ EntreeFct(String nom)
+				+ boolean equals(Object o)
+				+ void declencherException(DeclencheurDException d, String message)
+			}
+			EntreeFct --"*" Type : typesParametres
+		}
+
+		together {
+			class Tds {
+				- boolean enConstruction
+				- int nbNoeuds
+				- Tds()
+				+ static Tds getInstance()
+				+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
+				+ Symbole identifier(Entree e, int noLigne, int noColonne)
+				+ int getTailleZoneVar()
+				+ void addVar(Type typeVar)
+				+ int getTailleZonePar()
+				+ void addParametre(Type typeParam)
+				+ void reset()
+				+ void entreeBloc()
+				+ void sortieBloc()
+				+ void endConstruction()
+			}
+			Tds --"1" NoeudTDS : delegue
+
+			class NoeudTDS {
+				- int noRegion
+				- int tailleZoneVar
+				- int tailleZonePar
+				- int noEnfantCourant
+				+ NoeudTDS(int noRegion)
+				+ void setParent(NoeudTDS parent)
+				+ NoeudTDS getParent()
+				+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
+				+ Symbole identifier(Entree e, int noLigne, int noColonne)
+				+ int getTailleZoneVar()
+				+ void addVar(Type typeVar)
+				+ int getTailleZonePar()
+				+ void addParametre(Type typeParam)
+				+ NoeudTDS getEnfantCourant()
+				+ void enfantSuivant()
+				+ void enfantPrecedent()
+			}
+			NoeudTDS --"*" Symbole
+			NoeudTDS --"*" Entree
+			NoeudTDS --"1" NoeudTDS : parent
+			NoeudTDS --"*" NoeudTDS : enfants
+		}
+
+		together {
+			enum Type {
+				ENTIER, BOOLEEN, NONDEFINI
+			}
+
+			Interface Typed {
+				+ Type getType()
+			}
+		}
+	}
+}
+@enduml

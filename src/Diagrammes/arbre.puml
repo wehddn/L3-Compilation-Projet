@@ -1,0 +1,65 @@
+@startuml
+
+package arbre {
+	together {
+
+		Interface AffectationSource Implements Typed {
+
+		}
+
+		Interface AffectationDestination Implements Typed{
+
+		}
+	}
+
+	together {
+		abstract class ArbreAbstrait {
+			# int noLigne
+			# int noColonne
+			+ ArbreAbstrait(int ligne, int colonne)
+			+ int getNoLigne()
+			+ int getNoColonne()
+			+ abstract void verifier()
+			+ abstract String toMIPS()
+		}
+
+		class BlocDeFonctions extends ArbreAbstrait {
+			+ BlocDeFonctions(int ligne, int colonne)
+			+ void ajouter(DeclarationFonction f)
+			+ void ajouter(BlocDeFonctions bf)
+			+ void verifier()
+			+ String toMIPS()
+		}
+		BlocDeFonctions --"*" DeclarationFonction
+
+		together {
+			class BlocDInstructions extends ArbreAbstrait {
+				+ BlocDInstructions(int ligne, int colonne)
+				+ void ajouter(Instruction i)
+				+ void ajouter(BlocDInstructions b)
+				+ void verifier()
+				+ String toMIPS()
+			}
+			BlocDInstructions --"*" Instruction
+
+			class DeclarationFonction extends BlocDInstructions {
+				+ DeclarationFonction(Entree entree, int ligne, int colonne)
+				+ Type getType()
+				+ void verifier()
+				+ String toMIPS()
+			}
+			DeclarationFonction --"1" Entree
+
+			class Programme extends BlocDInstructions {
+				+ Programme(int ligne, int colonne)
+				+ void setBlocDeFonctions(BlocDeFonctions b)
+				+ void verifier()
+				+ String toMIPS()
+			}
+			Programme --"1" BlocDeFonctions : fonctions
+		}
+
+	}
+}
+
+@enduml
