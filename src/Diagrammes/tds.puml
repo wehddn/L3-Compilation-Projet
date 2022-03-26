@@ -4,10 +4,10 @@ together {
 		together {
 
 			class Symbole implements Typed {
+				# Type type
 				+ Symbole(String type, int noRegion)
 				+ Type getType()
 				+ int getNoRegion()
-				+ String toString()
 				+ void setDeplacement(int deplacement)
 				+ int getDeplacement()
 				+ void setEtiquette(String etiquette)
@@ -16,7 +16,10 @@ together {
 
 			class SymboleVar extends Symbole {
 				# int deplacement
+				# int noRegion
 				+ SymboleVar(String type, int noRegion)
+				+ int getNoRegion()
+				+ void setDeplacement(int deplacement)
 				+ int getDeplacement()
 			}
 
@@ -35,7 +38,7 @@ together {
 				+ String getNom()
 				+ void setTypeParametres(String... typeParametre)
 				+ boolean equals(Object o)
-				+ String toString()
+				+ int hashCode()
 				+ abstract void declencherException(DeclencheurDException d, String message)
 			}
 
@@ -47,6 +50,7 @@ together {
 			class EntreeFct extends Entree {
 				+ EntreeFct(String nom)
 				+ boolean equals(Object o)
+				+ void setTypeParametres(String... typeParametre)
 				+ void declencherException(DeclencheurDException d, String message)
 			}
 			EntreeFct --"*" Type : typesParametres
@@ -68,8 +72,10 @@ together {
 				+ void entreeBloc()
 				+ void sortieBloc()
 				+ void endConstruction()
+				+ String getEtiquette(String nom)
 			}
 			Tds --"1" NoeudTDS : delegue
+			Tds --"1" Tds : static
 
 			class NoeudTDS {
 				- int noRegion
@@ -79,10 +85,11 @@ together {
 				+ NoeudTDS(int noRegion)
 				+ void setParent(NoeudTDS parent)
 				+ NoeudTDS getParent()
+				+ void addEnfant(NoeudTDS enfant)
 				+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
 				+ Symbole identifier(Entree e, int noLigne, int noColonne)
 				+ int getTailleZoneVar()
-				+ void addVar(Type typeVar)
+				+ void addVariable(Type typeVar)
 				+ int getTailleZonePar()
 				+ void addParametre(Type typeParam)
 				+ NoeudTDS getEnfantCourant()
@@ -97,7 +104,7 @@ together {
 
 		together {
 			enum Type {
-				ENTIER, BOOLEEN, NONDEFINI
+				ENTIER, BOOLEEN, NONDEFINI  : faire la traduction
 			}
 
 			Interface Typed {

@@ -2,17 +2,6 @@
 
 package arbre {
 	together {
-
-		Interface AffectationSource Implements Typed {
-
-		}
-
-		Interface AffectationDestination Implements Typed{
-
-		}
-	}
-
-	together {
 		abstract class ArbreAbstrait {
 			# int noLigne
 			# int noColonne
@@ -44,11 +33,11 @@ package arbre {
 
 			class DeclarationFonction extends BlocDInstructions {
 				+ DeclarationFonction(Entree entree, int ligne, int colonne)
-				+ Type getType()
 				+ void verifier()
 				+ String toMIPS()
 			}
 			DeclarationFonction --"1" Entree
+			DeclarationFonction --"1" Symbole
 
 			class Programme extends BlocDInstructions {
 				+ Programme(int ligne, int colonne)
@@ -60,6 +49,9 @@ package arbre {
 		}
 
 	}
+
+	!include_once arbre.expressions.puml
+	!include_once arbre.instructions.puml
 }
 
 @enduml

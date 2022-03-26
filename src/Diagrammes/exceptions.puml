@@ -9,7 +9,7 @@ package exceptions {
 	}
 
 	class AnalyseSyntaxiqueException extends AnalyseException {
-		+ AnalyseSyntaxiqueException(String m)
+		+ AnalyseSyntaxiqueException(String message)
 		+ AnalyseSyntaxiqueException(int ligne, int col, String message)
 	}
 

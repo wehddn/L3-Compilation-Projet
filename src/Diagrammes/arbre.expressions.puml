@@ -1,55 +1,52 @@
 @startuml
 package expressions {
+	class AppelFonction extends Expression {
+		+ Appel(Entree i, int ligne, int col)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getCommentaire()
+	}
+	AppelFonction --"1" Entree
+	AppelFonction --"1" Symbole
+	AppelFonction --"*" Expressions : parametres
+
+
 
 	abstract class Constante extends Expression {
 		# String cste
 		# Constante(String valeur, int ligne, int colonne)
 		+ void verifier()
-		+ String toString()
-	}
-
-	class ConstanteEntiere extends Constante {
-		+ ConstanteEntiere(String valeur, int ligne, int colonne)
-		+ String toMIPS()
-		+ Type getType()
-		+ String getValeur()
+		+ String getCommentaire()
 	}
 
 	class ConstanteBooleene extends Constante {
 		+ ConstanteBooleene(String valeur, int ligne, int colonne)
 		+ String toMIPS()
 		+ Type getType()
-		+ String getValeur()
 	}
 
-	abstract class Expression extends ArbreAbstrait{
+	class ConstanteEntiere extends Constante {
+		+ ConstanteEntiere(String valeur, int ligne, int colonne)
+		+ String toMIPS()
+		+ Type getType()
+	}
+
+
+	abstract class Expression extends ArbreAbstrait implements Typed{
 		# Expression(int ligne, int colonne)
-		+ abstract Type getType()
-		+ abstract String getValeur()
+		+ abstract String getCommentaire()
 	}
 
-	class Idf extends Expression {
+	class Idf extends Expression implements LValue {
 		+ Idf(Entree e, int noLigne, int noColonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
-		+ String getValeur()
-		+ Symbole getSymbole()
-		+ String getNom()
-		+ String toString()
+		+ String getPositionMIPS()
+		+ String getCommentaire()
 	}
 	Idf --"1" Symbole
 	Idf --"1" Entree
-
-	class AppelFonction extends Expression {
-		+ Appel(Entree i, int n, int m)
-		+ void verifier()
-		+ String toMIPS()
-		+ Type getType()
-		+ String getValeur()
-	}
-
-	AppelFonction --"1" Entree
-	AppelFonction --"1" SymboleFct
 }
 @enduml

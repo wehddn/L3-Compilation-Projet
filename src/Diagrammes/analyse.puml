@@ -1,5 +1,17 @@
 @startuml
 package analyse {
-	
+	class Declaration {
+		- int ligne
+		- int colonne
+		- Type type
+		- String nom
+		+ Declaration(String type, String nom, int ligne, int colonne)
+		+ int getLigne()
+		+ int getColonne()
+		+ Type getType()
+		+ String getNom()
+		+ SymboleVar getSymbole()
+		+ EntreeVar getEntree()
+	}
 }
 @enduml

@@ -1,0 +1,15 @@
+@startuml
+package mips {
+	class SnippetsMIPS {
+	+ String enteteProgramme()
+	+ String empiler(String registre)
+	+ String reserverPlacePile(int taille)
+	+ String sauvegardeBaseLocale()
+	+ String definitionRecherchePosition()
+	+ String appelRecherchePosition()
+	+ String appelTraductionBooleen()
+	+ String definitionTraductionBooleen()
+	+ String appelEcriture(Type typeAEcrire)
+}
+}
+@enduml
