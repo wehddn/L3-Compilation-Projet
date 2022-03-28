@@ -95,6 +95,7 @@ together {
 				+ NoeudTDS getEnfantCourant()
 				+ void enfantSuivant()
 				+ void enfantPrecedent()
+				+ String getEtiquette(String nom)
 			}
 			NoeudTDS --"*" Symbole
 			NoeudTDS --"*" Entree
