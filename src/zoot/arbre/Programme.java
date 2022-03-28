@@ -1,6 +1,7 @@
 package zoot.arbre;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.Tds;
 
 /**
@@ -31,15 +32,8 @@ public class Programme extends ArbreAbstrait{
     public String toMIPS() {
         StringBuilder sb = new StringBuilder() ;
         // Ecrit le début du programme mips
-        sb.append(".data\n" +
-                "\tvrai: .asciiz \"vrai\"\n" +
-                "\tfaux: .asciiz \"faux\"\n" +
-                ".text\n" +
-                "main :\n" +
-                "# initialiser $s7 avec $sp\n" +
-                "\tmove $s7, $sp\n" +
-                "# réserver la place pour ");
-        sb.append(taillePile / 4).append(" variable");
+        sb.append(SnippetsMIPS.enteteProgramme());
+        sb.append(SnippetsMIPS.reserverPlacePile(taillePile));
 
         if (taillePile > 4) // Ajoute un s à variable s'il y'a plusieurs variables
             sb.append('s');
@@ -53,15 +47,7 @@ public class Programme extends ArbreAbstrait{
         sb.append("end :\n" +
                 "\tli $v0, 10\n" +
                 "\tsyscall\n\n");
-        sb.append("traductionbool :\n" +
-                "\tbeq $v0, $zero, boolfaux\n" +
-                "boolvrai :\n" +
-                "\tla $v0, vrai\n" +
-                "\tb fintraductionbool\n" +
-                "boolfaux :\n" +
-                "\tla $v0, faux\n" +
-                "fintraductionbool :\n" +
-                "\tjr $ra\n");
+        sb.append(SnippetsMIPS.definitionTraductionBooleen());
         sb.append(fonctions.toMIPS());
 
         return sb.toString();
