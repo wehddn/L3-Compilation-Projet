@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * created on 06/03/2022
  */
 public class EntreeFct extends Entree{
-    private ArrayList<Type> typeParametres;
+    private final ArrayList<Type> typeParametres;
 
     public EntreeFct(String nom, String... typeParametres) {
         super(nom);

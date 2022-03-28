@@ -92,6 +92,8 @@ PROGRAMME ::= VARIABLES_PROG:v FONCTIONS_PROG:f INSTRUCTIONS_PROG:i
     Programme prog = new Programme(vleft + 1, vright + 1);
     for (Declaration d : v) {
             SymboleVar symVar = d.getSymbole();
+            // TODO Mettre le bon numéro de région
+            symVar.setNoRegion(0);
             EntreeVar entree = d.getEntree();
             symVar.setDeplacement(Tds.getInstance().getTaillePile());
             Tds.getInstance().augmenterTaillePile();
@@ -197,7 +199,8 @@ FONCTION_PLUS ::= FONCTION_PLUS:fp FONCTION:f
 FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:df RETOURNE:r FIN_FONC:ff
 {:
     EntreeFct e = new EntreeFct(id, pf.stream().map(Declaration::getType).toArray(String[]::new));
-    SymboleFct s = new SymboleFct(type, Tds.getInstance().getEtiquette(id));
+    SymboleFct s = new SymboleFct(type);
+    s.setEtiquette(Tds.getInstance().getEtiquette(id));
     Tds.getInstance().ajouter(e, s, typeleft + 1, typeright + 1);
     Fonction f = new Fonction(e, typeleft + 1, typeright + 1);
     f.ajouter(df);
@@ -208,14 +211,18 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:
 
     for (Declaration d : pf) {
         SymboleVar symVar = d.getSymbole();
-        EntreeVar entree = d.getEntree();
+        // TODO Mettre le bon numéro de région
+        symVar.setNoRegion(0);
         symVar.setDeplacement(Tds.getInstance().getTaillePile());
         Tds.getInstance().augmenterTaillePile();
+        EntreeVar entree = d.getEntree();
         Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
     }
 
     for (Declaration d : vf) {
         SymboleVar symVar = d.getSymbole();
+        // TODO Mettre le bon numéro de région
+        symVar.setNoRegion(0);
         EntreeVar entree = d.getEntree();
         symVar.setDeplacement(Tds.getInstance().getTaillePile());
         Tds.getInstance().augmenterTaillePile();

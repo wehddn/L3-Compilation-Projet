@@ -29,7 +29,7 @@ public class NoeudTDS {
      */
     private int taillePile = 0;
     private int enfantCourant = 0;
-    private int noRegion;
+    private final int noRegion;
 
 
     public NoeudTDS() {

@@ -19,7 +19,7 @@ import java.util.Collections;
 public class AppelFonction extends Expression{
 
     private final EntreeFct entree;
-    private ArrayList<Expression> parametres;
+    private final ArrayList<Expression> parametres;
     private SymboleFct symbole = null;
 
     public AppelFonction(EntreeFct i, int n, int m, Expression... parametres) {

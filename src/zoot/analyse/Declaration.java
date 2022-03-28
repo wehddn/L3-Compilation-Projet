@@ -12,10 +12,10 @@ import zoot.tds.SymboleVar;
  * created on 21/03/2022
  */
 public class Declaration {
-    private int ligne;
-    private int colonne;
-    private String type;
-    private String nom;
+    private final int ligne;
+    private final int colonne;
+    private final String type;
+    private final String nom;
 
     /**
      *

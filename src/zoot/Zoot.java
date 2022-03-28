@@ -6,6 +6,7 @@ import zoot.arbre.ArbreAbstrait;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.tds.Tds;
 import zoot.exceptions.AnalyseException;
+import zoot.tds.Type;
 
 import java.io.*;
 import java.util.logging.Level;

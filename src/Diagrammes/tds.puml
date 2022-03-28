@@ -5,9 +5,10 @@ together {
 
 			class Symbole implements Typed {
 				# Type type
-				+ Symbole(String type, int noRegion)
+				+ Symbole(String type)
 				+ Type getType()
 				+ int getNoRegion()
+				+ void setNoRegion(int noRegion)
 				+ void setDeplacement(int deplacement)
 				+ int getDeplacement()
 				+ void setEtiquette(String etiquette)
@@ -17,15 +18,16 @@ together {
 			class SymboleVar extends Symbole {
 				# int deplacement
 				# int noRegion
-				+ SymboleVar(String type, int noRegion)
+				+ SymboleVar(String type)
 				+ int getNoRegion()
+				+ void setNoRegion(int noRegion)
 				+ void setDeplacement(int deplacement)
 				+ int getDeplacement()
 			}
 
 			class SymboleFct extends Symbole {
 				# String etiquette
-				+ SymboleFct(String type, int noRegion)
+				+ SymboleFct(String type)
 				+ String getEtiquette()
 				+ void setEtiquette(String etiquette)
 			}
