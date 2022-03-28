@@ -6,14 +6,14 @@ import zoot.tds.Type;
  * Représente une constante booléene
  *
  * @author Elhadji Moussa FAYE
- * @version 1.7.1
+ * @version 2.6.4
  * @since 1.0.0
  * created on 09/02/2022
  */
 public class ConstanteBooleene extends Constante{
 
-    public ConstanteBooleene(String valeur, int n, int m) {
-        super(valeur, n, m);
+    public ConstanteBooleene(String valeur, int ligne, int colonne) {
+        super(valeur, ligne, colonne);
     }
 
     /**
@@ -27,13 +27,13 @@ public class ConstanteBooleene extends Constante{
         return "\tli $v0, " + valeur;
     }
 
-    @Override
     public Type getType() {
         return Type.BOOLEEN;
     }
 
     @Override
-    public String getValeur() {
+    public String getCommentaire() {
         return this.cste;
     }
+
 }

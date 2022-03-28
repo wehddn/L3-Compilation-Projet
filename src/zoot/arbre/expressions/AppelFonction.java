@@ -11,7 +11,7 @@ import java.util.Collections;
  * Classe représentant un appel de fonction
  *
  * @author Nicolas GRAFF
- * @version 2.5.2
+ * @version 2.6.4
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -22,8 +22,8 @@ public class AppelFonction extends Expression{
     private final ArrayList<Expression> parametres;
     private SymboleFct symbole = null;
 
-    public AppelFonction(EntreeFct i, int n, int m, Expression... parametres) {
-        super(n, m);
+    public AppelFonction(EntreeFct i, int ligne, int colonne, Expression... parametres) {
+        super(ligne, colonne);
         this.entree = i;
         this.parametres = new ArrayList<>();
         Collections.addAll(this.parametres, parametres);
@@ -68,7 +68,7 @@ public class AppelFonction extends Expression{
     }
 
     @Override
-    public String getValeur() {
+    public String getCommentaire() {
         return "appel";
     }
 

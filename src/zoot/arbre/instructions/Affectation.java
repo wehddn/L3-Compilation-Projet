@@ -12,7 +12,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 1.8.0
+ * @version 2.6.4
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -47,7 +47,7 @@ public class Affectation extends Instruction{
     public String toMIPS() {
         int idfDeplacement = -idf.getSymbole().getDeplacement();
 
-        return "# "+ idf.getNom() +" = "+ exp.getValeur() +"\n\t" +
+        return "# "+ idf.getCommentaire() +" = "+ exp.getCommentaire() +"\n\t" +
                 exp.toMIPS() +
                 "\n\tsw $v0, " + idfDeplacement + "($s7)";
     }

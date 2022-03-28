@@ -7,8 +7,8 @@ public abstract class Constante extends Expression {
 
     protected String cste ;
     
-    protected Constante(String texte, int n, int m) {
-        super(n, m) ;
+    protected Constante(String texte, int ligne, int colonne) {
+        super(ligne, colonne) ;
         cste = texte ;
     }
 
@@ -18,6 +18,10 @@ public abstract class Constante extends Expression {
     @Override
     public void verifier() {
 
+    }
+
+    public String getCommentaire(){
+        return cste ;
     }
 
     @Override

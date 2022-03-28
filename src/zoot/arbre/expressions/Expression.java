@@ -8,11 +8,11 @@ import zoot.tds.Type;
  */
 public abstract class Expression extends ArbreAbstrait {
 
-    protected Expression(int n, int m) {
-        super(n, m) ;
+    protected Expression(int ligne, int colonne) {
+        super(ligne, colonne) ;
     }
 
     public abstract Type getType();
 
-    public abstract String getValeur();
+    public abstract String getCommentaire();
 }

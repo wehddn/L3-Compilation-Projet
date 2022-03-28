@@ -1,7 +1,7 @@
 @startuml
 package expressions {
 	class AppelFonction extends Expression {
-		+ Appel(Entree i, int ligne, int col)
+		+ Appel(Entree i, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
@@ -24,25 +24,29 @@ package expressions {
 		+ ConstanteBooleene(String valeur, int ligne, int colonne)
 		+ String toMIPS()
 		+ Type getType()
+		+ String getCommentaire()
 	}
 
 	class ConstanteEntiere extends Constante {
 		+ ConstanteEntiere(String valeur, int ligne, int colonne)
 		+ String toMIPS()
 		+ Type getType()
+		+ String getCommentaire()
 	}
 
 
 	abstract class Expression extends ArbreAbstrait implements Typed{
 		# Expression(int ligne, int colonne)
+		+ abstract Type getType();
 		+ abstract String getCommentaire()
 	}
 
 	class Idf extends Expression implements LValue {
-		+ Idf(Entree e, int noLigne, int noColonne)
+		+ Idf(Entree e, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
+		+ SymboleVar getSymbole()
 		+ String getPositionMIPS()
 		+ String getCommentaire()
 	}
