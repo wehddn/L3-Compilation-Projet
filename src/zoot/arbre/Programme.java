@@ -3,8 +3,6 @@ package zoot.arbre;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.tds.Tds;
 
-import java.util.ArrayList;
-
 /**
  * Represente l'Arbre abstrait général (le programme)
  *
@@ -26,7 +24,7 @@ public class Programme extends ArbreAbstrait{
     public void verifier() throws AnalyseSemantiqueException {
         fonctions.verifier();
         instructions.verifier();
-        taillePile = Tds.getInstance().getTaillePile();
+        taillePile = Tds.getInstance().getTailleZoneVar();
     }
 
     @Override

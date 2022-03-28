@@ -95,13 +95,14 @@ PROGRAMME ::= VARIABLES_PROG:v FONCTIONS_PROG:f INSTRUCTIONS_PROG:i
             // TODO Mettre le bon numéro de région
             symVar.setNoRegion(0);
             EntreeVar entree = d.getEntree();
-            symVar.setDeplacement(Tds.getInstance().getTaillePile());
-            Tds.getInstance().augmenterTaillePile();
+            symVar.setDeplacement(Tds.getInstance().getTailleZoneVar());
+            Tds.getInstance().addVar(symVar.getType());
             Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
         }
 
     prog.setBlocDeFonctions(f);
     prog.setBlocDInstructions(i);
+    Tds.getInstance().endConstruction();
     RESULT = prog ;
 :};
 
@@ -207,16 +208,16 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:
     f.ajouter(r);
     f.ajouter(ff);
 
-    Tds.getInstance().entreeBlocContruction();
+    Tds.getInstance().entreeBloc();
 
     for (Declaration d : pf) {
-        SymboleVar symVar = d.getSymbole();
+        SymboleVar symPar = d.getSymbole();
         // TODO Mettre le bon numéro de région
-        symVar.setNoRegion(0);
-        symVar.setDeplacement(Tds.getInstance().getTaillePile());
-        Tds.getInstance().augmenterTaillePile();
+        symPar.setNoRegion(0);
+        symPar.setDeplacement(Tds.getInstance().getTailleZonePar());
+        Tds.getInstance().addVar(symPar.getType());
         EntreeVar entree = d.getEntree();
-        Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
+        Tds.getInstance().ajouter(entree, symPar, d.getLigne(), d.getColonne());
     }
 
     for (Declaration d : vf) {
@@ -224,12 +225,12 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:
         // TODO Mettre le bon numéro de région
         symVar.setNoRegion(0);
         EntreeVar entree = d.getEntree();
-        symVar.setDeplacement(Tds.getInstance().getTaillePile());
-        Tds.getInstance().augmenterTaillePile();
+        symVar.setDeplacement(Tds.getInstance().getTailleZoneVar());
+        Tds.getInstance().addParametre(symVar.getType());
         Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
     }
 
-    Tds.getInstance().sortieBlocConstruction();
+    Tds.getInstance().sortieBloc();
 
     RESULT = f;
 :};

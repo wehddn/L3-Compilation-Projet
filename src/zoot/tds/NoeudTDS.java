@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.3
+ * @version 2.6.2
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -24,19 +24,11 @@ public class NoeudTDS {
      * Associe les noms des variables à leur type
      */
     private final HashMap<Entree, Symbole> dict;
-    /**
-     * Le deplacement courant dans la pile locale
-     */
-    private int taillePile = 0;
-    private int enfantCourant = 0;
-    private final int noRegion;
 
-
-    public NoeudTDS() {
-        dict = new HashMap<>();
-        enfants = new ArrayList<>();
-        noRegion = 0;
-    }
+    int noRegion = 0;
+    private int tailleZoneVar = 0;
+    private int tailleZonePar = 0;
+    private int noEnfantCourant = 0;
 
     public NoeudTDS(int noRegion) {
         dict = new HashMap<>();
@@ -87,16 +79,37 @@ public class NoeudTDS {
         return s;
     }
 
-    /**
-     * Retourne la taille de la zone des variables (pile locale à l'application)
-     * @return la taille de la zone des variables
-     */
-    public int getTaillePile() {
-        return taillePile;
+    public int getTailleZoneVar() {
+        return tailleZoneVar;
     }
 
-    public void augmenterTaillePile() {
-        taillePile += 4;
+    public void addVar(Type typeVar){
+        int valeur = 0;
+        switch (typeVar){
+            case ENTIER: valeur = 4; break;
+            case BOOLEEN: valeur = 4; break;
+        }
+
+        tailleZoneVar += valeur;
+    }
+
+    public int getTailleZonePar() {
+        return tailleZonePar;
+    }
+
+    public void addParametre(Type typeParam){
+        int valeur = 0;
+        switch (typeParam){
+            case ENTIER: valeur = 4; break;
+            case BOOLEEN: valeur = 4; break;
+        }
+
+        tailleZonePar += valeur;
+    }
+
+    public NoeudTDS getEnfantCourant(){
+        noEnfantCourant++;
+        return enfants.get(noEnfantCourant - 1);
     }
 
     @Override
@@ -113,14 +126,17 @@ public class NoeudTDS {
         return "TDS-start :\n" + sb.toString().indent(4) + "TDS-end";
     }
 
-    public NoeudTDS enfantSuivant()
-    {
-        enfantCourant++;
-        return enfants.get(enfantCourant - 1);
+    public void enfantSuivant(){
+        /*noEnfantCourant++;
+        return enfants.get(noEnfantCourant - 1);*/
+
+    }
+
+    public void enfantPrecedent(){
+
     }
 
     public String getEtiquette(String nom) {
-
         return  "__" + nom + "__" + UUID.randomUUID().toString().replace("-", "") + "__";
     }
 }

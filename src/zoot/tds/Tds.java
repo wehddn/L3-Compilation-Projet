@@ -6,7 +6,7 @@ import zoot.exceptions.*;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.0
+ * @version 2.6.2
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -19,10 +19,12 @@ public class Tds {
 
     private NoeudTDS noeudCourant;
 
-    private int noRegion = 0;
+    private boolean enConstruction = true;
+
+    private int nbNoeuds;
 
     private Tds() {
-        noeudCourant = new NoeudTDS();
+        noeudCourant = new NoeudTDS(0);
     }
 
     /**
@@ -56,16 +58,20 @@ public class Tds {
         return noeudCourant.identifier(e, noLigne, noColonne);
     }
 
-    /**
-     * Retourne la taille de la zone des variables (pile locale à l'application)
-     * @return la taille de la zone des variables
-     */
-    public int getTaillePile() {
-        return noeudCourant.getTaillePile();
+    public int getTailleZoneVar() {
+        return noeudCourant.getTailleZoneVar();
     }
 
-    public void augmenterTaillePile() {
-        noeudCourant.augmenterTaillePile();
+    public void addVar(Type typeVar){
+        noeudCourant.addVar(typeVar);
+    }
+
+    public int getTailleZonePar(){
+        return noeudCourant.getTailleZonePar();
+    }
+
+    public void addParametre(Type typeParam){
+        noeudCourant.addParametre(typeParam);
     }
 
     @Override
@@ -77,27 +83,25 @@ public class Tds {
      * Réinitialise la TDS pour une nouvelle utilisation
      */
     public void reset() {
-        noeudCourant = new NoeudTDS();
+        noeudCourant = new NoeudTDS(0);
     }
 
-    public void entreeBlocContruction(){
-        NoeudTDS next = new NoeudTDS(noRegion);
-        noRegion++;
-        noeudCourant.addEnfant(next);
-        next.setParent(noeudCourant);
-        noeudCourant = next;
+    public void entreeBloc(){
+        if (enConstruction){
+            NoeudTDS next = new NoeudTDS(noeudCourant.noRegion + 1);
+            noeudCourant.addEnfant(next);
+            next.setParent(noeudCourant);
+            noeudCourant = next;
+        }
     }
 
-    public void sortieBlocConstruction(){
-        noeudCourant = noeudCourant.getParent();
+    public void sortieBloc(){
+        if (enConstruction)
+            noeudCourant = noeudCourant.getParent();
     }
 
-    public void entreeBlocUtilisation() {
-        noeudCourant = noeudCourant.enfantSuivant();
-    }
-
-    public void sortieBlocUtilisation() {
-        noeudCourant = noeudCourant.getParent();
+    public void endConstruction(){
+        this.enConstruction = true;
     }
 
     public String getEtiquette(String nom) {

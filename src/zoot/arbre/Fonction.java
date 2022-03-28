@@ -9,7 +9,7 @@ import zoot.tds.*;
  * Classe qui représente les différentes instructions d'une fonctions du programme
  *
  * @author Nicolas GRAFF
- * @version 2.6.0
+ * @version 2.6.2
  * @since 1.8.0
  * created on 07/03/2022
  */
@@ -25,10 +25,10 @@ public class Fonction extends BlocDInstructions{
 
     @Override
     public void verifier() {
-        Tds.getInstance().entreeBlocUtilisation();
+        Tds.getInstance().entreeBloc();
         this.symbole = (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
         super.verifier();
-        Tds.getInstance().sortieBlocUtilisation();
+        Tds.getInstance().sortieBloc();
     }
 
     public String toMIPS(){

@@ -34,7 +34,7 @@ public class Retourne extends Instruction{
             throw new TypeNonConcordantException(getNoLigne(), getNoColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
         }
 
-        taillePileFonction = Tds.getInstance().getTaillePile();
+        taillePileFonction = Tds.getInstance().getTailleZoneVar()+Tds.getInstance().getTailleZonePar();
     }
 
     public void setFonction(Fonction f) {
