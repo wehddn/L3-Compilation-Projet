@@ -51,8 +51,10 @@ together {
 
 			class EntreeFct extends Entree {
 				+ EntreeFct(String nom)
+				+ EntreeFct(String nom, String... typeParametres)
 				+ boolean equals(Object o)
 				+ void setTypeParametres(String... typeParametre)
+				+ void setTypeParametres(Type... typeParametres)
 				+ void declencherException(DeclencheurDException d, String message)
 			}
 			EntreeFct --"*" Type : typesParametres

@@ -10,44 +10,33 @@ import java.util.stream.Collectors;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.2
+ * @version 2.6.3
  * @since 1.5.4
  * created on 06/03/2022
  */
 public class EntreeFct extends Entree{
-    private final ArrayList<Type> typeParametres;
-
-    public EntreeFct(String nom, String... typeParametres) {
-        super(nom);
-        this.typeParametres = new ArrayList<>();
-        for (String s : typeParametres) {
-            switch (s) {
-                case "entier":
-                    this.typeParametres.add(Type.ENTIER);
-                    break;
-                case "booleen":
-                    this.typeParametres.add(Type.BOOLEEN);
-                    break;
-                default:
-                    this.typeParametres.add(Type.NONDEFINI);
-                    break;
-            }
-        }
-    }
-
-    public EntreeFct(String nom, Type... typeParametres) {
-        super(nom);
-        this.typeParametres = new ArrayList<>();
-        Collections.addAll(this.typeParametres, typeParametres);
-    }
+    private ArrayList<Type> typeParametres;
 
     public EntreeFct(String nom) {
         super(nom);
         this.typeParametres = new ArrayList<>();
     }
 
+    public EntreeFct(String nom, String... typeParametres) {
+        super(nom);
+        setTypeParametres(typeParametres);
+    }
+
     public void setTypeParametres(Type... typeParametres) {
+        this.typeParametres = new ArrayList<>(typeParametres.length);
         Collections.addAll(this.typeParametres, typeParametres);
+    }
+
+    public void setTypeParametres(String... typeParametres) {
+        this.typeParametres = new ArrayList<>(typeParametres.length);
+        for (String t : typeParametres) {
+            this.typeParametres.add(Type.valueOf(t.toUpperCase()));
+        }
     }
 
     @Override
@@ -60,15 +49,6 @@ public class EntreeFct extends Entree{
         }
 
         return false;
-    }
-
-    public ArrayList<Type> getTypeParametres() {
-        return typeParametres;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     @Override
@@ -87,6 +67,7 @@ public class EntreeFct extends Entree{
         return nom+ "( " + sb + " )";
     }
 
+    // TODO Enlever cette fonction
     @Override
     public String getNom() {
         return this.nom;

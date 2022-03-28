@@ -8,7 +8,7 @@ import java.util.Objects;
  * Représente une entrée dans la TDS (juste l'identification)
  *
  * @author Elhadji Moussa FAYE
- * @version 2.0.0
+ * @version 2.6.3
  * @since 1.4.0
  * created on 19/02/2022
  */
@@ -25,6 +25,10 @@ public abstract class Entree {
      */
     public String getNom() {
         return nom;
+    }
+
+    public void setTypeParametres(String... typeParametres) {
+        throw new RuntimeException("Fonction non implémentée");
     }
 
     /**
