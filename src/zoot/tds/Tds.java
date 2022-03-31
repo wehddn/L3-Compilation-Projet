@@ -6,7 +6,7 @@ import zoot.exceptions.*;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.2
+ * @version 2.6.5
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -21,10 +21,11 @@ public class Tds {
 
     private boolean enConstruction = true;
 
-    private int nbNoeuds;
+    private int nbNoeuds = 0;
 
     private Tds() {
-        noeudCourant = new NoeudTDS(0);
+        noeudCourant = new NoeudTDS(nbNoeuds);
+        nbNoeuds++;
     }
 
     /**
@@ -62,8 +63,8 @@ public class Tds {
         return noeudCourant.getTailleZoneVar();
     }
 
-    public void addVar(Type typeVar){
-        noeudCourant.addVar(typeVar);
+    public void addVariable(Type typeVar){
+        noeudCourant.addVariable(typeVar);
     }
 
     public int getTailleZonePar(){
@@ -88,23 +89,30 @@ public class Tds {
 
     public void entreeBloc(){
         if (enConstruction){
-            NoeudTDS next = new NoeudTDS(noeudCourant.noRegion + 1);
+            NoeudTDS next = new NoeudTDS(nbNoeuds);
+            nbNoeuds++;
             noeudCourant.addEnfant(next);
             next.setParent(noeudCourant);
             noeudCourant = next;
+        } else {
+            noeudCourant.enfantSuivant();
+            noeudCourant = noeudCourant.getEnfantCourant();
         }
     }
 
     public void sortieBloc(){
-        if (enConstruction)
-            noeudCourant = noeudCourant.getParent();
+        noeudCourant = noeudCourant.getParent();
     }
 
     public void endConstruction(){
-        this.enConstruction = true;
+        this.enConstruction = false;
     }
 
     public String getEtiquette(String nom) {
         return noeudCourant.getEtiquette(nom);
+    }
+
+    public int getNoRegion() {
+        return nbNoeuds - 1;
     }
 }

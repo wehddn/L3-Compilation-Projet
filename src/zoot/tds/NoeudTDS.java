@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.2
+ * @version 2.6.5
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -25,7 +25,7 @@ public class NoeudTDS {
      */
     private final HashMap<Entree, Symbole> dict;
 
-    int noRegion = 0;
+    private int noRegion;
     private int tailleZoneVar = 0;
     private int tailleZonePar = 0;
     private int noEnfantCourant = 0;
@@ -83,7 +83,7 @@ public class NoeudTDS {
         return tailleZoneVar;
     }
 
-    public void addVar(Type typeVar){
+    public void addVariable(Type typeVar){
         int valeur = 0;
         switch (typeVar){
             case ENTIER: valeur = 4; break;
@@ -108,7 +108,6 @@ public class NoeudTDS {
     }
 
     public NoeudTDS getEnfantCourant(){
-        noEnfantCourant++;
         return enfants.get(noEnfantCourant - 1);
     }
 
@@ -123,17 +122,16 @@ public class NoeudTDS {
         for (NoeudTDS t : enfants) {
             sb.append(t.toString().indent(4));
         }
-        return "TDS-start :\n" + sb.toString().indent(4) + "TDS-end";
+        return "TDS-start : bloc no " + noRegion + ":\n" + sb.toString().indent(4) + "TDS-end : bloc no " + noRegion;
     }
 
     public void enfantSuivant(){
-        /*noEnfantCourant++;
-        return enfants.get(noEnfantCourant - 1);*/
+        noEnfantCourant++;
 
     }
 
     public void enfantPrecedent(){
-
+        noEnfantCourant--;
     }
 
     public String getEtiquette(String nom) {

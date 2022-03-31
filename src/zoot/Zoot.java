@@ -22,10 +22,10 @@ public class Zoot {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(nomFichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
             arbre.verifier() ;
-//            Logger logger = Logger.getAnonymousLogger();
-//            logger.log(Level.INFO,Tds.getInstance().toString());
-//            logger.log(Level.INFO,"--------------------------");
-//            logger.log(Level.INFO,arbre.toString());
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.INFO,Tds.getInstance().toString());
+            logger.log(Level.INFO,"--------------------------");
+            logger.log(Level.INFO,arbre.toString());
             System.out.println("COMPILATION OK") ;
             String nomSortie = nomFichier.replaceAll("[.]zoot", ".mips") ;
             PrintWriter flot = new PrintWriter(new BufferedWriter(new FileWriter(nomSortie))) ;

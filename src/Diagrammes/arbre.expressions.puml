@@ -52,5 +52,11 @@ package expressions {
 	}
 	Idf --"1" Symbole
 	Idf --"1" Entree
+
+	interface LValue implements Typed {
+		+ String getPositionMIPS()
+	}
+
+
 }
 @enduml
