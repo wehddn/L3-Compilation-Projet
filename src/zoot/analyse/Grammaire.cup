@@ -91,13 +91,13 @@ PROGRAMME ::= VARIABLES_PROG:v FONCTIONS_PROG:f INSTRUCTIONS_PROG:i
 {:
     Programme prog = new Programme(vleft + 1, vright + 1);
     for (Declaration d : v) {
-            SymboleVar symVar = d.getSymbole();
-            symVar.setNoRegion(Tds.getInstance().getNoRegion());
-            EntreeVar entree = d.getEntree();
-            symVar.setDeplacement(Tds.getInstance().getTailleZoneVar());
-            Tds.getInstance().addVariable(symVar.getType());
-            Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
-        }
+        SymboleVar symVar = d.getSymbole();
+        symVar.setNoRegion(Tds.getInstance().getNoRegion());
+        EntreeVar entree = d.getEntree();
+        symVar.setDeplacement(-Tds.getInstance().getTailleZoneVar());
+        Tds.getInstance().addVariable(symVar.getType());
+        Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
+    }
 
     prog.setBlocDeFonctions(f);
     prog.setBlocDInstructions(i);
@@ -212,7 +212,7 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:
     for (Declaration d : pf) {
         SymboleVar symPar = d.getSymbole();
         symPar.setNoRegion(Tds.getInstance().getNoRegion());
-        symPar.setDeplacement(Tds.getInstance().getTailleZonePar());
+        symPar.setDeplacement(Tds.getInstance().getTailleZonePar() + 16);
         Tds.getInstance().addParametre(symPar.getType());
         EntreeVar entree = d.getEntree();
         Tds.getInstance().ajouter(entree, symPar, d.getLigne(), d.getColonne());
@@ -222,7 +222,7 @@ FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:
         SymboleVar symVar = d.getSymbole();
         symVar.setNoRegion(Tds.getInstance().getNoRegion());
         EntreeVar entree = d.getEntree();
-        symVar.setDeplacement(Tds.getInstance().getTailleZoneVar());
+        symVar.setDeplacement(-Tds.getInstance().getTailleZoneVar());
         Tds.getInstance().addVariable(symVar.getType());
         Tds.getInstance().ajouter(entree, symVar, d.getLigne(), d.getColonne());
     }

@@ -1,93 +1,170 @@
 package zoot.mips;
 
+import zoot.arbre.expressions.Expression;
 import zoot.tds.Type;
 
 public class SnippetsMIPS {
     public static String enteteProgramme(){
-        StringBuilder sb = new StringBuilder() ;
         // Ecrit le début du programme mips
-        sb.append(".data\n" +
-                "\tvrai: .asciiz \"vrai\"\n" +
-                "\tfaux: .asciiz \"faux\"\n" +
-                ".text\n" +
-                "main :\n" +
-                "# initialiser $s7 avec $sp\n" +
-                "\tmove $s7, $sp\n");
+        return """
+                .data
+                \tvrai: .asciiz "vrai"
+                \tfaux: .asciiz "faux"
+                .text
+                main :""";
+    }
+
+    public static String sauvegarderParametres(int positionDepart, Expression... parametres) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = parametres.length - 1; i >= 0; i--) {
+            sb.append("""
+                    %s
+                    %s
+                    """.formatted(parametres[i].toMIPS(), sauvegardeRegistreDansPile("$v0", (i * 4) + positionDepart)));
+        }
         return sb.toString();
     }
 
-    public String empiler(String registre){
-        return "";
+    public static String mettreValeurDansRegistre(String registre, String valeur) {
+        return "\tli %s, %s".formatted(registre, valeur);
     }
 
-    public static String reserverPlacePile(int taillePile){
-        return "# réserver la place pour " + taillePile / 4 + " variable";
+    public static String copieRegistreVersRegistre(String registeSource, String registreDestination) {
+        return "\tmove %s, %s".formatted(registreDestination, registeSource);
     }
 
-    public String sauvegardeBaseLocale(){
-        return "";
+    public static String sauvegardeRegistreDansPile(String registre, int position) {
+        return "\tsw %s, %s($sp)".formatted(registre, position);
     }
 
-    public String definitionRecherchePosition(){
-        return "";
+    public static String sauvegardeValeurDansPile(int valeur, int position) {
+        return """
+                \tli $t0, %s
+                %s""".formatted(valeur, sauvegardeRegistreDansPile("$t0", position));
     }
 
-    public String appelRecherchePosition(){
-        return "";
+    public static String restaurerRegistreDepuisPile(String registre, int position) {
+        return "\tlw %s, %s($sp)".formatted(registre, position);
     }
 
-	public static String appelTraductionBooleen(){
-        StringBuilder sb = new StringBuilder() ;
-        sb.append("\n#sauvegarde return adress\n" +
-                "\tsw $ra, -4($sp)\n" +
-                "\tsub $sp, $sp, 4\n" +
-                "\tjal traductionbool\n" +
-                "#restauration return adress\n" +
-                "\tlw $ra, 0($sp)\n" +
-                "\taddi $sp, $sp, 4");
-        return sb.toString();
+
+    public static String reserverPlacePile(int nbCases){
+        return "\tadd $sp, $sp, -%s".formatted(nbCases * 4);
     }
 
-	public static String definitionTraductionBooleen(){
-        StringBuilder sb = new StringBuilder() ;
-        sb.append("traductionbool :\n" +
-                "\tbeq $v0, $zero, boolfaux\n" +
-                "boolvrai :\n" +
-                "\tla $v0, vrai\n" +
-                "\tb fintraductionbool\n" +
-                "boolfaux :\n" +
-                "\tla $v0, faux\n" +
-                "fintraductionbool :\n" +
-                "\tjr $ra\n");
-        return sb.toString();
+    public static String libererPlacePile(int nbCases) {
+        return "\tadd $sp, $sp, %s".formatted(nbCases * 4);
     }
 
-	public static String appelEcriture(Type typeAEcrire){
+
+    public static String appelEcriture(Type typeAEcrire){
         StringBuilder sb = new StringBuilder() ;
         String codeEcriture;
         // quitte le programme en théorie ce cas ne devrait pas arriver
         switch (typeAEcrire) {
-            case ENTIER:
-                codeEcriture = "1";
-                break;
-            case BOOLEEN:
+            case ENTIER -> codeEcriture = "1";
+            case BOOLEEN -> {
                 sb.append(appelTraductionBooleen());
                 codeEcriture = "4";
-                break;
-            default:
-                codeEcriture = "10";
-                break;
+            }
+            default -> codeEcriture = "10";
         }
 
-        sb.append("\n# Ecriture\n" +
-                "\tmove $a0, $v0\n" +
-                "\tli $v0, ").append(codeEcriture)
-                .append("\n\tsyscall\n" +
-                        "# Saut de ligne\n" +
-                        "\tli $v0, 11\n" +
-                        "\tli $a0, 10\n" +
-                        "\tsyscall");
+        sb.append("""
+                    # Ecriture
+                    \tmove $a0, $v0
+                    \tli $v0,\s""").append(codeEcriture).append("\n");
+        sb.append("""
+                \tsyscall
+                # Saut de ligne
+                \tli $v0, 11
+                \tli $a0, 10
+                \tsyscall""");
 
         return sb.toString();
+    }
+
+	public static String appelTraductionBooleen(){
+        return """
+                # appel fonction de traduction
+                %s
+                %s
+                \tjal traductionBooleen
+                %s
+                %s""".formatted(reserverPlacePile(1) ,
+                sauvegardeAdresseRetourAvantAppel(4),
+                restaurationAdresseRetourApresAppel(4),
+                libererPlacePile(1));
+    }
+
+	public static String definitionTraductionBooleen(){
+        return """
+                # fonction de traduction de booleen
+                traductionBooleen :
+                \tbeq $v0, $zero, traductionBooleenFaux
+                traductionBooleenVrai : # booleen == vrai
+                \tla $v0, vrai
+                \tj finTraductionBooleen
+                traductionBooleenFaux : # booleen == faux
+                \tla $v0, faux
+                finTraductionBooleen :
+                \tjr $ra
+                """;
+    }
+
+    public static String sauvegardeAdresseRetourAvantAppel(int position) {
+        return """
+                #sauvegarde adresse de retour courante
+                %s""".formatted(sauvegardeRegistreDansPile("$ra", position));
+    }
+
+    public static String restaurationAdresseRetourApresAppel(int position) {
+        return """
+                #restauration adresse de retour précédent
+                %s""".formatted(restaurerRegistreDepuisPile("$ra", position));
+    }
+
+    /**
+     * Arguments MIPS : $a0 le numero du bloc, $a1 la position de la variable dans le bloc cible
+     * Retourne le code MIPS pour la définition de la fonction de recherche de
+     * position d'une variable dans la pile
+     * @return Le code MIPS de la fonction définie
+     */
+    public static String definitionRecherchePosition(){
+        return """
+                # fonction de recherche de position
+                recherchePositionMips :
+                \tmove $t0, $s7 # position base local
+                \tlw $t1, 4($t0) # le numéro de region du bloc courant
+                whileRecherchePosition :
+                \tbeq $t1, $a0, exitRecherchePosition
+                \tlw $t0, 8($t0) # position fonction appelante (chainage dynamique)
+                \tlw $t1, 4($t0)
+                \tj whileRecherchePosition
+                exitRecherchePosition :
+                \tadd $t0, $t0, $a1
+                \tmove $v0, $t0
+                \tjr $ra
+                """;
+    }
+
+    /**
+     * Donne le code MIPS de l'appel de la fonction de recherche de variable dans
+     * la pile
+     * Arguments MIPS : $a0 le numero du bloc, $a1 la position du bloc courant
+     *
+     * @return
+     */
+    public static String appelRecherchePosition(){
+        return """
+                %s
+                %s
+                \tjal recherchePositionMips
+                %s
+                %s""".formatted(reserverPlacePile(1),
+                sauvegardeAdresseRetourAvantAppel(4),
+                restaurationAdresseRetourApresAppel(4),
+                libererPlacePile(1));
     }
 }

@@ -3,13 +3,14 @@ package zoot.arbre;
 import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
 import zoot.exceptions.TypeNonConcordantException;
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.*;
 
 /**
  * Classe qui représente les différentes instructions d'une fonctions du programme
  *
  * @author Nicolas GRAFF
- * @version 2.6.2
+ * @version 2.8.0
  * @since 1.8.0
  * created on 07/03/2022
  */
@@ -17,6 +18,8 @@ import zoot.tds.*;
 public class Fonction extends BlocDInstructions{
     private final EntreeFct entree;
     private SymboleFct symbole = null;
+    private int nbVariablesLocales;
+    private int noBloc;
 
     public Fonction(EntreeFct e, int n, int m) {
         super(n, m);
@@ -28,12 +31,36 @@ public class Fonction extends BlocDInstructions{
         Tds.getInstance().entreeBloc();
         this.symbole = (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
         super.verifier();
+        noBloc = Tds.getInstance().getNoRegion();
+        nbVariablesLocales = Tds.getInstance().getTailleZoneVar()/4;
         Tds.getInstance().sortieBloc();
     }
 
     public String toMIPS(){
-        return symbole.getEtiquette() + " :\n" +
-                super.toMIPS() + '\n';
+        StringBuilder sb = new StringBuilder();
+        // Sauvegarde du numéro de région et initialisation de la base locale
+        sb.append("""
+                %s :
+                %s # sauvegarde noregion
+                %s # initialisation base locale
+                """.formatted(symbole.getEtiquette(),
+                SnippetsMIPS.sauvegardeValeurDansPile(noBloc, 4),
+                SnippetsMIPS.copieRegistreVersRegistre("$sp", "$s7")));
+
+        // Réservation des variables locales s'il y'en a
+        if (nbVariablesLocales > 0) {
+            sb.append("""
+                    %s
+                    """.formatted(SnippetsMIPS.reserverPlacePile(nbVariablesLocales)));
+        }
+
+        // Ecriture du code mips des instructions
+        sb.append("""
+                # instructions
+                %s
+                """.formatted(super.toMIPS()));
+        return sb.toString();
+
     }
 
     public void ajouter(Retourne r) {

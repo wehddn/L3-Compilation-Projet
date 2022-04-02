@@ -1,12 +1,13 @@
 package zoot.arbre.expressions;
 
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
 
 /**
  * Représente une constante booléene
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.4
+ * @version 2.8.0
  * @since 1.0.0
  * created on 09/02/2022
  */
@@ -24,7 +25,7 @@ public class ConstanteBooleene extends Constante{
         String valeur = "0";
         if (cste.equals("vrai"))
             valeur = "1";
-        return "\tli $v0, " + valeur;
+        return SnippetsMIPS.mettreValeurDansRegistre("$v0", valeur);
     }
 
     public Type getType() {

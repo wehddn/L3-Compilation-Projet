@@ -5,7 +5,7 @@ import zoot.mips.SnippetsMIPS;
 
 /**
  * Instruction pour écrire une expression
- * @version 1.7.1
+ * @version 2.8.0
  */
 public class Ecrire extends Instruction {
 
@@ -36,11 +36,9 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(exp.toMIPS());
-        sb.append(SnippetsMIPS.appelEcriture(exp.getType()));
 
-        return sb.toString();
+        return exp.toMIPS() + "\n" +
+               SnippetsMIPS.appelEcriture(exp.getType()) + "\n";
     }
 
     @Override

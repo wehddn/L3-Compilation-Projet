@@ -1,10 +1,11 @@
 package zoot.arbre.expressions;
 
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
 
 /**
  * Represente une constant entière dans l'arbre abstrait
- * @version 2.6.4
+ * @version 2.8.0
  */
 public class ConstanteEntiere extends Constante {
 
@@ -17,7 +18,7 @@ public class ConstanteEntiere extends Constante {
      */
     @Override
     public String toMIPS() {
-        return "\tli $v0, " + this.cste;
+        return SnippetsMIPS.mettreValeurDansRegistre("$v0", cste);
     }
 
     @Override

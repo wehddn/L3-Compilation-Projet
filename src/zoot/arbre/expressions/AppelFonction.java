@@ -2,6 +2,7 @@ package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Collections;
  * Classe représentant un appel de fonction
  *
  * @author Nicolas GRAFF
- * @version 2.6.4
+ * @version 2.8.0
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -43,20 +44,26 @@ public class AppelFonction extends Expression{
 
     @Override
     public String toMIPS() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("# Appel fonction : ").append(this).append("\n");
-        sb.append("# Sauvegarde des paramètres dans la pile\n");
-        int i;
-        for (i = 0; i < parametres.size(); i++) {
-            sb.append(parametres.get(i).toMIPS()).append("\n");
-            sb.append("\tsw $v0, -").append((i+1)*4).append("($sp)\n");
-        }
-        sb.append("# Sauvegarde des infos du bloc\n\tmove $ra, -").append((i+1)*4).append("($sp)\n");
-        i++;
-        sb.append("\tlw $ra, -").append((i+1)*4).append("($sp)\n");
-        sb.append("\tadd $sp, $sp, -").append((parametres.size()*4) + 12).append('\n');
-        sb.append("\tjal ").append(symbole.getEtiquette());
-        return sb.toString();
+
+        return """
+                # appel de la fonction %s
+                %s # reserver place entête (jusqu'a $s7)
+                %s # empiler params
+                %s # empiler ra
+                %s # empiler chainage dynamique (s7 courant)
+                \tjal %s
+                %s # restaurer s7
+                %s # restaurer ra
+                %s # restaurer pile
+                """.formatted(getCommentaire(),
+                SnippetsMIPS.reserverPlacePile(3 + parametres.size()),
+                SnippetsMIPS.sauvegarderParametres(4 * 4 ,parametres.toArray(new Expression[0])),
+                SnippetsMIPS.sauvegardeAdresseRetourAvantAppel(3 * 4),
+                SnippetsMIPS.sauvegardeRegistreDansPile("$s7", 2 * 4),
+                symbole.getEtiquette(),
+                SnippetsMIPS.restaurerRegistreDepuisPile("$s7", 2 * 4),
+                SnippetsMIPS.restaurationAdresseRetourApresAppel(3 * 4),
+                SnippetsMIPS.libererPlacePile(3 + parametres.size()));
     }
 
     @Override
@@ -69,7 +76,7 @@ public class AppelFonction extends Expression{
 
     @Override
     public String getCommentaire() {
-        return "appel";
+        return entree.getNom();
     }
 
     @Override

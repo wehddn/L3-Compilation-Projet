@@ -53,7 +53,7 @@ package expressions {
 	Idf --"1" Symbole
 	Idf --"1" Entree
 
-	interface LValue implements Typed {
+	interface LValue extends ArbreAbstrait implements Typed {
 		+ String getPositionMIPS()
 	}
 

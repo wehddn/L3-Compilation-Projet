@@ -6,7 +6,7 @@ import zoot.exceptions.*;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.5
+ * @version 2.8.0
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -113,6 +113,6 @@ public class Tds {
     }
 
     public int getNoRegion() {
-        return nbNoeuds - 1;
+        return noeudCourant.getNoRegion();
     }
 }

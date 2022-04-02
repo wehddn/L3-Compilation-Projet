@@ -8,14 +8,15 @@ import zoot.tds.Tds;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.0
+ * @version 2.8.0
  * @since 1.4.2
  * created on 19/02/2022
  */
 public class Programme extends ArbreAbstrait{
     private BlocDeFonctions fonctions = new BlocDeFonctions(0,0) ;
     private BlocDInstructions instructions = new BlocDInstructions(0,0);
-    protected int taillePile = 0;
+    protected int nbVariablesLocales = 0;
+    private int noBloc;
 
     public Programme(int n, int m) {
         super(n, m);
@@ -25,38 +26,43 @@ public class Programme extends ArbreAbstrait{
     public void verifier() throws AnalyseSemantiqueException {
         fonctions.verifier();
         instructions.verifier();
-        taillePile = Tds.getInstance().getTailleZoneVar();
+        nbVariablesLocales = Tds.getInstance().getTailleZoneVar()/4;
+        noBloc = Tds.getInstance().getNoRegion();
     }
 
     @Override
     public String toMIPS() {
-        StringBuilder sb = new StringBuilder() ;
         // Ecrit le début du programme mips
-        sb.append(SnippetsMIPS.enteteProgramme());
-        sb.append(SnippetsMIPS.reserverPlacePile(taillePile));
 
-        if (taillePile > 4) // Ajoute un s à variable s'il y'a plusieurs variables
-            sb.append('s');
-
-        // L'instruction qui réserve la place dans la pile pour les variables
-        sb.append("\n\tadd $sp, $sp, ").append(-taillePile).append("\n");
-
-        sb.append(instructions.toMIPS()).append("\n");
-
-        // Ecrit la fin du programme mips (retour et la fonction de traduction bool)
-        sb.append("end :\n" +
-                "\tli $v0, 10\n" +
-                "\tsyscall\n\n");
-        sb.append(SnippetsMIPS.definitionTraductionBooleen());
-        sb.append(fonctions.toMIPS());
-
-        return sb.toString();
+        return """
+                # entete du programme
+                %s
+                # reservation place pour le numero de bloc et les variables locales
+                %s
+                # sauvegarde noregion
+                %s
+                \tadd $s7, $sp, %s # initialisation base locale
+                # instructions
+                %s
+                end :
+                \tli $v0, 10
+                \tsyscall
+                                
+                # fonctions système
+                """.formatted(SnippetsMIPS.enteteProgramme(),
+                SnippetsMIPS.reserverPlacePile(1 + nbVariablesLocales),
+                SnippetsMIPS.sauvegardeValeurDansPile(noBloc, (1 + nbVariablesLocales) * 4),
+                nbVariablesLocales * 4, instructions.toMIPS()) +
+                SnippetsMIPS.definitionTraductionBooleen() + "\n" +
+                SnippetsMIPS.definitionRecherchePosition() + "\n" +
+                "# fonctions utilisateurs :\n" +
+                fonctions.toMIPS();
     }
 
     @Override
     public String toString() {
-        return "Programme :\nTaille pile : " + taillePile +"\nFonctions :\n" + fonctions +
-                "Instructions : \n" + instructions;
+        return "Programme :\nTaille pile : " + nbVariablesLocales + "\nFonctions :\n" + fonctions +
+               "Instructions : \n" + instructions;
     }
 
     public void setBlocDeFonctions(BlocDeFonctions b) {

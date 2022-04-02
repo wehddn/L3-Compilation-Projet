@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.5
+ * @version 2.8.0
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -84,11 +84,11 @@ public class NoeudTDS {
     }
 
     public void addVariable(Type typeVar){
-        int valeur = 0;
-        switch (typeVar){
-            case ENTIER: valeur = 4; break;
-            case BOOLEEN: valeur = 4; break;
-        }
+        int valeur = switch (typeVar) {
+            case ENTIER -> 4;
+            case BOOLEEN -> 4;
+            default -> 0;
+        };
 
         tailleZoneVar += valeur;
     }
@@ -98,11 +98,11 @@ public class NoeudTDS {
     }
 
     public void addParametre(Type typeParam){
-        int valeur = 0;
-        switch (typeParam){
-            case ENTIER: valeur = 4; break;
-            case BOOLEEN: valeur = 4; break;
-        }
+        int valeur = switch (typeParam) {
+            case ENTIER -> 4;
+            case BOOLEEN -> 4;
+            default -> 0;
+        };
 
         tailleZonePar += valeur;
     }
@@ -136,5 +136,9 @@ public class NoeudTDS {
 
     public String getEtiquette(String nom) {
         return  "__" + nom + "__" + UUID.randomUUID().toString().replace("-", "") + "__";
+    }
+
+    public int getNoRegion() {
+        return noRegion;
     }
 }

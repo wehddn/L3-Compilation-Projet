@@ -1,12 +1,13 @@
 package zoot.arbre.expressions;
 
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.*;
 
 /**
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 2.6.4
+ * @version 2.8.0
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -26,14 +27,14 @@ public class Idf extends Expression {
 
     @Override
     public String toMIPS() {
-        return "\tlw $v0, " + (-symbole.getDeplacement()) + "($s7)";
+        return """
+                %s
+                \tlw $v0, 0($v0)
+                """.formatted(getPositionMIPS());
     }
 
     public Type getType() {
-        if (symbole == null)
-            return Type.NONDEFINI;
-        else
-            return symbole.getType();
+        return symbole.getType();
     }
 
     @Override
@@ -48,5 +49,12 @@ public class Idf extends Expression {
     @Override
     public String toString() {
         return entree.toString();
+    }
+
+    public String getPositionMIPS() {
+        return """
+                \tli $a0, %s
+                \tli $a1, %s
+                %s""".formatted(symbole.getNoRegion(), symbole.getDeplacement(), SnippetsMIPS.appelRecherchePosition());
     }
 }

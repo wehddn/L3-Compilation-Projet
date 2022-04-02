@@ -1,10 +1,12 @@
 package zoot.arbre.instructions;
 
+import zoot.arbre.ArbreAbstrait;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
+import zoot.arbre.expressions.LValue;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
-import zoot.tds.Tds;
+import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
 
 /**
@@ -12,18 +14,18 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 2.6.4
+ * @version 2.8.0
  * @since 1.0.0
  * created on 11/02/2022
  */
 public class Affectation extends Instruction{
-    private final Idf idf;
-    private final Expression exp;
+    private final Idf left;
+    private final Expression right;
 
-    public Affectation(Idf idf, Expression exp, int noLigne, int noColonne) {
+    public Affectation(Idf left, Expression right, int noLigne, int noColonne) {
         super(noLigne, noColonne);
-        this.idf = idf;
-        this.exp = exp;
+        this.left = left;
+        this.right = right;
     }
 
     /**
@@ -31,29 +33,48 @@ public class Affectation extends Instruction{
      */
     @Override
     public void verifier() throws AnalyseSemantiqueException {
-        idf.verifier();
-        exp.verifier();
-        Type idfType = idf.getType();
-        Type expType = exp.getType();
-        if (!idfType.equals(expType)){
-            throw new TypeNonConcordantException(noLigne, noColonne,  idfType + " <- " + expType);
+        left.verifier();
+        right.verifier();
+        Type leftType = left.getType();
+        Type expType = right.getType();
+        if (!leftType.equals(expType)){
+            throw new TypeNonConcordantException(noLigne, noColonne,  leftType + " <- " + expType);
         }
     }
 
     /**
-     * @see zoot.arbre.ArbreAbstrait
+     * @see ArbreAbstrait
      */
     @Override
     public String toMIPS() {
-        int idfDeplacement = -idf.getSymbole().getDeplacement();
-
-        return "# "+ idf.getCommentaire() +" = "+ exp.getCommentaire() +"\n\t" +
-                exp.toMIPS() +
-                "\n\tsw $v0, " + idfDeplacement + "($s7)";
+        return """
+                # affectation %s = %s
+                # évaluation expression
+                %s
+                # sauvegarde résultat expression dans pile
+                %s
+                %s
+                # récupération position %s
+                %s
+                # récupération du résultat dans la pile
+                %s
+                %s
+                # sauvegarde de la valeur dans la variable
+                \tsw $t0, 0($v0)
+                """.formatted(left.getCommentaire(),
+                right.getCommentaire(),
+                right.toMIPS(),
+                SnippetsMIPS.reserverPlacePile(1),
+                SnippetsMIPS.sauvegardeRegistreDansPile("$v0", 4),
+                left.getCommentaire(),
+                left.getPositionMIPS(),
+                SnippetsMIPS.restaurerRegistreDepuisPile("$t0", 4),
+                SnippetsMIPS.libererPlacePile(1)
+                );
     }
 
     @Override
     public String toString() {
-        return idf + " = " + exp;
+        return left + " = " + right;
     }
 }
