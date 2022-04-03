@@ -2,16 +2,16 @@
 package instructions {
 
 	class Affectation extends Instruction {
-		+ Affectation(LValue id, Expression exp, int noLigne, int noColonne)
+		+ Affectation(Idf left, Expression right, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 	}
 
-	Affectation --"1" LValue
+	Affectation --"1" Idf
 	Affectation --"1" Expression
 
 	class Ecrire extends Instruction{
-		+ Ecrire (Expression exp, int ligne, int col)
+		+ Ecrire (Expression e, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 	}
@@ -22,11 +22,15 @@ package instructions {
 	}
 
 	class Retourne extends Instruction implements Typed{
-		+ Retourne (Expression e, int ligne, int col)
+		- int nbVarLocalesFonction
+		+ Retourne (Expression e, int ligne, int colonne)
 		+ void verifier()
+		+ void setFonction(Fonction f)
 		+ String toMIPS()
 		+ Type getType()
 	}
 	Retourne --"1" Expression
+	Retourne --"1" Fonction
+
 }
 @enduml

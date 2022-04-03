@@ -1,7 +1,7 @@
 @startuml
 package expressions {
 	class AppelFonction extends Expression {
-		+ Appel(Entree i, int ligne, int colonne)
+		+ Appel(EntreeFct i, int ligne, int colonne, Expression... parametres)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
@@ -41,7 +41,7 @@ package expressions {
 		+ abstract String getCommentaire()
 	}
 
-	class Idf extends Expression implements LValue {
+	class Idf extends Expression {
 		+ Idf(Entree e, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
@@ -50,13 +50,8 @@ package expressions {
 		+ String getPositionMIPS()
 		+ String getCommentaire()
 	}
-	Idf --"1" Symbole
 	Idf --"1" Entree
-
-	interface LValue extends ArbreAbstrait implements Typed {
-		+ String getPositionMIPS()
-	}
-
+	Idf --"1" Symbole
 
 }
 @enduml

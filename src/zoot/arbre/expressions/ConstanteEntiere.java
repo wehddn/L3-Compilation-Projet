@@ -5,12 +5,12 @@ import zoot.tds.Type;
 
 /**
  * Represente une constant entière dans l'arbre abstrait
- * @version 2.8.0
+ * @version 2.8.1
  */
 public class ConstanteEntiere extends Constante {
 
-    public ConstanteEntiere(String texte, int ligne, int colonne) {
-        super(texte, ligne, colonne) ;
+    public ConstanteEntiere(String valeur, int ligne, int colonne) {
+        super(valeur, ligne, colonne) ;
     }
 
     /**

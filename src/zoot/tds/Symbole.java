@@ -8,7 +8,7 @@ import java.util.Objects;
  * Classe qui représente un Symbole (type d'une entrée)
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.1
+ * @version 2.8.1
  * @since 1.0.1
  * created on 08/02/2022
  */
@@ -18,10 +18,10 @@ public class Symbole implements Typed {
     /**
      * Crée un symbole avec le type
      *
-     * @param typeSymbole le type du symbole
+     * @param type le type du symbole
      */
-    public Symbole(String typeSymbole) {
-        type = Type.valueOf(typeSymbole.toUpperCase());
+    public Symbole(String type) {
+        this.type = Type.valueOf(type.toUpperCase());
 
     }
 
@@ -56,11 +56,6 @@ public class Symbole implements Typed {
     public String getEtiquette() {
         throw new RuntimeException("Fonction non implémentée");
     }
-
-    /**
-     * Retourne la position du symbole dans la pile locale
-     * @return la position du symbole dans la pile locale
-     */
 
     @Override
     public String toString() {

@@ -6,7 +6,7 @@ import zoot.exceptions.*;
  * Classe représentant la table des symboles
  *
  * @author Elhadji Moussa FAYE
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.0.0
  * created on 08/02/2022
  */
@@ -16,11 +16,8 @@ public class Tds {
      * L'instance (Singleton)
      */
     private static Tds instance = null;
-
     private NoeudTDS noeudCourant;
-
     private boolean enConstruction = true;
-
     private int nbNoeuds = 0;
 
     private Tds() {
@@ -45,8 +42,8 @@ public class Tds {
      * @param e l'entrée
      * @param s Le Symbole de l'entrée (type)
      */
-    public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
-        noeudCourant.ajouter(e, s, noLigne, noColonne);
+    public void ajouter(Entree e, Symbole s, int ligne, int colonne) throws DoubleDeclarationException {
+        noeudCourant.ajouter(e, s, ligne, colonne);
     }
 
     /**
@@ -55,8 +52,8 @@ public class Tds {
      * @param e l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(Entree e, int noLigne, int noColonne) throws AnalyseSemantiqueException {
-        return noeudCourant.identifier(e, noLigne, noColonne);
+    public Symbole identifier(Entree e, int ligne, int colonne) throws AnalyseSemantiqueException {
+        return noeudCourant.identifier(e, ligne, colonne);
     }
 
     public int getTailleZoneVar() {

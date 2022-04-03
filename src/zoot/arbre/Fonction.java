@@ -2,7 +2,6 @@ package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
-import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.*;
 
@@ -10,7 +9,7 @@ import zoot.tds.*;
  * Classe qui représente les différentes instructions d'une fonctions du programme
  *
  * @author Nicolas GRAFF
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.8.0
  * created on 07/03/2022
  */
@@ -21,15 +20,15 @@ public class Fonction extends BlocDInstructions{
     private int nbVariablesLocales;
     private int noBloc;
 
-    public Fonction(EntreeFct e, int n, int m) {
-        super(n, m);
+    public Fonction(EntreeFct e, int ligne, int colonne) {
+        super(ligne, colonne);
         this.entree = e;
     }
 
     @Override
     public void verifier() {
         Tds.getInstance().entreeBloc();
-        this.symbole = (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
+        this.symbole = (SymboleFct) Tds.getInstance().identifier(entree, ligne, colonne);
         super.verifier();
         noBloc = Tds.getInstance().getNoRegion();
         nbVariablesLocales = Tds.getInstance().getTailleZoneVar()/4;

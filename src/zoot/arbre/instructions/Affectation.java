@@ -3,7 +3,6 @@ package zoot.arbre.instructions;
 import zoot.arbre.ArbreAbstrait;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
-import zoot.arbre.expressions.LValue;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
@@ -14,7 +13,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -22,8 +21,8 @@ public class Affectation extends Instruction{
     private final Idf left;
     private final Expression right;
 
-    public Affectation(Idf left, Expression right, int noLigne, int noColonne) {
-        super(noLigne, noColonne);
+    public Affectation(Idf left, Expression right, int ligne, int colonne) {
+        super(ligne, colonne);
         this.left = left;
         this.right = right;
     }
@@ -38,7 +37,7 @@ public class Affectation extends Instruction{
         Type leftType = left.getType();
         Type expType = right.getType();
         if (!leftType.equals(expType)){
-            throw new TypeNonConcordantException(noLigne, noColonne,  leftType + " <- " + expType);
+            throw new TypeNonConcordantException(ligne, colonne,  leftType + " <- " + expType);
         }
     }
 

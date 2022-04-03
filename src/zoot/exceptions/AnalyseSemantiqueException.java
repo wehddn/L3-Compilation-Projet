@@ -6,7 +6,7 @@ public class AnalyseSemantiqueException extends AnalyseException {
         super(m) ;
     }
 
-    public AnalyseSemantiqueException(int ligne, int col, String m) {
+    public AnalyseSemantiqueException(int ligne, int colonne, String m) {
         super("ERREUR SEMANTIQUE : ligne " + ligne + " : " + m);
     }
 

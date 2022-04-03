@@ -26,7 +26,7 @@ together {
 			}
 
 			class SymboleFct extends Symbole {
-				# String etiquette
+				- String etiquette
 				+ SymboleFct(String type)
 				+ String getEtiquette()
 				+ void setEtiquette(String etiquette)
@@ -62,12 +62,14 @@ together {
 
 		together {
 			class Tds {
+				- Tds instance
+				- NoeudTDS noeudCourant
 				- boolean enConstruction
 				- int nbNoeuds
 				- Tds()
 				+ static Tds getInstance()
-				+ void ajouter(Entree e, Symbole s, int noLigne, int noColonne)
-				+ Symbole identifier(Entree e, int noLigne, int noColonne)
+				+ void ajouter(Entree e, Symbole s, int ligne, int colonne)
+				+ Symbole identifier(Entree e, int ligne, int colonne)
 				+ int getTailleZoneVar()
 				+ void addVariable(Type typeVar)
 				+ int getTailleZonePar()

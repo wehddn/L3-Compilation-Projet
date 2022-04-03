@@ -12,7 +12,7 @@ import zoot.tds.Type;
  * Instruction pour retourner une expression
  *
  * @author Nicolas GRAFF
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -22,8 +22,8 @@ public class Retourne extends Instruction{
     private Fonction fonction;
     private int nbVarLocalesFonction = 0;
 
-    public Retourne(Expression e, int n, int m) {
-        super(n, m);
+    public Retourne(Expression e, int ligne, int colonne) {
+        super(ligne, colonne);
         exp = e;
     }
 
@@ -32,7 +32,7 @@ public class Retourne extends Instruction{
         exp.verifier();
 
         if (!fonction.getType().equals(exp.getType())) {
-            throw new TypeNonConcordantException(getNoLigne(), getNoColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
+            throw new TypeNonConcordantException(getLigne(), getColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
         }
 
         nbVarLocalesFonction = Tds.getInstance().getTailleZoneVar()/4;

@@ -1,35 +1,32 @@
 package zoot.arbre;
 
-import zoot.arbre.instructions.Instruction;
 import zoot.exceptions.AnalyseSemantiqueException;
-
-import java.util.ArrayList;
 
 /**
  * Represente un arbre abstrait (ou un sous arbre)
- * @version 1.8.0
+ * @version 2.8.1
  */
 public abstract class ArbreAbstrait {
     
     // numéro de ligne du début de l'instruction
-    protected int noLigne ;
-    protected int noColonne ;
+    protected int ligne;
+    protected int colonne;
     
-    protected ArbreAbstrait(int n, int m) {
-        noLigne = n ;
-        noColonne = m;
+    protected ArbreAbstrait(int ligne, int colonne) {
+        this.ligne = ligne ;
+        this.colonne = colonne;
     }
 
     /**
      * Retourne le numéro de ligne du début de l'instruction
      * @return le numéro de ligne du début de l'instruction
      */
-    public int getNoLigne() {
-            return noLigne ;
+    public int getLigne() {
+            return ligne;
     }
 
-    public int getNoColonne() {
-        return noColonne;
+    public int getColonne() {
+        return colonne;
     }
 
     /**

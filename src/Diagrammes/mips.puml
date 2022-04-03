@@ -2,14 +2,21 @@
 package mips {
 	class SnippetsMIPS {
 	+ String enteteProgramme()
-	+ String empiler(String registre)
-	+ String reserverPlacePile(int taille)
-	+ String sauvegardeBaseLocale()
-	+ String definitionRecherchePosition()
-	+ String appelRecherchePosition()
+	+ String sauvegarderParametres(int positionDepart, Expression... parametres)
+	+ String mettreValeurDansRegistre(String registre, String valeur)
+	+ String copieRegistreVersRegistre(String registeSource, String registreDestination)
+	+ String sauvegardeRegistreDansPile(String registre, int position)
+	+ String sauvegardeValeurDansPile(int valeur, int position)
+	+ String restaurerRegistreDepuisPile(String registre, int position)
+	+ String reserverPlacePile(int nbCases)
+	+ String libererPlacePile(int nbCases)
+	+ String appelEcriture(Type typeAEcrire)
 	+ String appelTraductionBooleen()
 	+ String definitionTraductionBooleen()
-	+ String appelEcriture(Type typeAEcrire)
-}
+	+ String sauvegardeAdresseRetourAvantAppel(int position)
+	+ String restaurationAdresseRetourApresAppel(int position)
+	+ String definitionRecherchePosition()
+	+ String appelRecherchePosition()
+	}
 }
 @enduml

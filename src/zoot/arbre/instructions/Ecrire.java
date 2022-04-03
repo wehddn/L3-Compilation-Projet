@@ -5,7 +5,7 @@ import zoot.mips.SnippetsMIPS;
 
 /**
  * Instruction pour écrire une expression
- * @version 2.8.0
+ * @version 2.8.1
  */
 public class Ecrire extends Instruction {
 
@@ -16,10 +16,10 @@ public class Ecrire extends Instruction {
 
     /**
      * @param e l'expression à écrire
-     * @param n le numéro de ligne dans le code zoot de l'instruction écrire
+     * @param ligne le numéro de ligne dans le code zoot de l'instruction écrire
      */
-    public Ecrire (Expression e, int n, int m) {
-        super(n, m) ;
+    public Ecrire (Expression e, int ligne, int colonne) {
+        super(ligne, colonne) ;
         exp = e ;
     }
 

@@ -1,7 +1,6 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
-import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.*;
 
@@ -12,7 +11,7 @@ import java.util.Collections;
  * Classe représentant un appel de fonction
  *
  * @author Nicolas GRAFF
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -20,8 +19,8 @@ import java.util.Collections;
 public class AppelFonction extends Expression{
 
     private final EntreeFct entree;
-    private final ArrayList<Expression> parametres;
     private SymboleFct symbole = null;
+    private final ArrayList<Expression> parametres;
 
     public AppelFonction(EntreeFct i, int ligne, int colonne, Expression... parametres) {
         super(ligne, colonne);
@@ -39,7 +38,7 @@ public class AppelFonction extends Expression{
         }
 
         entree.setTypeParametres(types.toArray(new Type[0]));
-        this.symbole= (SymboleFct) Tds.getInstance().identifier(entree, noLigne, noColonne);
+        this.symbole= (SymboleFct) Tds.getInstance().identifier(entree, ligne, colonne);
     }
 
     @Override

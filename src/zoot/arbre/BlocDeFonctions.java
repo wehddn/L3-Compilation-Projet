@@ -8,15 +8,15 @@ import java.util.ArrayList;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.6.0
+ * @version 2.8.1
  * @since 1.8.0
  * created on 13/03/2022
  */
 public class BlocDeFonctions extends ArbreAbstrait {
     private final ArrayList<Fonction> fonctions ;
 
-    public BlocDeFonctions(int n, int m) {
-        super(n, m);
+    public BlocDeFonctions(int ligne, int colonne) {
+        super(ligne, colonne);
         fonctions = new ArrayList<>() ;
     }
 

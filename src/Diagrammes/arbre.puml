@@ -3,23 +3,23 @@
 package arbre {
 	together {
 		abstract class ArbreAbstrait {
-			# int noLigne
-			# int noColonne
+			# int ligne
+			# int colonne
 			+ ArbreAbstrait(int ligne, int colonne)
-			+ int getNoLigne()
-			+ int getNoColonne()
+			+ int getLigne()
+			+ int getColonne()
 			+ abstract void verifier()
 			+ abstract String toMIPS()
 		}
 
 		class BlocDeFonctions extends ArbreAbstrait {
 			+ BlocDeFonctions(int ligne, int colonne)
-			+ void ajouter(DeclarationFonction f)
+			+ void ajouter(Fonction f)
 			+ void ajouter(BlocDeFonctions bf)
 			+ void verifier()
 			+ String toMIPS()
 		}
-		BlocDeFonctions --"*" DeclarationFonction
+		BlocDeFonctions --"*" Fonction
 
 		together {
 			class BlocDInstructions extends ArbreAbstrait {
@@ -31,21 +31,30 @@ package arbre {
 			}
 			BlocDInstructions --"*" Instruction
 
-			class DeclarationFonction extends BlocDInstructions {
-				+ DeclarationFonction(Entree entree, int ligne, int colonne)
+			class Fonction extends BlocDInstructions {
+				- int nbVariablesLocales
+				- int noBloc
+				+ Fonction(EntreeFct e, int ligne, int colonne)
 				+ void verifier()
 				+ String toMIPS()
+				+ void ajouter(Retourne r)
+				+ void ajouter(BlocDInstructions b)
+				+ Type getType()
 			}
-			DeclarationFonction --"1" Entree
-			DeclarationFonction --"1" Symbole
+			Fonction --"1" EntreeFct
+			Fonction --"1" SymboleFct
 
 			class Programme extends BlocDInstructions {
+				# int nbVariablesLocales
+				- int noBloc
 				+ Programme(int ligne, int colonne)
 				+ void setBlocDeFonctions(BlocDeFonctions b)
+				+ void setBlocDInstructions(BlocDInstructions b)
 				+ void verifier()
 				+ String toMIPS()
 			}
-			Programme --"1" BlocDeFonctions : fonctions
+			Programme --"1" BlocDeFonctions
+			Programme - "1" BlocDInstructions
 		}
 
 	}

@@ -7,11 +7,12 @@ import zoot.tds.*;
  * Classe représentant un identifant de variable
  *
  * @author Elhadji Moussa FAYE, Nicolas GRAFF
- * @version 2.8.0
+ * @version 2.8.1
  * @since 1.0.0
  * created on 11/02/2022
  */
 public class Idf extends Expression {
+
     private final Entree entree;
     private SymboleVar symbole = null;
 
@@ -22,7 +23,7 @@ public class Idf extends Expression {
 
     @Override
     public void verifier() {
-        this.symbole=(SymboleVar) Tds.getInstance().identifier(entree, noLigne, noColonne);
+        this.symbole=(SymboleVar) Tds.getInstance().identifier(entree, ligne, colonne);
     }
 
     @Override

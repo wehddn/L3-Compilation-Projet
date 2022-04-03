@@ -7,8 +7,8 @@ import zoot.arbre.ArbreAbstrait;
  */
 public abstract class Instruction extends ArbreAbstrait {
 
-    protected Instruction(int n, int m) {
-        super(n, m);
+    protected Instruction(int ligne, int colonne) {
+        super(ligne, colonne);
 
     }
 

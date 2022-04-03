@@ -13,7 +13,7 @@ import java.util.UUID;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.8.0
+ * @version 2.8.1
  * @since 2.5.0
  * created on 19/03/2022
  */
@@ -50,9 +50,9 @@ public class NoeudTDS {
         return parent;
     }
 
-    public void ajouter(Entree e, Symbole s, int noLigne, int noColonne) throws DoubleDeclarationException {
+    public void ajouter(Entree e, Symbole s, int ligne, int colonne) throws DoubleDeclarationException {
         if (dict.containsKey(e)) {
-            throw new DoubleDeclarationException(noLigne, noColonne, e.getNom());
+            throw new DoubleDeclarationException(ligne, colonne, e.getNom());
         } else {
             dict.put(e, s);
         }
@@ -64,15 +64,15 @@ public class NoeudTDS {
      * @param e l'entrée
      * @return le symbole associé à l'entrée
      */
-    public Symbole identifier(Entree e, int noLigne, int noColonne) throws AnalyseSemantiqueException {
+    public Symbole identifier(Entree e, int ligne, int colonne) throws AnalyseSemantiqueException {
         Symbole s = dict.get(e);
         if (s==null){
             if (parent != null) {
-                s = parent.identifier(e, noLigne, noColonne);
+                s = parent.identifier(e, ligne, colonne);
             }
             else
             {
-                DeclencheurDException d = new DeclencheurEntreeNonDefinie(noLigne, noColonne);
+                DeclencheurDException d = new DeclencheurEntreeNonDefinie(ligne, colonne);
                 e.declencherException(d, e.toString());
             }
         }

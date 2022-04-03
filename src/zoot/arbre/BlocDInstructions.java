@@ -11,15 +11,15 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 2.6.0
+ * @version 2.8.1
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
 
     protected final ArrayList<Instruction> instructions;
 
-    public BlocDInstructions(int n, int m) {
-        super(n, m) ;
+    public BlocDInstructions(int ligne, int colonne) {
+        super(ligne, colonne) ;
         instructions = new ArrayList<>() ;
     }
 
