@@ -73,7 +73,7 @@ non terminal Retourne RETOURNE;
 non terminal Ecrire ECRIRE;
 non terminal Affectation AFFECT;
 non terminal Condition CONDITION;
-non terminal BOUCLE;
+non terminal Boucle BOUCLE;
 non terminal OPER;
 non terminal String TYPE;
 non terminal Declaration VARIABLE;
@@ -149,7 +149,7 @@ INSTRUCTION ::= AFFECT:a
     RESULT = a;
 :}| BOUCLE:b
 {:
-
+    RESULT = b;
 :}| CONDITION:c
 {:
     RESULT = c;
@@ -280,7 +280,7 @@ AFFECT ::= IDF_T:id EGAL_T EXP:exp POINTVIRGULE
 BOUCLE ::= REPETER_T INSTRUCTION_PLUS:bi JUSQUA_T EXP:e FINREPETER_T
 {:
 // TODO
-    RESULT = new Ecrire(e, eleft + 1, eright);
+    RESULT = new Boucle(e, bi, eleft + 1, eright);
 :};
 
 CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTION_PLUS:ie FINSI_T

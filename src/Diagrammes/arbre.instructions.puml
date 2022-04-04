@@ -32,7 +32,7 @@ package instructions {
 	Retourne --"1" Expression
 	Retourne --"1" Fonction
 
-	class Condition extends Instruction implements Typed{
+	class Condition extends Instruction{
 		+ Retourne (Expression e, BlocDInstructions biSi, BlocDInstructions biSinon, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
@@ -40,6 +40,15 @@ package instructions {
 	Condition --"1" Expression
 	Condition --"1" BlocDInstructions : bi_si
 	Condition --"1" BlocDInstructions : bi_sinon
+
+	class Boucle extends Instruction{
+		+ Retourne (Expression e, BlocDInstructions bi, int ligne, int colonne)
+		+ void verifier()
+		+ String toMIPS()
+	}
+
+	Boucle --"1" Expression
+	Boucle --"1" BlocDInstructions
 
 }
 @enduml
