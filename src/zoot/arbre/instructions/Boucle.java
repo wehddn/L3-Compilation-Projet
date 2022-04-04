@@ -9,8 +9,8 @@ import zoot.tds.Type;
 import java.util.UUID;
 
 public class Boucle extends Instruction{
-    private Expression exp;
-    private BlocDInstructions bi;
+    private final Expression exp;
+    private final BlocDInstructions bi;
 
     public Boucle(Expression e, BlocDInstructions bi, int ligne, int colonne) {
         super(ligne, colonne);

@@ -115,13 +115,13 @@ public class SnippetsMIPS {
 
     public static String sauvegardeAdresseRetourAvantAppel(int position) {
         return """
-                #sauvegarde adresse de retour courante
+                # sauvegarde adresse de retour courante
                 %s""".formatted(sauvegardeRegistreDansPile("$ra", position));
     }
 
     public static String restaurationAdresseRetourApresAppel(int position) {
         return """
-                #restauration adresse de retour précédent
+                # restauration adresse de retour précédent
                 %s""".formatted(restaurerRegistreDepuisPile("$ra", position));
     }
 
