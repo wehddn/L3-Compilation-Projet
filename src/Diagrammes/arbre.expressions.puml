@@ -54,13 +54,22 @@ package expressions {
 	Idf --"1" Symbole
 
 	class Negation extends Expression {
-		+ Idf(Expression exp, int ligne, int colonne)
+		+ Negation(Expression exp, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
 		+ String getCommentaire()
 	}
 	Negation --"1" Expression
+
+	class Moins extends Expression {
+		+ Moins(Expression exp, int ligne, int colonne)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getCommentaire()
+	}
+	Moins --"1" Expression
 
 }
 @enduml

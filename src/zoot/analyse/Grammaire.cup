@@ -338,8 +338,10 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 :}|NON_T EXP:e
 {:
     RESULT = new Negation(e, eleft+1, eright);
-:}|
-MOINS_T EXP
+:}|MOINS_T EXP:e
+{:
+    RESULT = new Moins(e, eleft+1, eright);
+:}
     /**|
     EXP OPER EXP**/;
 
