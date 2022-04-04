@@ -53,5 +53,14 @@ package expressions {
 	Idf --"1" Entree
 	Idf --"1" Symbole
 
+	class Negation extends Expression {
+		+ Idf(Expression exp, int ligne, int colonne)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getCommentaire()
+	}
+	Negation --"1" Expression
+
 }
 @enduml

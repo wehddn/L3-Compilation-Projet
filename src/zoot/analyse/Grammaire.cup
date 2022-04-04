@@ -335,8 +335,10 @@ FAUX_T:f
 PARENTOUVERT_T EXP:e PARENTFERME_T
 {:
     RESULT = e;
+:}|NON_T EXP:e
+{:
+    RESULT = new Negation(e, eleft+1, eright);
 :}|
-NON_T EXP|
 MOINS_T EXP
     /**|
     EXP OPER EXP**/;
