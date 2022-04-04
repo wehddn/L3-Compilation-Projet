@@ -72,7 +72,7 @@ non terminal Expression EXP;
 non terminal Retourne RETOURNE;
 non terminal Ecrire ECRIRE;
 non terminal Affectation AFFECT;
-non terminal CONDITION;
+non terminal Condition CONDITION;
 non terminal BOUCLE;
 non terminal OPER;
 non terminal String TYPE;
@@ -152,7 +152,7 @@ INSTRUCTION ::= AFFECT:a
 
 :}| CONDITION:c
 {:
-
+    RESULT = c;
 :}| ECRIRE:e
 {:
     RESULT = e;
@@ -277,23 +277,28 @@ AFFECT ::= IDF_T:id EGAL_T EXP:exp POINTVIRGULE
     RESULT = new Affectation(idf, exp, idleft+1, idright+1);
 :};
 
-BOUCLE ::= REPETER_T INSTRUCTION_PLUS JUSQUA_T EXP:e FINREPETER_T
+BOUCLE ::= REPETER_T INSTRUCTION_PLUS:bi JUSQUA_T EXP:e FINREPETER_T
 {:
 // TODO
     RESULT = new Ecrire(e, eleft + 1, eright);
 :};
 
-CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND SINON_T INSTRUCTION_PLUS FINSI_T
+CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTION_PLUS:ie FINSI_T
 {:
-// TODO
-    RESULT = new Ecrire(e, eleft + 1, eright);
-:}|SI_T EXP:e INSTRUCTIONS_COND FINSI_T
+    RESULT = new Condition(e, is, ie, eleft + 1, eright);
+:}|SI_T EXP:e INSTRUCTIONS_COND:is FINSI_T
 {:
-// TODO
-    RESULT = new Ecrire(e, eleft + 1, eright);
+    RESULT = new Condition(e, is, null, eleft + 1, eright);
 :};
 
-INSTRUCTIONS_COND ::= ALORS_T | ALORS_T INSTRUCTION_PLUS;
+INSTRUCTIONS_COND ::= ALORS_T INSTRUCTION_PLUS:bi
+{:
+    RESULT = bi;
+:}
+| ALORS_T
+{:
+    RESULT = null;
+:};
 
 ECRIRE ::= ECRIRE_T EXP:e POINTVIRGULE
 {:

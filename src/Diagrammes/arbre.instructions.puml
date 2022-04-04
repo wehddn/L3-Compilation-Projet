@@ -32,5 +32,14 @@ package instructions {
 	Retourne --"1" Expression
 	Retourne --"1" Fonction
 
+	class Condition extends Instruction implements Typed{
+		+ Retourne (Expression e, BlocDInstructions biSi, BlocDInstructions biSinon, int ligne, int colonne)
+		+ void verifier()
+		+ String toMIPS()
+	}
+	Condition --"1" Expression
+	Condition --"1" BlocDInstructions : bi_si
+	Condition --"1" BlocDInstructions : bi_sinon
+
 }
 @enduml
