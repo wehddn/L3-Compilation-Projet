@@ -10,13 +10,13 @@ package exceptions {
 
 	class AnalyseSyntaxiqueException extends AnalyseException {
 		+ AnalyseSyntaxiqueException(String message)
-		+ AnalyseSyntaxiqueException(int ligne, int col, String message)
+		+ AnalyseSyntaxiqueException(int ligne, int colonne, String message)
 	}
 
 	together {
 		class AnalyseSemantiqueException extends AnalyseException{
 			+ AnalyseSemantiqueException(String message)
-			+ AnalyseSemantiqueException(int ligne, int col, String message)
+			+ AnalyseSemantiqueException(int ligne, int colonne, String message)
 			+ addException(AnalyseSemantiqueException exception)
 		}
 
