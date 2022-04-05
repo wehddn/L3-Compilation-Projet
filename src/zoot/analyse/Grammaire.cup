@@ -82,6 +82,7 @@ non terminal Programme PROGRAMME;
 non terminal BlocDeFonctions FONCTION_PLUS, FONCTIONS_PROG;
 non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, DEBUT_FONC, FIN_FONC, INSTRUCTIONS_FONC;
 non terminal Plus PLUS;
+non terminal Inferieur INFERIEUR;
 
 /* Precedence section */
 precedence left OU_T;
@@ -358,11 +359,19 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 |PLUS:p
 {:
     RESULT = p;
+:}|INFERIEUR:i
+{:
+  RESULT = i;
 :};
 
 PLUS ::= EXP:e1 PLUS_T:p EXP:e2
 {:
     RESULT = new Plus(e1, e2, pleft+1, pright+1);
+:};
+
+INFERIEUR ::= EXP:e1 INF_T:p EXP:e2
+{:
+    RESULT = new Inferieur(e1, e2, pleft+1, pright+1);
 :};
 
 EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
