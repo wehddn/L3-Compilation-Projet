@@ -8,6 +8,15 @@ import zoot.tds.Type;
 
 import java.util.UUID;
 
+/**
+ * Cette classe implémente une bocle
+ * repeter ... jusqua ... finrepeter
+ *
+ * @author Nicolas GRAFF
+ * @version 3.0.0
+ * @since 3.0.0
+ * created on 04/04/2022
+ */
 public class Boucle extends Instruction{
     private final Expression exp;
     private final BlocDInstructions bi;

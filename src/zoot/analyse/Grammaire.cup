@@ -279,7 +279,6 @@ AFFECT ::= IDF_T:id EGAL_T EXP:exp POINTVIRGULE
 
 BOUCLE ::= REPETER_T INSTRUCTION_PLUS:bi JUSQUA_T EXP:e FINREPETER_T
 {:
-// TODO
     RESULT = new Boucle(e, bi, eleft + 1, eright);
 :};
 
@@ -355,8 +354,6 @@ EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
      exp.add(e);
      RESULT = exp;
 :};
-
-OPER ::= PLUS_T | FOIS_T | INF_T | EQUIVAUT_T | DIFFERENT_T | ET_T | OU_T;
 
 PAR_EFF ::= PARENTOUVERT_T PARENTFERME_T
 {:
