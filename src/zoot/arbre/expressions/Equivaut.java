@@ -9,7 +9,7 @@ import zoot.tds.Type;
  * Représente une comparaison d'equivalence dans l'arbre abstrait
  *
  * @author Elhadji Moussa FAYE
- * @version 3.3.0
+ * @version 3.4.0
  * @since 3.3.0
  * created on 05/04/2022
  */
@@ -61,8 +61,7 @@ public class Equivaut extends Binaire {
 
         if (gauche.getType().equals(Type.ENTIER)) {
             resultat = """
-                    \tseq $v0, $v0, $t0
-                    """;
+                    \tseq $v0, $v0, $t0""";
         }else if (gauche.getType().equals(Type.BOOLEEN)){
             resultat = """
                     \tseq $v0, $v0, $zero
