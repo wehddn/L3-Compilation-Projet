@@ -350,9 +350,9 @@ FAUX_T:f
 {:
     RESULT = new ConstanteBooleene("faux", fleft + 1, fright+1) ;
 :}|
-PARENTOUVERT_T EXP:e PARENTFERME_T
+PARENTOUVERT_T:p EXP:e PARENTFERME_T
 {:
-    RESULT = e;
+    RESULT = new Parentheses(e, pleft+1, pright+1);
 :}|NON_T EXP:e
 {:
     RESULT = new Negation(e, eleft+1, eright);

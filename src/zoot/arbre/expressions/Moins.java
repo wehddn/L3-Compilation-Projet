@@ -9,29 +9,27 @@ import zoot.tds.Type;
  * - exp
  *
  * @author Nicolas GRAFF
- * @version 3.0.0
+ * @version 3.5.0
  * @since 3.0.0
  * created on 04/04/2022
  */
-public class Moins extends Expression{
-    private final Expression exp;
+public class Moins extends Unaire{
 
-    public Moins(Expression exp, int ligne, int colonne) {
-        super(ligne, colonne);
-        this.exp=exp;
+    public Moins(Expression expression, int ligne, int colonne) {
+        super(expression, ligne, colonne);
     }
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
-        exp.verifier();
-        Type expType = exp.getType();
+        expression.verifier();
+        Type expType = expression.getType();
         if (expType!=Type.ENTIER)
             throw new TypeNonConcordantException(ligne, colonne,  Type.ENTIER + " <- " + expType);
     }
 
     @Override
     public String toMIPS() {
-        return exp.toMIPS() +
+        return expression.toMIPS() +
                 "\n# moins\n" +
                 "\tsubu $v0, $zero, $v0\n";
     }
@@ -43,6 +41,6 @@ public class Moins extends Expression{
 
     @Override
     public String getCommentaire() {
-        return "- " + exp.getCommentaire();
+        return "- " + expression.getCommentaire();
     }
 }

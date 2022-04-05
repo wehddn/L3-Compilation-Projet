@@ -11,22 +11,20 @@ import java.util.UUID;
  * non exp
  *
  * @author Nicolas GRAFF
- * @version 3.1.0
+ * @version 3.5.0
  * @since 3.0.0
  * created on 04/04/2022
  */
-public class Negation extends Expression{
-    private final Expression exp;
+public class Negation extends Unaire{
 
-    public Negation(Expression exp, int ligne, int colonne) {
-        super(ligne, colonne);
-        this.exp=exp;
+    public Negation(Expression expression, int ligne, int colonne) {
+        super(expression, ligne, colonne);
     }
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
-        exp.verifier();
-        Type expType = exp.getType();
+        expression.verifier();
+        Type expType = expression.getType();
         if (expType!=Type.BOOLEEN)
             throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
     }
@@ -35,17 +33,15 @@ public class Negation extends Expression{
     public String toMIPS() {
         String sifaux = "sifaux__" + UUID.randomUUID().toString().replace("-", "");
         String finnot = "finnot__" + UUID.randomUUID().toString().replace("-", "");
-        StringBuilder sb = new StringBuilder();
-        sb.append(exp.toMIPS());
-        sb.append("\n# not\n");
-        sb.append("\n\tbeq $v0, 0, ").append(sifaux).append("\n");
-        sb.append("\n\tli $v0, 0\n");
-        sb.append("\tj ").append(finnot).append("\n");
-        sb.append("\n").append(sifaux).append(" :\n");
-        sb.append("\n\tli $v0, 1\n");
-        sb.append("\n").append(finnot).append(" :\n");
 
-        return sb.toString();
+        return expression.toMIPS() +
+                "\n# not\n" +
+                "\n\tbeq $v0, 0, " + sifaux + "\n" +
+                "\n\tli $v0, 0\n" +
+                "\tj " + finnot + "\n" +
+                "\n" + sifaux + " :\n" +
+                "\n\tli $v0, 1\n" +
+                "\n" + finnot + " :\n";
     }
 
     @Override
@@ -55,6 +51,6 @@ public class Negation extends Expression{
 
     @Override
     public String getCommentaire() {
-        return "non " + exp.getCommentaire();
+        return "non " + expression.getCommentaire();
     }
 }
