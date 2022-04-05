@@ -84,7 +84,7 @@ package expressions {
 	}
 
 	abstract class Binaire extends Expression {
-
+		+ Binaire (Expression gauche, Expression droite, int ligne, int colonne)
 	}
 
 	Binaire --"2" Expression
@@ -94,7 +94,11 @@ package expressions {
 	}
 
 	class Plus extends Binaire {
-
+		+ Plus (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 
 
@@ -115,7 +119,7 @@ package expressions {
 	}
 
 	class Ou extends Binaire {
-		
+
 	}
 }
 @enduml

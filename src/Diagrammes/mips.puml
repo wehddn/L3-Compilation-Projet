@@ -7,7 +7,9 @@ package mips {
 	+ String copieRegistreVersRegistre(String registeSource, String registreDestination)
 	+ String sauvegardeRegistreDansPile(String registre, int position)
 	+ String sauvegardeValeurDansPile(int valeur, int position)
+	+ String empilerRegistre(String registre)
 	+ String restaurerRegistreDepuisPile(String registre, int position)
+	+ String depilerVersRegistre(String registre)
 	+ String reserverPlacePile(int nbCases)
 	+ String libererPlacePile(int nbCases)
 	+ String appelEcriture(Type typeAEcrire)
@@ -17,6 +19,7 @@ package mips {
 	+ String restaurationAdresseRetourApresAppel(int position)
 	+ String definitionRecherchePosition()
 	+ String appelRecherchePosition()
+	+ String additionRegistre(String resultat, String gauche, String droite)
 	}
 }
 @enduml
