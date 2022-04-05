@@ -13,7 +13,7 @@ import java.util.UUID;
  * si ... alors ... sinon ... finsi
  *
  * @author Nicolas GRAFF
- * @version 3.0.0
+ * @version 3.5.0
  * @since 3.0.0
  * created on 04/04/2022
  */
@@ -46,14 +46,14 @@ public class Condition extends Instruction {
         String finsi = "finsi__" + UUID.randomUUID().toString().replace("-", "");
         StringBuilder sb = new StringBuilder();
         sb.append("# condition\n");
-        sb.append(exp.toMIPS());
+        sb.append(exp.toMIPS()).append("\n");
         if (biSinon != null)
             sb.append("\n\tbeq $v0, 0, ").append(sinon).append("\n");
         else
             sb.append("\n\tbeq $v0, 0, ").append(finsi).append("\n");
         if (biSi != null)
             sb.append(biSi.toMIPS());
-        sb.append("\tj ").append(finsi).append("\n");
+        sb.append("\n\tj ").append(finsi).append("\n");
         if (biSinon != null){
             sb.append("\n").append(sinon).append(" :\n");
             sb.append(biSinon.toMIPS());
