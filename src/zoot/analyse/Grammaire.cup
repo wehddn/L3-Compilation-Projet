@@ -87,6 +87,7 @@ non terminal Inferieur INFERIEUR;
 non terminal Equivaut EQUIVAUT;
 non terminal Different DIFFERENT;
 non terminal Et ET;
+non terminal Ou OU;
 
 /* Precedence section */
 precedence left OU_T;
@@ -96,7 +97,7 @@ precedence left EQUIVAUT_T;
 precedence left INF_T;
 precedence left PLUS_T;
 precedence left FOIS_T;
-precedence left NON_T, ET_T, MOINS_T;
+precedence left NON_T, MOINS_T;
 precedence nonassoc PARENTOUVERT_T, PARENTFERME_T;
 /* ----------------------------Grammar Section-------------------- */
 start with PROGRAMME;
@@ -378,6 +379,9 @@ PARENTOUVERT_T:p EXP:e PARENTFERME_T
 :}|ET:i
 {:
   RESULT = i;
+:}|OU:i
+{:
+  RESULT = i;
 :};
 
 PLUS ::= EXP:e1 PLUS_T:p EXP:e2
@@ -408,6 +412,11 @@ DIFFERENT ::= EXP:e1 DIFFERENT_T:p EXP:e2
 ET ::= EXP:e1 ET_T:p EXP:e2
 {:
     RESULT = new Et(e1, e2, pleft+1, pright+1);
+:};
+
+OU ::= EXP:e1 OU_T:p EXP:e2
+{:
+    RESULT = new Ou(e1, e2, pleft+1, pright+1);
 :};
 
 EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e

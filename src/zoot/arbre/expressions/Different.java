@@ -36,7 +36,7 @@ public class Different extends Binaire {
         Type gt = gauche.getType();
         Type dt = droite.getType();
         if (!gt.equals(dt)) {
-            throw new TypeNonConcordantException(ligne, colonne,  gt + " == " + dt);
+            throw new TypeNonConcordantException(ligne, colonne,  gt + " != " + dt);
         }
     }
 
