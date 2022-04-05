@@ -84,6 +84,7 @@ non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS
 non terminal Plus PLUS;
 non terminal Fois FOIS;
 non terminal Inferieur INFERIEUR;
+non terminal Equivaut EQUIVAUT;
 
 /* Precedence section */
 precedence left OU_T;
@@ -366,6 +367,9 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 :}|INFERIEUR:i
 {:
   RESULT = i;
+:}|EQUIVAUT:i
+{:
+    RESULT = i;
 :};
 
 PLUS ::= EXP:e1 PLUS_T:p EXP:e2
@@ -381,6 +385,11 @@ FOIS ::= EXP:e1 FOIS_T:p EXP:e2
 INFERIEUR ::= EXP:e1 INF_T:p EXP:e2
 {:
     RESULT = new Inferieur(e1, e2, pleft+1, pright+1);
+:};
+
+EQUIVAUT ::= EXP:e1 EQUIVAUT_T:p EXP:e2
+{:
+    RESULT = new Equivaut(e1, e2, pleft+1, pright+1);
 :};
 
 EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
