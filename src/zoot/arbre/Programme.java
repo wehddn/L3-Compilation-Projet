@@ -8,7 +8,7 @@ import zoot.tds.Tds;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 2.8.0
+ * @version 3.0.1
  * @since 1.4.2
  * created on 19/02/2022
  */
@@ -48,14 +48,14 @@ public class Programme extends ArbreAbstrait{
                 \tli $v0, 10
                 \tsyscall
                                 
-                # fonctions système
+                # définition fonctions système
                 """.formatted(SnippetsMIPS.enteteProgramme(),
                 SnippetsMIPS.reserverPlacePile(1 + nbVariablesLocales),
                 SnippetsMIPS.sauvegardeValeurDansPile(noBloc, (1 + nbVariablesLocales) * 4),
                 nbVariablesLocales * 4, instructions.toMIPS()) +
                 SnippetsMIPS.definitionTraductionBooleen() + "\n" +
                 SnippetsMIPS.definitionRecherchePosition() + "\n" +
-                "# fonctions utilisateurs :\n" +
+                "# définition fonctions utilisateurs :\n" +
                 fonctions.toMIPS();
     }
 

@@ -4,15 +4,21 @@ import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
 
 /**
- * Représente une constante booléene
+ * Représente une constante booléene dans l'arbre abstrait
  *
  * @author Elhadji Moussa FAYE
- * @version 2.8.0
+ * @version 3.0.1
  * @since 1.0.0
  * created on 09/02/2022
  */
 public class ConstanteBooleene extends Constante{
 
+    /**
+     *
+     * @param valeur la valeur vrai ou faux
+     * @param ligne la ligne de déclaration
+     * @param colonne la colonne de déclaration
+     */
     public ConstanteBooleene(String valeur, int ligne, int colonne) {
         super(valeur, ligne, colonne);
     }
@@ -28,9 +34,14 @@ public class ConstanteBooleene extends Constante{
         return SnippetsMIPS.mettreValeurDansRegistre("$v0", valeur);
     }
 
+    /**
+     * Le type de la constante
+     * @return Le type de la constante
+     */
     public Type getType() {
         return Type.BOOLEEN;
     }
+
 
     @Override
     public String getCommentaire() {

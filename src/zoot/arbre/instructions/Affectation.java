@@ -13,7 +13,7 @@ import zoot.tds.Type;
  *
  * @author Elhadji Moussa FAYE
  * @author Nicolas GRAFF
- * @version 2.8.1
+ * @version 3.0.1
  * @since 1.0.0
  * created on 11/02/2022
  */
@@ -59,8 +59,7 @@ public class Affectation extends Instruction{
                 %s
                 %s
                 # sauvegarde de la valeur dans la variable
-                \tsw $t0, 0($v0)
-                """.formatted(left.getCommentaire(),
+                \tsw $t0, 0($v0)""".formatted(left.getCommentaire(),
                 right.getCommentaire(),
                 right.toMIPS(),
                 SnippetsMIPS.reserverPlacePile(1),

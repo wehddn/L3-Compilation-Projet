@@ -53,23 +53,69 @@ package expressions {
 	Idf --"1" Entree
 	Idf --"1" Symbole
 
-	class Negation extends Expression {
+	abstract class Unaire extends Expression {
+		+ Unaire(Expression exp, int ligne, int colonne)
+	}
+	Unaire --"1" Expression
+
+
+	class Negation extends Unaire {
 		+ Negation(Expression exp, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
 		+ String getCommentaire()
 	}
-	Negation --"1" Expression
 
-	class Moins extends Expression {
+	class Moins extends Unaire {
 		+ Moins(Expression exp, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
 		+ Type getType()
 		+ String getCommentaire()
 	}
-	Moins --"1" Expression
 
+	class Parentheses extends Unaire {
+		+ Parentheses(Expression exp, int ligne, int colonne)
+		+ void verifier()
+		+ String toMIPS()
+		+ Type getType()
+		+ String getCommentaire()
+	}
+
+	abstract class Binaire extends Expression {
+
+	}
+
+	Binaire --"2" Expression
+
+	class Fois extends Binaire {
+
+	}
+
+	class Plus extends Binaire {
+
+	}
+
+
+	class Inferieur extends Binaire {
+
+	}
+
+	class Equivaut extends Binaire {
+
+	}
+
+	class Different extends Binaire {
+
+	}
+
+	class Et extends Binaire {
+
+	}
+
+	class Ou extends Binaire {
+		
+	}
 }
 @enduml

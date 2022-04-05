@@ -7,7 +7,7 @@ import zoot.tds.SymboleVar;
  * Classe qui représente la déclaration d'une variable
  *
  * @author Elhadji Moussa FAYE
- * @version 2.5.2
+ * @version 3.0.1
  * @since 2.5.1
  * created on 21/03/2022
  */
@@ -33,7 +33,7 @@ public class Declaration {
 
     /**
      * Donne la ligne à laquelle la variable a été déclarée
-     * @return
+     * @return la ligne à laquelle la variable a été déclarée
      */
     public int getLigne() {
         return ligne;
@@ -41,7 +41,7 @@ public class Declaration {
 
     /**
      * Donne la colonne à laquelle la variable a été déclarée
-     * @return
+     * @return la colonne à laquelle la variable a été déclarée
      */
     public int getColonne() {
         return colonne;
@@ -49,7 +49,7 @@ public class Declaration {
 
     /**
      * Donne le type de la variable dans un string
-     * @return
+     * @return le type de la variable dans un string
      */
     public String getType() {
         return type;
@@ -57,7 +57,7 @@ public class Declaration {
 
     /**
      * Donne le nom de la variable
-     * @return
+     * @return le nom de la variable
      */
     public String getNom() {
         return nom;
@@ -65,7 +65,7 @@ public class Declaration {
 
     /**
      * Retourne le symbole de la variable
-     * @return
+     * @return le symbole de la variable
      */
     public SymboleVar getSymbole() {
         return new SymboleVar(type);
@@ -73,7 +73,7 @@ public class Declaration {
 
     /**
      * Retourne l'entrée de la variable
-     * @return
+     * @return l'entrée de la variable
      */
     public EntreeVar getEntree() {
         return new EntreeVar(nom);

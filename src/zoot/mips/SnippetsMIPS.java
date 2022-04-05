@@ -65,19 +65,19 @@ public class SnippetsMIPS {
         switch (typeAEcrire) {
             case ENTIER -> codeEcriture = "1";
             case BOOLEEN -> {
-                sb.append(appelTraductionBooleen());
+                sb.append(appelTraductionBooleen()).append("\n");
                 codeEcriture = "4";
             }
             default -> codeEcriture = "10";
         }
 
         sb.append("""
-                    # Ecriture
+                    # écriture
                     \tmove $a0, $v0
                     \tli $v0,\s""").append(codeEcriture).append("\n");
         sb.append("""
                 \tsyscall
-                # Saut de ligne
+                # saut de ligne après écriture
                 \tli $v0, 11
                 \tli $a0, 10
                 \tsyscall""");
@@ -100,7 +100,7 @@ public class SnippetsMIPS {
 
 	public static String definitionTraductionBooleen(){
         return """
-                # fonction de traduction de booleen
+                # fonction de traduction de booléen
                 traductionBooleen :
                 \tbeq $v0, $zero, traductionBooleenFaux
                 traductionBooleenVrai : # booleen == vrai
@@ -115,13 +115,11 @@ public class SnippetsMIPS {
 
     public static String sauvegardeAdresseRetourAvantAppel(int position) {
         return """
-                # sauvegarde adresse de retour courante
                 %s""".formatted(sauvegardeRegistreDansPile("$ra", position));
     }
 
     public static String restaurationAdresseRetourApresAppel(int position) {
         return """
-                # restauration adresse de retour précédent
                 %s""".formatted(restaurerRegistreDepuisPile("$ra", position));
     }
 

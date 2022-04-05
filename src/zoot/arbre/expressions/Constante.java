@@ -5,8 +5,17 @@ package zoot.arbre.expressions;
  */
 public abstract class Constante extends Expression {
 
+    /**
+     * La valeur de la constante
+     */
     protected String cste ;
-    
+
+    /**
+     *
+     * @param valeur la valeur de la constante
+     * @param ligne la ligne de déclaration
+     * @param colonne la colonne de déclaration
+     */
     protected Constante(String valeur, int ligne, int colonne) {
         super(ligne, colonne) ;
         cste = valeur ;
@@ -20,6 +29,10 @@ public abstract class Constante extends Expression {
 
     }
 
+    /**
+     * Donne la valeur de la constante
+     * @return la valeur de la constante
+     */
     public String getCommentaire(){
         return cste ;
     }

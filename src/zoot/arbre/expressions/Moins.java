@@ -26,7 +26,7 @@ public class Moins extends Expression{
         exp.verifier();
         Type expType = exp.getType();
         if (expType!=Type.ENTIER)
-            throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
+            throw new TypeNonConcordantException(ligne, colonne,  Type.ENTIER + " <- " + expType);
     }
 
     @Override
@@ -43,6 +43,6 @@ public class Moins extends Expression{
 
     @Override
     public String getCommentaire() {
-        return "moins " + exp.getCommentaire();
+        return "- " + exp.getCommentaire();
     }
 }
