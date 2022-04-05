@@ -85,6 +85,7 @@ non terminal Plus PLUS;
 non terminal Fois FOIS;
 non terminal Inferieur INFERIEUR;
 non terminal Equivaut EQUIVAUT;
+non terminal Different DIFFERENT;
 non terminal Et ET;
 
 /* Precedence section */
@@ -371,6 +372,9 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 :}|EQUIVAUT:i
 {:
     RESULT = i;
+:}|DIFFERENT:i
+{:
+    RESULT = i;
 :}|ET:i
 {:
   RESULT = i;
@@ -394,6 +398,11 @@ INFERIEUR ::= EXP:e1 INF_T:p EXP:e2
 EQUIVAUT ::= EXP:e1 EQUIVAUT_T:p EXP:e2
 {:
     RESULT = new Equivaut(e1, e2, pleft+1, pright+1);
+:};
+
+DIFFERENT ::= EXP:e1 DIFFERENT_T:p EXP:e2
+{:
+    RESULT = new Different(e1, e2, pleft+1, pright+1);
 :};
 
 ET ::= EXP:e1 ET_T:p EXP:e2
