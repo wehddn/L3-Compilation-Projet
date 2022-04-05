@@ -20,6 +20,7 @@ package mips {
 	+ String definitionRecherchePosition()
 	+ String appelRecherchePosition()
 	+ String additionRegistre(String resultat, String gauche, String droite)
+	+ String multiplicationRegistre(String resultat, String gauche, String droite)
 	}
 }
 @enduml

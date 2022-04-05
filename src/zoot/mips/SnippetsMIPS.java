@@ -193,4 +193,18 @@ public class SnippetsMIPS {
     public static String additionRegistre(String resultat, String gauche, String droite) {
         return "add " + resultat + ", " + gauche + ", " + droite;
     }
+
+    /**
+     * Donne le code mips pour la multiplication de deux registres
+     * @param resultat le registre où mettre le résultat
+     * @param gauche l'opérande gauche
+     * @param droite l'opérande droite
+     * @return le code mips pour l'addition de deux registres
+     */
+    public static String multiplicationRegistre(String resultat, String gauche, String droite) {
+        return """
+                mult %s, %s
+                mflo %s
+                """.formatted(gauche, droite, resultat);
+    }
 }

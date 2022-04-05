@@ -11,7 +11,7 @@ import java.util.UUID;
  * non exp
  *
  * @author Nicolas GRAFF
- * @version 3.0.0
+ * @version 3.1.0
  * @since 3.0.0
  * created on 04/04/2022
  */
