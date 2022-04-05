@@ -4,6 +4,8 @@ import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.Type;
 
+import java.util.UUID;
+
 /**
  * Cette classe implémente une operation negation
  * non exp
@@ -31,7 +33,19 @@ public class Negation extends Expression{
 
     @Override
     public String toMIPS() {
-        return exp.toMIPS() + "# not\n\txor $v0, $v0, 1\n";
+        String sifaux = "sifaux__" + UUID.randomUUID().toString().replace("-", "");
+        String finnot = "finnot__" + UUID.randomUUID().toString().replace("-", "");
+        StringBuilder sb = new StringBuilder();
+        sb.append(exp.toMIPS());
+        sb.append("\n# not\n");
+        sb.append("\n\tbeq $v0, 0, ").append(sifaux).append("\n");
+        sb.append("\n\tli $v0, 0\n");
+        sb.append("\tj ").append(finnot).append("\n");
+        sb.append("\n").append(sifaux).append(" :\n");
+        sb.append("\n\tli $v0, 1\n");
+        sb.append("\n").append(finnot).append(" :\n");
+
+        return sb.toString();
     }
 
     @Override
