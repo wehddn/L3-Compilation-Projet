@@ -81,6 +81,7 @@ non terminal ArrayList<Declaration> VARIABLE_PLUS, VARIABLES_FONC, PARAMETRES_FO
 non terminal Programme PROGRAMME;
 non terminal BlocDeFonctions FONCTION_PLUS, FONCTIONS_PROG;
 non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, DEBUT_FONC, FIN_FONC, INSTRUCTIONS_FONC;
+non terminal Plus PLUS;
 
 /* Precedence section */
 precedence left OU_T;
@@ -307,9 +308,9 @@ INSTRUCTIONS_COND ::= ALORS_T INSTRUCTION_PLUS:bi
 {:
     RESULT = bi;
 :}
-| ALORS_T
+| ALORS_T:t
 {:
-    RESULT = null;
+    RESULT = new BlocDInstructions(tleft+1, tright+1);
 :};
 
 ECRIRE ::= ECRIRE_T EXP:e POINTVIRGULE
@@ -354,8 +355,15 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 {:
     RESULT = new Moins(e, eleft+1, eright);
 :}
-|
-EXP OPER EXP;
+|PLUS:p
+{:
+    RESULT = p;
+:};
+
+PLUS ::= EXP:e1 PLUS_T:p EXP:e2
+{:
+    RESULT = new Plus(e1, e2, pleft+1, pright+1);
+:};
 
 EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
 {:

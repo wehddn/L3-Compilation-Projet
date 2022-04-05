@@ -44,10 +44,27 @@ public class SnippetsMIPS {
                 %s""".formatted(valeur, sauvegardeRegistreDansPile("$t0", position));
     }
 
+    /**
+     * Donne le code mips pour empile le contenu d'un registre
+     * @param registre le registre dont il faut empiler le contenu
+     * @return Le code mips pour empile le contenu d'un registre
+     */
+    public static String empilerRegistre(String registre) {
+        return reserverPlacePile(1) + "\n" + sauvegardeRegistreDansPile(registre, 4);
+    }
+
     public static String restaurerRegistreDepuisPile(String registre, int position) {
         return "\tlw %s, %s($sp)".formatted(registre, position);
     }
 
+    /**
+     * Code MIPS pour dépiler un bloc dans la pile et le mets dans le registre spécifié
+     * @param registre le registre où stocker le contenu
+     * @return Code MIPS pour dépiler un bloc dans la pile
+     */
+    public  static String depilerVersRegistre(String registre) {
+        return restaurerRegistreDepuisPile(registre, 4) + "\n" + libererPlacePile(1);
+    }
 
     public static String reserverPlacePile(int nbCases){
         return "\tadd $sp, $sp, -%s".formatted(nbCases * 4);
@@ -152,7 +169,7 @@ public class SnippetsMIPS {
      * la pile
      * Arguments MIPS : $a0 le numero du bloc, $a1 la position du bloc courant
      *
-     * @return
+     * @return le code MIPS de l'appel de la fonction de recherche de variable dans la pile
      */
     public static String appelRecherchePosition(){
         return """
@@ -164,5 +181,16 @@ public class SnippetsMIPS {
                 sauvegardeAdresseRetourAvantAppel(4),
                 restaurationAdresseRetourApresAppel(4),
                 libererPlacePile(1));
+    }
+
+    /**
+     * Donne le code mips pour l'addition de deux registres
+     * @param resultat le registre où mettre le résultat
+     * @param gauche l'opérande gauche
+     * @param droite l'opérande droite
+     * @return le code mips pour l'addition de deux registres
+     */
+    public static String additionRegistre(String resultat, String gauche, String droite) {
+        return "add " + resultat + ", " + gauche + ", " + droite;
     }
 }
