@@ -29,9 +29,9 @@ public class Boucle extends Instruction{
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
+        bi.verifier();
         exp.verifier();
         Type expType = exp.getType();
-        bi.verifier();
         if (expType != Type.BOOLEEN){
             throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
         }
@@ -41,13 +41,16 @@ public class Boucle extends Instruction{
     public String toMIPS() {
         String repeter = "repeter__" + UUID.randomUUID().toString().replace("-", "");
         String jusqua = "jusqua__" + UUID.randomUUID().toString().replace("-", "");
+        String finrepeter = "finrepeter__" + UUID.randomUUID().toString().replace("-", "");
         StringBuilder sb = new StringBuilder();
         sb.append("# boucle\n");
         sb.append("\n").append(repeter).append(" :\n");
         sb.append(bi.toMIPS());
         sb.append("\n").append(jusqua).append(" :\n");
         sb.append(exp.toMIPS()).append("\n");
-        sb.append("\tbeq $v0, 1, ").append(repeter).append("\n");
+        sb.append("\tbeq $v0, 0, ").append(finrepeter).append("\n");
+        sb.append("\tj ").append(repeter).append("\n");
+        sb.append("\n").append(finrepeter).append(" :\n");
         return sb.toString();
     }
 }
