@@ -292,10 +292,15 @@ BOUCLE ::= REPETER_T INSTRUCTION_PLUS:bi JUSQUA_T EXP:e FINREPETER_T
 
 CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTION_PLUS:ie FINSI_T
 {:
-    RESULT = new Condition(e, is, ie, eleft + 1, eright);
+    Condition c = new Condition(e, eleft + 1, eright);
+    c.setBiSi(is);
+    c.setBiSinon(ie);
+    RESULT = c;
 :}|SI_T EXP:e INSTRUCTIONS_COND:is FINSI_T
 {:
-    RESULT = new Condition(e, is, null, eleft + 1, eright);
+    Condition c = new Condition(e, eleft + 1, eright);
+    c.setBiSi(is);
+    RESULT = c;
 :};
 
 INSTRUCTIONS_COND ::= ALORS_T INSTRUCTION_PLUS:bi

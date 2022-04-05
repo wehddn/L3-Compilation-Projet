@@ -19,14 +19,12 @@ import java.util.UUID;
  */
 public class Condition extends Instruction {
     private final Expression exp;
-    private final BlocDInstructions biSi;
-    private final BlocDInstructions biSinon;
+    private BlocDInstructions biSi;
+    private BlocDInstructions biSinon;
 
-    public Condition(Expression e, BlocDInstructions biSi, BlocDInstructions biSinon, int ligne, int colonne) {
+    public Condition(Expression e, int ligne, int colonne) {
         super(ligne, colonne);
         this.exp = e;
-        this.biSi = biSi;
-        this.biSinon = biSinon;
     }
 
     @Override
@@ -35,7 +33,8 @@ public class Condition extends Instruction {
         Type expType = exp.getType();
         if (biSi != null)
             biSi.verifier();
-        biSinon.verifier();
+        if (biSinon != null)
+            biSinon.verifier();
         if (expType != Type.BOOLEEN){
             throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
         }
@@ -48,14 +47,27 @@ public class Condition extends Instruction {
         StringBuilder sb = new StringBuilder();
         sb.append("# condition\n");
         sb.append(exp.toMIPS());
-        sb.append("\n\tbeq $v0, 0, ").append(sinon).append("\n");
+        if (biSinon != null)
+            sb.append("\n\tbeq $v0, 0, ").append(sinon).append("\n");
+        else
+            sb.append("\n\tbeq $v0, 0, ").append(finsi).append("\n");
         if (biSi != null)
             sb.append(biSi.toMIPS());
         sb.append("\tj ").append(finsi).append("\n");
-        sb.append("\n").append(sinon).append(" :\n");
-        sb.append(biSinon.toMIPS());
+        if (biSinon != null){
+            sb.append("\n").append(sinon).append(" :\n");
+            sb.append(biSinon.toMIPS());
+        }
         sb.append("\n").append(finsi).append(" :\n");
 
         return sb.toString();
+    }
+
+    public void setBiSi(BlocDInstructions biSi){
+        this.biSi = biSi;
+    }
+
+    public void setBiSinon(BlocDInstructions biSinon){
+        this.biSinon = biSinon;
     }
 }
