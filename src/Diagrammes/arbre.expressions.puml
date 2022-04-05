@@ -89,9 +89,6 @@ package expressions {
 
 	Binaire --"2" Expression
 
-	class Fois extends Binaire {
-
-	}
 
 	class Plus extends Binaire {
 		+ Plus (Expression gauche, Expression droite, int ligne, int colonne)
@@ -101,25 +98,52 @@ package expressions {
         + String getCommentaire()
 	}
 
+	class Fois extends Binaire {
+		+ Fois (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
+	}
 
 	class Inferieur extends Binaire {
-
+		+ Inferieur (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 
 	class Equivaut extends Binaire {
-
+		+ Equivaut (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 
 	class Different extends Binaire {
-
+		+ Different (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 
 	class Et extends Binaire {
-
+		+ Et (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 
 	class Ou extends Binaire {
-
+		+ Ou (Expression gauche, Expression droite, int ligne, int colonne)
+		+ void verifier()
+        + String toMIPS()
+        + Type getType()
+        + String getCommentaire()
 	}
 }
 @enduml
