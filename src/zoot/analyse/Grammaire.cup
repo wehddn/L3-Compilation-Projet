@@ -83,7 +83,15 @@ non terminal BlocDeFonctions FONCTION_PLUS, FONCTIONS_PROG;
 non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, DEBUT_FONC, FIN_FONC, INSTRUCTIONS_FONC;
 
 /* Precedence section */
-
+precedence left OU_T;
+precedence left ET_T;
+precedence left DIFFERENT_T;
+precedence left EQUIVAUT_T;
+precedence left INF_T;
+precedence left PLUS_T;
+precedence left FOIS_T;
+precedence left NON_T, ET_T, MOINS_T;
+precedence nonassoc PARENTOUVERT_T, PARENTFERME_T;
 /* ----------------------------Grammar Section-------------------- */
 start with PROGRAMME;
 
@@ -341,8 +349,8 @@ PARENTOUVERT_T EXP:e PARENTFERME_T
 {:
     RESULT = new Moins(e, eleft+1, eright);
 :}
-    /**|
-    EXP OPER EXP**/;
+|
+EXP OPER EXP;
 
 EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
 {:
@@ -354,6 +362,8 @@ EXP_ETOILE ::= EXP_ETOILE:exp VIRGULE_T EXP:e
      exp.add(e);
      RESULT = exp;
 :};
+
+OPER ::= PLUS_T | FOIS_T | INF_T | EQUIVAUT_T | DIFFERENT_T | ET_T | OU_T;
 
 PAR_EFF ::= PARENTOUVERT_T PARENTFERME_T
 {:
