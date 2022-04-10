@@ -211,16 +211,17 @@ FONCTION_PLUS ::= FONCTION_PLUS:fp FONCTION:f
     RESULT = fp;
 :};
 
-FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT_FONC:df RETOURNE:r FIN_FONC:ff
+FONCTION ::= TYPE:type IDF_T:id PARAMETRES_FONC:pf VARIABLES_FONC:vf DEBUT INSTRUCTIONS_FONC:ifonc FIN
 {:
     EntreeFct e = new EntreeFct(id, pf.stream().map(Declaration::getType).toArray(String[]::new));
     SymboleFct s = new SymboleFct(type);
     s.setEtiquette(Tds.getInstance().getEtiquette(id));
     Tds.getInstance().ajouter(e, s, typeleft + 1, typeright + 1);
     Fonction f = new Fonction(e, typeleft + 1, typeright + 1);
-    f.ajouter(df);
-    f.ajouter(r);
-    f.ajouter(ff);
+    if (!ifonc.setFonction(f))
+        System.out.println("Exception pas de retourne");
+
+    f.ajouter(ifonc);
 
     Tds.getInstance().entreeBloc();
 

@@ -8,7 +8,7 @@ import zoot.tds.Tds;
  * Represente l'Arbre abstrait général (le programme)
  *
  * @author Elhadji Moussa FAYE
- * @version 3.0.1
+ * @version 3.7.0
  * @since 1.4.2
  * created on 19/02/2022
  */
@@ -24,8 +24,24 @@ public class Programme extends ArbreAbstrait{
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
-        fonctions.verifier();
-        instructions.verifier();
+        StringBuilder sb = new StringBuilder();
+        boolean exception = false;
+        try {
+            fonctions.verifier();
+        } catch (AnalyseSemantiqueException as) {
+            sb.append(as.getMessage()).append("\n");
+            exception = true;
+        }
+        try {
+            instructions.verifier();
+        } catch (AnalyseSemantiqueException as) {
+            sb.append(as.getMessage());
+            exception = true;
+        }
+
+        if (exception)
+            throw new AnalyseSemantiqueException(sb.toString());
+
         nbVariablesLocales = Tds.getInstance().getTailleZoneVar()/4;
         noBloc = Tds.getInstance().getNoRegion();
     }

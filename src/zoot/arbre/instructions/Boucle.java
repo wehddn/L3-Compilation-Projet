@@ -1,6 +1,7 @@
 package zoot.arbre.instructions;
 
 import zoot.arbre.BlocDInstructions;
+import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
@@ -13,7 +14,7 @@ import java.util.UUID;
  * repeter ... jusqua ... finrepeter
  *
  * @author Nicolas GRAFF
- * @version 3.0.0
+ * @version 3.7.0
  * @since 3.0.0
  * created on 04/04/2022
  */
@@ -42,15 +43,10 @@ public class Boucle extends Instruction{
         String repeter = "repeter__" + UUID.randomUUID().toString().replace("-", "");
         String jusqua = "jusqua__" + UUID.randomUUID().toString().replace("-", "");
         String finrepeter = "finrepeter__" + UUID.randomUUID().toString().replace("-", "");
-        StringBuilder sb = new StringBuilder();
-        sb.append("# boucle\n");
-        sb.append("\n").append(repeter).append(" :\n");
-        sb.append(bi.toMIPS());
-        sb.append("\n").append(jusqua).append(" :\n");
-        sb.append(exp.toMIPS()).append("\n");
-        sb.append("\tbeq $v0, 0, ").append(finrepeter).append("\n");
-        sb.append("\tj ").append(repeter).append("\n");
-        sb.append("\n").append(finrepeter).append(" :\n");
-        return sb.toString();
+        return "# boucle\n\n%s :\n%s\n%s :\n%s\n\tbeq $v0, 0, %s\n\tj %s\n\n%s :\n".formatted(repeter, bi.toMIPS(), jusqua, exp.toMIPS(), finrepeter, repeter, finrepeter);
+    }
+
+    public boolean setFonction(Fonction f) {
+        return bi.setFonction(f);
     }
 }

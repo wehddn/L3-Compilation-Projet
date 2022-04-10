@@ -28,6 +28,7 @@ package arbre {
 				+ void ajouter(BlocDInstructions b)
 				+ void verifier()
 				+ String toMIPS()
+				+ booleen setFonction(Fonction f)
 			}
 			BlocDInstructions --"*" Instruction
 

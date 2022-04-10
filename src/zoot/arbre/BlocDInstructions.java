@@ -1,8 +1,10 @@
 package zoot.arbre;
 
+import zoot.arbre.instructions.Boucle;
+import zoot.arbre.instructions.Condition;
 import zoot.arbre.instructions.Instruction;
+import zoot.arbre.instructions.Retourne;
 import zoot.exceptions.AnalyseSemantiqueException;
-import zoot.tds.Tds;
 
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
- * @version 2.8.1
+ * @version 3.7.0
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
@@ -88,5 +90,32 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     public ArrayList<Instruction> getInstructions() {
         return instructions;
+    }
+
+    /**
+     * Permet d'englober le bloc d'instruction dans une fonction (utilisé pour les
+     * conditions et boucle), elle permet de faire les liens avec la fonction pour
+     * les instructions Retourne
+     * @param f la fonction englobante
+     * @return true s'il y'a au moins un retourne dans ses instructions
+     */
+    public boolean setFonction(Fonction f) {
+        boolean presenceRetourne = false;
+        for (Instruction i : instructions) {
+            if (i instanceof Retourne r) {
+                presenceRetourne = true;
+                r.setFonction(f);
+            }
+            if (i instanceof Boucle b) {
+                if (b.setFonction(f))
+                    presenceRetourne = true;
+            }
+
+            if (i instanceof Condition c) {
+                if (c.setFonction(f))
+                    presenceRetourne = true;
+            }
+        }
+        return presenceRetourne;
     }
 }

@@ -1,5 +1,7 @@
 package zoot.arbre;
 
+import zoot.arbre.instructions.Boucle;
+import zoot.arbre.instructions.Condition;
 import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
 import zoot.mips.SnippetsMIPS;
@@ -9,7 +11,7 @@ import zoot.tds.*;
  * Classe qui représente les différentes instructions d'une fonctions du programme
  *
  * @author Nicolas GRAFF
- * @version 2.8.1
+ * @version 3.7.0
  * @since 1.8.0
  * created on 07/03/2022
  */

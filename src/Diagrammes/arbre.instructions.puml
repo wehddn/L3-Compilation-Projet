@@ -32,10 +32,13 @@ package instructions {
 	Retourne --"1" Expression
 	Retourne --"1" Fonction
 
+
+
 	class Condition extends Instruction{
 		+ Retourne (Expression e, BlocDInstructions biSi, BlocDInstructions biSinon, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
+		+ booleen setFonction(Fonction f)
 	}
 	Condition --"1" Expression
 	Condition --"1" BlocDInstructions : bi_si
@@ -45,6 +48,7 @@ package instructions {
 		+ Retourne (Expression e, BlocDInstructions bi, int ligne, int colonne)
 		+ void verifier()
 		+ String toMIPS()
+		+ booleen setFonction(Fonction f)
 	}
 
 	Boucle --"1" Expression

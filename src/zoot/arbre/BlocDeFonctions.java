@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Description
  *
  * @author Elhadji Moussa FAYE
- * @version 2.8.1
+ * @version 3.7.0
  * @since 1.8.0
  * created on 13/03/2022
  */
@@ -22,9 +22,18 @@ public class BlocDeFonctions extends ArbreAbstrait {
 
     @Override
     public void verifier() throws AnalyseSemantiqueException {
+        StringBuilder sb = new StringBuilder();
+        boolean exception = false;
         for (Fonction f: fonctions) {
-            f.verifier();
+            try {
+                f.verifier();
+            } catch (AnalyseSemantiqueException as) {
+                sb.append(as.getMessage()).append("\n");
+                exception = true;
+            }
         }
+        if (exception)
+            throw new AnalyseSemantiqueException(sb.toString());
     }
 
     @Override

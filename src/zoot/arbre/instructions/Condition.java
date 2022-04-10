@@ -1,6 +1,7 @@
 package zoot.arbre.instructions;
 
 import zoot.arbre.BlocDInstructions;
+import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.exceptions.TypeNonConcordantException;
@@ -13,7 +14,7 @@ import java.util.UUID;
  * si ... alors ... sinon ... finsi
  *
  * @author Nicolas GRAFF
- * @version 3.5.0
+ * @version 3.7.0
  * @since 3.0.0
  * created on 04/04/2022
  */
@@ -69,5 +70,9 @@ public class Condition extends Instruction {
 
     public void setBiSinon(BlocDInstructions biSinon){
         this.biSinon = biSinon;
+    }
+
+    public boolean setFonction(Fonction f) {
+        return biSi.setFonction(f) && biSinon.setFonction(f);
     }
 }
