@@ -80,7 +80,7 @@ non terminal Declaration VARIABLE;
 non terminal ArrayList<Declaration> VARIABLE_PLUS, VARIABLES_FONC, PARAMETRES_FONC, VARIABLES_PROG;
 non terminal Programme PROGRAMME;
 non terminal BlocDeFonctions FONCTION_PLUS, FONCTIONS_PROG;
-non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, DEBUT_FONC, FIN_FONC, INSTRUCTIONS_FONC;
+non terminal BlocDInstructions INSTRUCTION_PLUS, INSTRUCTIONS_PROG, INSTRUCTIONS_COND, INSTRUCTIONS_FONC;
 non terminal Plus PLUS;
 non terminal Fois FOIS;
 non terminal Inferieur INFERIEUR;
@@ -275,24 +275,6 @@ VARIABLES_FONC ::= VARIABLES_T
 :}| VARIABLES_T VARIABLE_PLUS:vp
 {:
     RESULT = vp;
-:};
-
-DEBUT_FONC ::= DEBUT:d
-{:
-    BlocDInstructions bi = new BlocDInstructions(dleft + 1, dright + 1);
-    RESULT = bi;
-:}| DEBUT INSTRUCTION_PLUS:ip
-{:
-    RESULT = ip;
-:};
-
-FIN_FONC ::= FIN:f
-{:
-    BlocDInstructions bi = new BlocDInstructions(fleft + 1, fright + 1);
-    RESULT = bi;
-:}| INSTRUCTIONS_FONC:ip FIN
-{:
-    RESULT = ip;
 :};
 
 AFFECT ::= IDF_T:id EGAL_T EXP:exp POINTVIRGULE
