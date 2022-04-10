@@ -72,8 +72,8 @@ non terminal Expression EXP;
 non terminal Retourne RETOURNE;
 non terminal Ecrire ECRIRE;
 non terminal Affectation AFFECT;
-non terminal Condition CONDITION;
-non terminal Boucle BOUCLE;
+non terminal Condition CONDITION, CONDITION_FONC;
+non terminal Boucle BOUCLE, BOUCLE_FONC;
 non terminal OPER;
 non terminal String TYPE;
 non terminal Declaration VARIABLE;
@@ -173,9 +173,18 @@ INSTRUCTION ::= AFFECT:a
     RESULT = e;
 :};
 
-INSTRUCTION_FONC ::= INSTRUCTION:i
+INSTRUCTION_FONC ::= AFFECT:a
 {:
-    RESULT = i;
+    RESULT = a;
+:}| BOUCLE_FONC:b
+{:
+    RESULT = b;
+:}| CONDITION_FONC:c
+{:
+    RESULT = c;
+:}| ECRIRE:e
+{:
+    RESULT = e;
 :}| RETOURNE:r
 {:
     RESULT = r;
@@ -298,6 +307,11 @@ BOUCLE ::= REPETER_T INSTRUCTION_PLUS:bi JUSQUA_T EXP:e FINREPETER_T
     RESULT = new Boucle(e, bi, eleft + 1, eright);
 :};
 
+BOUCLE_FONC ::= REPETER_T INSTRUCTIONS_FONC:bi JUSQUA_T EXP:e FINREPETER_T
+{:
+    RESULT = new Boucle(e, bi, eleft + 1, eright);
+:};
+
 CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTION_PLUS:ie FINSI_T
 {:
     Condition c = new Condition(e, eleft + 1, eright);
@@ -311,7 +325,20 @@ CONDITION ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTION_PLUS:ie FINSI_
     RESULT = c;
 :};
 
-INSTRUCTIONS_COND ::= ALORS_T INSTRUCTION_PLUS:bi
+CONDITION_FONC ::= SI_T EXP:e INSTRUCTIONS_COND:is SINON_T INSTRUCTIONS_FONC:ie FINSI_T
+{:
+    Condition c = new Condition(e, eleft + 1, eright);
+    c.setBiSi(is);
+    c.setBiSinon(ie);
+    RESULT = c;
+:}|SI_T EXP:e INSTRUCTIONS_COND:is FINSI_T
+{:
+    Condition c = new Condition(e, eleft + 1, eright);
+    c.setBiSi(is);
+    RESULT = c;
+:};
+
+INSTRUCTIONS_COND ::= ALORS_T INSTRUCTIONS_FONC:bi
 {:
     RESULT = bi;
 :}
