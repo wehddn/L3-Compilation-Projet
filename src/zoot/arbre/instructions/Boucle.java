@@ -4,6 +4,7 @@ import zoot.arbre.BlocDInstructions;
 import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.Type;
 
@@ -34,7 +35,8 @@ public class Boucle extends Instruction{
         exp.verifier();
         Type expType = exp.getType();
         if (expType != Type.BOOLEEN){
-            throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType));
         }
     }
 

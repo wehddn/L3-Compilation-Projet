@@ -4,6 +4,7 @@ import zoot.arbre.BlocDInstructions;
 import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.Type;
 
@@ -37,7 +38,8 @@ public class Condition extends Instruction {
         if (biSinon != null)
             biSinon.verifier();
         if (expType != Type.BOOLEEN){
-            throw new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  "booleen <- " + expType));
         }
     }
 

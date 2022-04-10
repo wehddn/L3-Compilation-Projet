@@ -1,9 +1,6 @@
 package zoot.tds;
 
-import zoot.exceptions.AnalyseSemantiqueException;
-import zoot.exceptions.DeclencheurDException;
-import zoot.exceptions.DeclencheurEntreeNonDefinie;
-import zoot.exceptions.DoubleDeclarationException;
+import zoot.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +49,8 @@ public class NoeudTDS {
 
     public void ajouter(Entree e, Symbole s, int ligne, int colonne) throws DoubleDeclarationException {
         if (dict.containsKey(e)) {
-            throw new DoubleDeclarationException(ligne, colonne, e.getNom());
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new DoubleDeclarationException(ligne, colonne, e.getNom()));
         } else {
             dict.put(e, s);
         }

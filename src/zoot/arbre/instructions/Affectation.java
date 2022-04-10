@@ -36,7 +36,10 @@ public class Affectation extends Instruction{
         left.verifier();
         right.verifier();
         Type leftType = left.getType();
-        Type expType = right.getType();
+        Type expType = null;
+        try {
+            expType = right.getType();
+        } catch (Exception ignored) {}
         if (!leftType.equals(expType)){
             GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
                     new TypeNonConcordantException(ligne, colonne,  leftType + " <- " + expType));

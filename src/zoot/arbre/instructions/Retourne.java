@@ -3,6 +3,7 @@ package zoot.arbre.instructions;
 import zoot.arbre.Fonction;
 import zoot.arbre.expressions.Expression;
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.Tds;
@@ -31,7 +32,8 @@ public class Retourne extends Instruction{
     public void verifier() throws AnalyseSemantiqueException {
         exp.verifier();
         if (!fonction.getType().equals(exp.getType())) {
-            throw new TypeNonConcordantException(getLigne(), getColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(getLigne(), getColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType()));
         }
 
         nbVarLocalesFonction = Tds.getInstance().getTailleZoneVar()/4;

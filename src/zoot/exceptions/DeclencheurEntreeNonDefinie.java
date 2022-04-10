@@ -18,11 +18,13 @@ public class DeclencheurEntreeNonDefinie extends DeclencheurDException{
 
     @Override
     public void entreeFct(EntreeFct e, String message) {
-        throw new FonctionNonDefinieException(ligne, colonne, message);
+        GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+         new FonctionNonDefinieException(ligne, colonne, message));
     }
 
     @Override
     public void entreeVar(EntreeVar e, String message) {
-        throw new VariableNonDefinieException(ligne, colonne, message);
+        GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+         new VariableNonDefinieException(ligne, colonne, message));
     }
 }
