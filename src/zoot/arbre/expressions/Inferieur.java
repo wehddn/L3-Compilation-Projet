@@ -1,6 +1,7 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
@@ -9,7 +10,7 @@ import zoot.tds.Type;
  * Classe qui représente un comparaison a < b dans l'arbre abstrait
  *
  * @author Elhadji Moussa FAYE
- * @version 3.2.0
+ * @version 3.9.0
  * @since 3.2.0
  * created on 05/04/2022
  */
@@ -37,7 +38,8 @@ public class Inferieur extends Binaire {
         Type gt = gauche.getType();
         Type dt = droite.getType();
         if (!gt.equals(Type.ENTIER) || !gt.equals(dt)) {
-            throw new TypeNonConcordantException(ligne, colonne,  gt + " < " + dt);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  gt + " < " + dt));
         }
     }
 

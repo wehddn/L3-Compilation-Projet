@@ -1,6 +1,7 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
@@ -9,7 +10,7 @@ import zoot.tds.Type;
  * Représente le "ou" dans l'arbre abstrait
  *
  * @author Nicolas GRAFF
- * @version 3.6.0
+ * @version 3.9.0
  * @since 3.6.0
  * created on 05/04/2022
  */
@@ -30,7 +31,8 @@ public class Ou extends Binaire {
         Type gt = gauche.getType();
         Type dt = droite.getType();
         if (!gt.equals(Type.BOOLEEN) || !gt.equals(dt)) {
-            throw new TypeNonConcordantException(ligne, colonne,  gt + " ou " + dt);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  gt + " ou " + dt));
         }
     }
 

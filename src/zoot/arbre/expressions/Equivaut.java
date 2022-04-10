@@ -1,6 +1,7 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
@@ -36,7 +37,8 @@ public class Equivaut extends Binaire {
         Type gt = gauche.getType();
         Type dt = droite.getType();
         if (!gt.equals(dt)) {
-            throw new TypeNonConcordantException(ligne, colonne,  gt + " == " + dt);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  gt + " == " + dt));
         }
     }
 

@@ -1,6 +1,7 @@
 package zoot.arbre.expressions;
 
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.tds.Type;
 
@@ -9,7 +10,7 @@ import zoot.tds.Type;
  * - exp
  *
  * @author Nicolas GRAFF
- * @version 3.5.0
+ * @version 3.9.0
  * @since 3.0.0
  * created on 04/04/2022
  */
@@ -24,7 +25,8 @@ public class Moins extends Unaire{
         expression.verifier();
         Type expType = expression.getType();
         if (expType!=Type.ENTIER)
-            throw new TypeNonConcordantException(ligne, colonne,  Type.ENTIER + " <- " + expType);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+             new TypeNonConcordantException(ligne, colonne,  Type.ENTIER + " <- " + expType));
     }
 
     @Override
