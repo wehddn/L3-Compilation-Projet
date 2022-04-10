@@ -4,6 +4,7 @@ import zoot.analyse.AnalyseurLexical;
 import zoot.analyse.AnalyseurSyntaxique;
 import zoot.arbre.ArbreAbstrait;
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.tds.Tds;
 import zoot.exceptions.AnalyseException;
 import zoot.tds.Type;
@@ -22,6 +23,7 @@ public class Zoot {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(nomFichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
             arbre.verifier() ;
+            GestionnaireErreursSemantiques.getInstance().declencherException();
 //            Logger logger = Logger.getAnonymousLogger();
 //            logger.log(Level.INFO,Tds.getInstance().toString());
 //            logger.log(Level.INFO,"--------------------------");

@@ -1,13 +1,15 @@
 @startuml
 package exceptions {
-	class GestionnaireErreursSemantique {
-				- GestionnaireErreursSemantique instance
-				- GestionnaireErreursSemantique()
-				+ static GestionnaireErreursSemantique getInstance()
+	class GestionnaireErreursSemantiques {
+				- String messages
+				- GestionnaireErreursSemantiques instance
+				- GestionnaireErreursSemantiques()
+				+ static GestionnaireErreursSemantiques getInstance()
 				+ void ajouterErreurSemantique(AnalyseSemantiqueException as)
 				+ void declencherException() throws AnalyseSemantiqueException
 			}
-			GestionnaireErreursSemantique --"1" GestionnaireErreursSemantique : static
+			GestionnaireErreursSemantiques --"1" GestionnaireErreursSemantiques : static
+			GestionnaireErreursSemantiques --"1" AnalyseSemantiqueException
 
 	abstract class AnalyseException extends RuntimeException {
 		# AnalyseException(String message)
@@ -26,7 +28,6 @@ package exceptions {
 		class AnalyseSemantiqueException extends AnalyseException{
 			+ AnalyseSemantiqueException(String message)
 			+ AnalyseSemantiqueException(int ligne, int colonne, String message)
-			+ addException(AnalyseSemantiqueException exception)
 		}
 
 		class DoubleDeclarationException extends AnalyseSemantiqueException {

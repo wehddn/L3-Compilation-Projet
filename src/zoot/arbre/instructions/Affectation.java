@@ -4,6 +4,7 @@ import zoot.arbre.ArbreAbstrait;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Idf;
 import zoot.exceptions.AnalyseSemantiqueException;
+import zoot.exceptions.GestionnaireErreursSemantiques;
 import zoot.exceptions.TypeNonConcordantException;
 import zoot.mips.SnippetsMIPS;
 import zoot.tds.Type;
@@ -37,7 +38,8 @@ public class Affectation extends Instruction{
         Type leftType = left.getType();
         Type expType = right.getType();
         if (!leftType.equals(expType)){
-            throw new TypeNonConcordantException(ligne, colonne,  leftType + " <- " + expType);
+            GestionnaireErreursSemantiques.getInstance().ajouterErreurSemantique(
+                    new TypeNonConcordantException(ligne, colonne,  leftType + " <- " + expType));
         }
     }
 
