@@ -12,7 +12,7 @@ import zoot.tds.Type;
  * Instruction pour retourner une expression
  *
  * @author Nicolas GRAFF
- * @version 2.8.1
+ * @version 3.8.0
  * @since 1.7.0
  * created on 08/03/2022
  */
@@ -30,7 +30,6 @@ public class Retourne extends Instruction{
     @Override
     public void verifier() throws AnalyseSemantiqueException {
         exp.verifier();
-
         if (!fonction.getType().equals(exp.getType())) {
             throw new TypeNonConcordantException(getLigne(), getColonne(),  "fonction: " + fonction.getType() + ", retourne: " + exp.getType());
         }

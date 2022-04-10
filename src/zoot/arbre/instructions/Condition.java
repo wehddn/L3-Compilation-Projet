@@ -14,7 +14,7 @@ import java.util.UUID;
  * si ... alors ... sinon ... finsi
  *
  * @author Nicolas GRAFF
- * @version 3.7.0
+ * @version 3.8.0
  * @since 3.0.0
  * created on 04/04/2022
  */
@@ -73,6 +73,9 @@ public class Condition extends Instruction {
     }
 
     public boolean setFonction(Fonction f) {
-        return biSi.setFonction(f) && biSinon.setFonction(f);
+        boolean resultat = biSi.setFonction(f);
+        if (biSinon != null)
+            resultat = biSinon.setFonction(f) || resultat;
+        return resultat;
     }
 }

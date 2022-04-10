@@ -1,5 +1,14 @@
 @startuml
 package exceptions {
+	class GestionnaireErreursSemantique {
+				- GestionnaireErreursSemantique instance
+				- GestionnaireErreursSemantique()
+				+ static GestionnaireErreursSemantique getInstance()
+				+ void ajouterErreurSemantique(AnalyseSemantiqueException as)
+				+ void declencherException() throws AnalyseSemantiqueException
+			}
+			GestionnaireErreursSemantique --"1" GestionnaireErreursSemantique : static
+
 	abstract class AnalyseException extends RuntimeException {
 		# AnalyseException(String message)
 	}
