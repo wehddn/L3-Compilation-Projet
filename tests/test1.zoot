@@ -1,0 +1,15 @@
+variables
+    entier x;
+	booleen b;
+fonctions
+    entier f()
+		variables
+		debut
+			ecrire 0;
+			retourne 0;
+		fin
+debut
+	ecrire 1 < vrai;
+	ecrire 1 < vrai;
+	x = a;
+fin
