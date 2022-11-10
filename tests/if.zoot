@@ -1,0 +1,34 @@
+variables
+    entier x;
+fonctions
+	entier f()
+		variables
+		debut
+			retourne 10;
+		fin
+debut
+	si vrai alors
+		ecrire 1;
+	sinon
+		ecrire 2;
+	finsi
+	
+	si faux alors
+		ecrire 1;
+	sinon
+		ecrire 2;
+	finsi
+	
+	si faux alors
+	sinon
+		ecrire 3;
+	finsi
+	
+	si vrai alors
+	sinon
+		ecrire 4;
+	finsi
+		
+    x = 0;
+	ecrire x;
+fin
